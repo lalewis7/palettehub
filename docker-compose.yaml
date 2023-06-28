@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:${PALETTE_HUB_MYSQL_VER}
+    container_name: palette_hub_mysql
+    ports:
+      - "4000:3306"
+    volumes:
+      - ./mysql/dumps/${PALETTE_HUB_MYSQL_DUMP}.sql:/docker-entrypoint-initdb.d/dump.sql
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PALETTE_HUB_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PALETTE_HUB_MYSQL_DATABASE}
+      MYSQL_USER: ${PALETTE_HUB_MYSQL_USER}
+      MYSQL_PASSWORD: ${PALETTE_HUB_MYSQL_PASSWORD}
+volumes:
+  mysql-data:
+    name: ${PALETTE_HUB_MYSQL_VOLUME}
