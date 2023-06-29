@@ -1,0 +1,10 @@
+# Rest API - Java Spring Boot Maven Project
+rest_api/target/
+rest_api/pom.xml.tag
+rest_api/pom.xml.releaseBackup
+rest_api/pom.xml.versionsBackup
+rest_api/pom.xml.next
+rest_api/release.properties
+rest_api/dependency-reduced-pom.xml
+rest_api/buildNumber.properties
+rest_api/.mvn/timing.properties
