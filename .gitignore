@@ -8,3 +8,6 @@ rest_api/release.properties
 rest_api/dependency-reduced-pom.xml
 rest_api/buildNumber.properties
 rest_api/.mvn/timing.properties
+
+# VSCode
+.vscode
