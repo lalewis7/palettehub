@@ -1,8 +1,12 @@
-# PaletteHub MySQL
+# **PaletteHub MySQL**
 
 ## Dumps
 
 Structure dumps are stored in the `/dumps` folder and loaded into the docker container upon initialization. Modify which file is loaded by changing the `PALETTE_HUB_MYSQL_DUMP` variable in the `.env` file in the root folder.
+
+> Check out the [MySQL Docker Hub page](https://hub.docker.com/_/mysql/) for more information on using the mysql image.
+
+# Schemas
 
 ## Users Schema
 
@@ -11,7 +15,7 @@ Structure dumps are stored in the `/dumps` folder and loaded into the docker con
 | **user_id** | CHAR(32)          | primary key, uuid |
 | google_id   | [VARCHAR(255)][1] | google id         |
 | name        | VARCHAR(64)       | google name       |
-| picture_url | VARCHAR(248)      | google avatar     |
+| picture_url | VARCHAR(2048)     | google avatar     |
 | email       | VARCHAR(256)      | google email      |
 
 

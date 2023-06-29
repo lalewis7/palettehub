@@ -65,7 +65,7 @@ CREATE TABLE `users` (
   `user_id` char(32) NOT NULL,
   `google_id` varchar(255) DEFAULT NULL,
   `name` varchar(64) DEFAULT NULL,
-  `picture_url` varchar(248) DEFAULT NULL,
+  `picture_url` varchar(2048) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
