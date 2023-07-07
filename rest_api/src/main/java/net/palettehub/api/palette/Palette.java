@@ -2,18 +2,45 @@ package net.palettehub.api.palette;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "palettes")
 public class Palette implements Serializable{
     
+    @Id
+    @Column(name = "palette_id")
     private String paletteId;
+
+    @Column(name = "user_id")
     private String UserId;
 
+    @Column(name = "color_1")
     private String color1;
+
+    @Column(name = "color_2")
     private String color2;
+
+    @Column(name = "color_3")
     private String color3;
+
+    @Column(name = "color_4")
     private String color4;
+
+    @Column(name = "color_5")
     private String color5;
 
+    @Column(name = "posted_timestamp")
     private long posted;
+
+    @Column
+    private int likes;
+
+    @Column
+    private boolean liked;
 
     // getters and setters
     public String getPaletteId() {
