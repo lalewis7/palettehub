@@ -20,15 +20,15 @@ public class PaletteController {
     private PaletteService paletteService;
     
     @GetMapping("/palettes")
-    public ResponseEntity<PaletteList> getPalettes(@RequestParam("sort") String sort, @RequestParam("page") String page) {
+    public ResponseEntity<PaletteList> getPalettes(@RequestParam("sort") String sort, @RequestParam(name = "page", defaultValue = "1") String page) {
         // TODO: Check JWT
-        return new ResponseEntity<PaletteList>(paletteService.getPalettes("", sort, page), HttpStatus.OK);
+        return new ResponseEntity<PaletteList>(paletteService.getPalettes("779f95def3664c1bb23943968da07cdd", sort, page), HttpStatus.OK);
     }
 
     @PostMapping("/palettes")
     public ResponseEntity<String> postPalette(@Valid @RequestBody Palette palette){
         // TODO: Check JWT
-        return new ResponseEntity<String>(paletteService.createPalette("", palette), HttpStatus.CREATED);
+        return new ResponseEntity<String>(paletteService.createPalette("779f95def3664c1bb23943968da07cdd", palette), HttpStatus.CREATED);
     }
 
     @GetMapping("/palettes/{paletteId}")
@@ -37,17 +37,17 @@ public class PaletteController {
         return new ResponseEntity<Palette>(paletteService.getPalette("", paletteId), HttpStatus.OK);
     }
 
-    @PostMapping("/palettes/{palettedId}/like")
+    @PostMapping("/palettes/{paletteId}/like")
     public ResponseEntity<String> likePalette(@PathVariable("paletteId") String paletteId){
         // TODO: Check JWT
-        paletteService.likePalette("", paletteId);
+        paletteService.likePalette("779f95def3664c1bb23943968da07cdd", paletteId);
         return new ResponseEntity<String>("Palette liked.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/palettes/{palettedId}/like")
+    @DeleteMapping("/palettes/{paletteId}/like")
     public ResponseEntity<String> unlikePalette(@PathVariable("paletteId") String paletteId){
         // TODO: Check JWT
-        paletteService.unlikePalette("", paletteId);
+        paletteService.unlikePalette("779f95def3664c1bb23943968da07cdd", paletteId);
         return new ResponseEntity<String>("Palette unliked.", HttpStatus.OK);
     }
 

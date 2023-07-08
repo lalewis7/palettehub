@@ -2,13 +2,9 @@ package net.palettehub.api.palette;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-
-@Entity
 public class PaletteList {
     private List<Palette> palettes;
     private int count;
-
 
     public PaletteList() {}
 

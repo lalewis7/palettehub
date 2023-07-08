@@ -3,11 +3,13 @@ package net.palettehub.api.palette;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
 
+@Repository
 public class PaletteRepositoryImpl implements PaletteRepository {
 
     private static final int PAGE_SIZE = 20;
@@ -113,12 +115,12 @@ public class PaletteRepositoryImpl implements PaletteRepository {
 
     @Override
     public boolean likePalette(String userId, String paletteId){
-        return likeSproc(paletteId, userId, "like_palette");
+        return likeSproc(userId, paletteId, "like_palette");
     }
 
     @Override
     public boolean unlikePalette(String userId, String paletteId){
-        return likeSproc(paletteId, userId, "unlike_palette");
+        return likeSproc(userId, paletteId, "unlike_palette");
     }
 
 }

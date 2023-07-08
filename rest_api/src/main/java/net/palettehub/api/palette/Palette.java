@@ -1,40 +1,62 @@
 package net.palettehub.api.palette;
 
-import java.io.Serializable;
+import org.hibernate.type.NumericBooleanConverter;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-public class Palette implements Serializable{
+public class Palette {
     
     @Id
     @Column(name = "palette_id")
+    @JsonProperty("palette_id")
     private String paletteId;
 
     @Column(name = "user_id")
-    private String UserId;
+    @JsonProperty("user_id")
+    private String userId;
 
+    @Valid
+    @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 1 is not a 6 digit hex color code.")
     @Column(name = "color_1")
+    @JsonProperty("color_1")
     private String color1;
 
+    @Valid
+    @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 2 is not a 6 digit hex color code.")
     @Column(name = "color_2")
+    @JsonProperty("color_2")
     private String color2;
 
+    @Valid
+    @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 3 is not a 6 digit hex color code.")
     @Column(name = "color_3")
+    @JsonProperty("color_3")
     private String color3;
 
+    @Valid
+    @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 4 is not a 6 digit hex color code.")
     @Column(name = "color_4")
+    @JsonProperty("color_4")
     private String color4;
 
+    @Valid
+    @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 5 is not a 6 digit hex color code.")
     @Column(name = "color_5")
+    @JsonProperty("color_5")
     private String color5;
 
     @Column(name = "posted_timestamp")
@@ -47,6 +69,7 @@ public class Palette implements Serializable{
     private boolean liked;
 
     // getters and setters
+
     public String getPaletteId() {
         return this.paletteId;
     }
@@ -56,11 +79,11 @@ public class Palette implements Serializable{
     }
 
     public String getUserId() {
-        return this.UserId;
+        return this.userId;
     }
 
-    public void setUserId(String UserId) {
-        this.UserId = UserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getColor1() {
@@ -135,13 +158,15 @@ public class Palette implements Serializable{
     public String toString() {
         return "{" +
             " paletteId='" + getPaletteId() + "'" +
-            ", UserId='" + getUserId() + "'" +
+            ", userId='" + getUserId() + "'" +
             ", color1='" + getColor1() + "'" +
             ", color2='" + getColor2() + "'" +
             ", color3='" + getColor3() + "'" +
             ", color4='" + getColor4() + "'" +
             ", color5='" + getColor5() + "'" +
             ", posted='" + getPosted() + "'" +
+            ", likes='" + getLikes() + "'" +
+            ", liked='" + isLiked() + "'" +
             "}";
     }
 

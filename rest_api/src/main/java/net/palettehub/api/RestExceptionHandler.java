@@ -40,8 +40,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // https://www.baeldung.com/spring-boot-bean-validation
+    // https://stackoverflow.com/questions/51991992/getting-ambiguous-exceptionhandler-method-mapped-for-methodargumentnotvalidexce
+    /*
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -50,5 +52,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         });
         return errors;
     }
+     */
 
 }
