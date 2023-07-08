@@ -17,7 +17,7 @@ public class PaletteRepositoryImpl implements PaletteRepository {
     @Autowired
     private EntityManager em;
 
-    private PaletteList getPalettes(String userId, int page, String sproc){
+    public static PaletteList getPalettes(String userId, int page, String sproc, EntityManager em){
         // create sproc query
         StoredProcedureQuery query = em.createStoredProcedureQuery(sproc, Palette.class);
         
@@ -45,12 +45,12 @@ public class PaletteRepositoryImpl implements PaletteRepository {
 
     @Override
     public PaletteList getNewPalettes(String userId, int page){
-        return getPalettes(userId, page, "find_new_palettes");
+        return getPalettes(userId, page, "find_new_palettes", em);
     }
 
     @Override
     public PaletteList getPopularPalettes(String userId, int page){
-        return getPalettes(userId, page, "find_popular_palettes");
+        return getPalettes(userId, page, "find_popular_palettes", em);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class PaletteRepositoryImpl implements PaletteRepository {
         query.setParameter("userId", userId);
 
         // get result
-        return (Palette) query.getSingleResult();
+        return (Palette) query.getResultStream().findFirst().orElse(null);
     }
 
     @Override

@@ -3,18 +3,11 @@ package net.palettehub.api.palette;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 @Service
 public class PaletteService {
 
     @Autowired
     private PaletteRepository paletteRepository;
-
-    @Autowired
-    @PersistenceContext
-    private EntityManager em;
     
     public PaletteList getPalettes(String userId, String sort, String page){
         // Check sort value

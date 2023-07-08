@@ -2,6 +2,12 @@
 
 > This project uses the [Spring Boot recommended code structure](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code).
 
+## Testing
+
+The REST API has a Postman workspace for testing the different endpoints. Check out the workspace with the link below
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/10733824-4b9f8821-28a9-4a4d-b659-be78eddcc7c3?action=collection%2Ffork&collection-url=entityId%3D10733824-4b9f8821-28a9-4a4d-b659-be78eddcc7c3%26entityType%3Dcollection%26workspaceId%3Db695a27e-2102-46e1-8382-83581a0dce5b)
+
 ## API Endpoints
 
 | Method     | URL                                   | Action                                      |
@@ -16,11 +22,13 @@
 
 ### `[POST] /auth`
 
+*Login user (entry point for google sign in)*
+
 TODO
 
 ### `[GET] /users/{userId}/likes`
 
-*login user (entry point for google sign in)*
+*Get list of liked palettes by user*
 
 #### **HTTP Codes**
 - **401** - No JWT passed in header.
@@ -30,7 +38,7 @@ TODO
 
 ### `[GET] /palettes?sort={new,popular}&page=1`
 
-*get list of liked palettes by user*
+*Get list of palettes*
 
 #### **HTTP Codes**
 - **400** - Sort value not given or invalid (must be new or popular).
@@ -39,7 +47,7 @@ TODO
 
 ### `[POST] /palettes`
 
-*create a new palette*
+*Create a new palette*
 
 #### **HTTP Codes**
 - **401** - No JWT passed in header.
@@ -48,7 +56,7 @@ TODO
 
 ### `[GET] /palettes/{paletteId}`
 
-*get details of palette*
+*Get details of palette*
 
 #### **HTTP Codes**
 - **404** - Palette does not exist.
@@ -56,7 +64,7 @@ TODO
 
 ### `[POST] /palettes/{paletteId}/like`
 
-*like a palette*
+*Like a palette*
 
 #### **HTTP Codes**
 - **401** - No JWT passed in header.
@@ -66,7 +74,7 @@ TODO
 
 ### `[DELETE] /palettes/{paletteId}/like`
 
-*unlike a palette*
+*Unlike a palette*
 
 #### **HTTP Codes**
 - **401** - No JWT passed in header.

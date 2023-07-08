@@ -19,4 +19,5 @@ public interface PaletteRepository {
 
     // unlike a palette
     boolean unlikePalette(String userId, String paletteId);
+    
 }
