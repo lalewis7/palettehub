@@ -5,10 +5,9 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "palettes")
 public class Palette implements Serializable{
     
     @Id
@@ -18,18 +17,23 @@ public class Palette implements Serializable{
     @Column(name = "user_id")
     private String UserId;
 
+    @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 1 is not a 6 digit hex color code.")
     @Column(name = "color_1")
     private String color1;
 
+    @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 2 is not a 6 digit hex color code.")
     @Column(name = "color_2")
     private String color2;
 
+    @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 3 is not a 6 digit hex color code.")
     @Column(name = "color_3")
     private String color3;
 
+    @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 4 is not a 6 digit hex color code.")
     @Column(name = "color_4")
     private String color4;
 
+    @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 5 is not a 6 digit hex color code.")
     @Column(name = "color_5")
     private String color5;
 
@@ -105,6 +109,26 @@ public class Palette implements Serializable{
 
     public void setPosted(long posted) {
         this.posted = posted;
+    }
+
+    public int getLikes() {
+        return this.likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public boolean isLiked() {
+        return this.liked;
+    }
+
+    public boolean getLiked() {
+        return this.liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
     @Override

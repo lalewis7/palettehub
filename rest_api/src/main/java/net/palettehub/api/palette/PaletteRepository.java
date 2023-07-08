@@ -1,33 +1,22 @@
 package net.palettehub.api.palette;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.data.repository.Repository;
-
-public interface PaletteRepository extends Repository<Palette, String>{
+public interface PaletteRepository {
     
     // find new palettes
-    @Procedure("get_new_palettes")
-    List<Palette> getNewPalettes(String username, int page);
+    PaletteList getNewPalettes(String userId, int page);
 
     // find popular palettes
-    @Procedure("get_popular_palettes")
-    List<Palette> getPopularPalettes(String username, int page);
+    PaletteList getPopularPalettes(String userId, int page);
 
     // get palette by id
-    @Procedure("get_palette_by_id")
-    Palette getPaletteById(String paletteId, String userId);
+    Palette getPaletteById(String userId, String paletteId);
 
     // create a palette
-    @Procedure("create_palette")
-    void createPalette(String paletteId, String userId, String color1, String color2, String color3, String color4, String color5, long posted);
+    String createPalette(Palette palette);
 
     // like a palette
-    @Procedure("like_palette")
-    int likePalette(String paletteId, String userId);
+    boolean likePalette(String userId, String paletteId);
 
     // unlike a palette
-    @Procedure("unlike_palette")
-    int unlikePalette(String paletteId, String userId);
+    boolean unlikePalette(String userId, String paletteId);
 }
