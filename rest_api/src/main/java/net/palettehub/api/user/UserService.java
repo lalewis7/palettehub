@@ -3,6 +3,7 @@ package net.palettehub.api.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.palettehub.api.jwt.JwtUtil;
 import net.palettehub.api.palette.PageValueInvalidException;
 import net.palettehub.api.palette.PaletteList;
 
@@ -11,6 +12,14 @@ public class UserService {
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+	private JwtUtil jwtUtil;
+
+    public String authenticate(User user){
+        String userId = createUser(user);
+        return jwtUtil.generateToken(userId);
+    }
 
     public String createUser(User user){
         User userLookup = userRepository.getUserByGoogleId(user.getGoogleId());

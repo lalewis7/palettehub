@@ -28,7 +28,7 @@ TODO
 
 ### `[GET] /users/{userId}/likes`
 
-*Get list of liked palettes by user*
+*Get list of liked palettes by user. Use "self" for userId to get likes of signed in user*
 
 #### **HTTP Codes**
 - **401** - No JWT passed in header.
