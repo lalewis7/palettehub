@@ -17,9 +17,11 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>rest_api</name>
+  <description>Palette Hub REST API</description>
 
   <properties>
     <java.version>17</java.version>
+    <start-class>net.palettehub.api.App</start-class>
   </properties>
 
   <dependencies>
@@ -79,13 +81,32 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>net.palettehub.api.App</mainClass>
+          <packaging>ZIP</packaging>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <classifier>exec</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+            <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

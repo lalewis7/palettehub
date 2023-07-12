@@ -1,5 +1,24 @@
 version: '3.8'
 services:
+  rest_api:
+    build: 
+      context: rest_api
+      target: prod
+    container_name: palette_hub_rest_api
+    image: palette_hub_rest_api
+    ports:
+      - "4001:8080"
+    depends_on:
+      - mysql
+    networks:
+      - backnet
+    environment:
+      MYSQL_HOST: ${PALETTE_HUB_MYSQL_HOST}
+      MYSQL_PORT: ${PALETTE_HUB_MYSQL_PORT}
+      MYSQL_DB: ${PALETTE_HUB_MYSQL_DATABASE}
+      MYSQL_USER: ${PALETTE_HUB_MYSQL_API_USER}
+      MYSQL_PASSWORD: ${PALETTE_HUB_MYSQL_API_PASSWORD}
+      JWT_SECRET: ${PALETTE_HUB_JWT_SECRET}
   mysql:
     image: mysql:${PALETTE_HUB_MYSQL_VER}
     container_name: palette_hub_mysql
@@ -9,6 +28,8 @@ services:
       - ./mysql/dumps/${PALETTE_HUB_MYSQL_DUMP}.sql:/docker-entrypoint-initdb.d/dump.sql
       - ./mysql/privileges.sql:/docker-entrypoint-initdb.d/privileges.sql
       - mysql-data:/var/lib/mysql
+    networks:
+      - backnet
     environment:
       MYSQL_ROOT_PASSWORD: ${PALETTE_HUB_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${PALETTE_HUB_MYSQL_DATABASE}
@@ -18,3 +39,7 @@ services:
 volumes:
   mysql-data:
     name: ${PALETTE_HUB_MYSQL_VOLUME}
+networks:
+  backnet:
+    name: backnet
+    driver: bridge
