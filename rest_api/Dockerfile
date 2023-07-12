@@ -30,26 +30,20 @@ COPY ./src ./src
 # install dependencies 
 RUN ./mvnw install -DskipTests
 
-# 
+# Create new dependency folder in target and extract "fat jar" to it
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../rest_api-1.0-SNAPSHOT.jar)
 
 # prod stage 
 FROM eclipse-temurin:17-jre-jammy as prod
 
-# setup workdir
-# WORKDIR /app
-
 # expose port
 EXPOSE 8080
 
-# copy over jar from builder stage
-# COPY --from=builder /opt/app/target/*.jar /opt/app/api.jar
+# copy over dependencies from build stage
 ARG DEPENDENCY=/app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 # run jar
-# ENTRYPOINT ["java", "-jar", "/opt/app/api.jar" ]
-# ENTRYPOINT [ "./mvnw", "spring-boot:run" ]
 ENTRYPOINT ["java","-cp","app:app/lib/*","net.palettehub.api.App"]
