@@ -1,7 +1,18 @@
 package net.palettehub.api.user;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 
 import net.palettehub.api.jwt.JwtUtil;
 import net.palettehub.api.palette.PageValueInvalidException;
@@ -16,12 +27,25 @@ public class UserService {
     @Autowired
 	private JwtUtil jwtUtil;
 
-    public String authenticate(User user){
+    @Value("${google.clientid}")
+	private String clientId;
+
+    public String authenticate(GoogleAuth creds){
+        User user;
+        String errMsg = "Google authentication failed.";
+        try {
+            user = getGoogleProfile(creds);
+        } catch (GeneralSecurityException e) {
+            throw new GoogleAuthException(errMsg);
+        } catch (IOException e) {
+            throw new GoogleAuthException(errMsg);
+        }
+        if (user == null) throw new GoogleAuthException(errMsg);
         String userId = createUser(user);
         return jwtUtil.generateToken(userId);
     }
 
-    public String createUser(User user){
+    private String createUser(User user){
         User userLookup = userRepository.getUserByGoogleId(user.getGoogleId());
         // user doesn't exist (sign up)
         if (userLookup == null) 
@@ -29,6 +53,32 @@ public class UserService {
         // user already exists (logging in)
         else 
             return userLookup.getUserId();
+    }
+
+    private User getGoogleProfile(GoogleAuth creds) throws GeneralSecurityException, IOException {
+        // https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+            // Specify the CLIENT_ID of the app that accesses the backend:
+            .setAudience(Collections.singletonList(clientId))
+            // Or, if multiple clients access the backend:
+            //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+            .build();
+        System.out.println(creds);
+        GoogleIdToken idToken = verifier.verify(creds.getCredential());
+        if (idToken != null) {
+            Payload payload = idToken.getPayload();
+
+            // Get profile information from payload
+            User user = new User();
+            user.setEmail(payload.getEmail());
+            user.setName((String) payload.get("name"));
+            user.setPictureUrl((String) payload.get("picture"));
+            user.setGoogleId((String) payload.getSubject());
+            System.out.println(user);
+            return user;
+        }
+        System.out.println("Invalid Google ID token.");
+        return null;
     }
 
     public PaletteList getLikedPalettes(String userId, String page){

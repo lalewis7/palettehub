@@ -6,7 +6,7 @@
 
 The REST API has a Postman workspace for testing the different endpoints. Check out the workspace with the link below
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/10733824-4b9f8821-28a9-4a4d-b659-be78eddcc7c3?action=collection%2Ffork&collection-url=entityId%3D10733824-4b9f8821-28a9-4a4d-b659-be78eddcc7c3%26entityType%3Dcollection%26workspaceId%3Db695a27e-2102-46e1-8382-83581a0dce5b)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/10733824-9261f960-1a63-4ca8-821e-55fafb61e8b9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D10733824-9261f960-1a63-4ca8-821e-55fafb61e8b9%26entityType%3Dcollection%26workspaceId%3D08ab66a1-4aa5-4b47-9949-90ef7a55049c)
 
 ## API Endpoints
 

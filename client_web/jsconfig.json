@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "jsx": "preserve",
+    "checkJs": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "build", "dist", "lib"]
+}

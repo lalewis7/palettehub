@@ -10,6 +10,7 @@ import net.palettehub.api.palette.PageValueInvalidException;
 import net.palettehub.api.palette.Palette404Exception;
 import net.palettehub.api.palette.PaletteLikeException;
 import net.palettehub.api.palette.SortValueInvalidException;
+import net.palettehub.api.user.GoogleAuthException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -25,12 +26,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Palette404Exception.class)
-    protected ResponseEntity<String> pageValueInvalid(Palette404Exception ex){
+    protected ResponseEntity<String> Palette404Invalid(Palette404Exception ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PaletteLikeException.class)
-    protected ResponseEntity<String> pageValueInvalid(PaletteLikeException ex){
+    protected ResponseEntity<String> PaletteLikeInvalid(PaletteLikeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(GoogleAuthException.class)
+    protected ResponseEntity<String> GoogleAuthInvalid(GoogleAuthException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
