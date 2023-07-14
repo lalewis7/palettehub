@@ -1,3 +1,14 @@
+import { Col, Container, Row } from "react-bootstrap";
+
 export function Footer(){
-    return <h1>Footer</h1>
+    
+    return <>
+        <Container as="footer">
+            <Row>
+                <Col>
+                    Footer
+                </Col>
+            </Row>
+        </Container>
+    </>
 }

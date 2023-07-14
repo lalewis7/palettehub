@@ -11,6 +11,7 @@ import net.palettehub.api.palette.Palette404Exception;
 import net.palettehub.api.palette.PaletteLikeException;
 import net.palettehub.api.palette.SortValueInvalidException;
 import net.palettehub.api.user.GoogleAuthException;
+import net.palettehub.api.user.User404Exception;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -38,6 +39,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GoogleAuthException.class)
     protected ResponseEntity<String> GoogleAuthInvalid(GoogleAuthException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(User404Exception.class)
+    protected ResponseEntity<String> User404Invalid(User404Exception ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     // https://www.baeldung.com/spring-boot-bean-validation

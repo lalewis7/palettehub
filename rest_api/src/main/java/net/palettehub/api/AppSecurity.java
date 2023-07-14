@@ -22,6 +22,7 @@ public class AppSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((requests) -> requests
+            .requestMatchers(HttpMethod.OPTIONS).permitAll()
             .requestMatchers("/auth").permitAll()
             .requestMatchers("/users/**", "/palettes/{paletteId}/like").authenticated()
             .requestMatchers(HttpMethod.GET, "/palettes", "/palettes/{paletteId}").permitAll()

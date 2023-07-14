@@ -20,6 +20,7 @@ services:
       MYSQL_PASSWORD: ${PALETTE_HUB_MYSQL_API_PASSWORD}
       JWT_SECRET: ${PALETTE_HUB_JWT_SECRET}
       GOOGLE_CLIENT_ID: ${PALETTE_HUB_GOOGLE_CLIENT_ID}
+      CLIENT_WEB_ORIGIN: ${PALETTE_HUB_CLIENT_WEB_ORIGIN}
   mysql:
     image: mysql:${PALETTE_HUB_MYSQL_VER}
     container_name: palette_hub_mysql

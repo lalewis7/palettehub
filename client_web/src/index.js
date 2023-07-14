@@ -20,9 +20,6 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 // token provider
 import { TokenProvider } from './components/TokenProvider';
 
-// api provider
-import { ApiProvider } from './components/ApiProvider';
-
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -32,9 +29,7 @@ root.render(
     <BrowserRouter>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <TokenProvider>
-          <ApiProvider>
-            <App />
-          </ApiProvider>
+          <App />
         </TokenProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>

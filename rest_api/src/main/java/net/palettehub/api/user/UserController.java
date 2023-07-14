@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.palettehub.api.palette.PaletteList;
 
-@CrossOrigin
 @RestController
 public class UserController {
 
@@ -24,6 +23,11 @@ public class UserController {
     @PostMapping("/auth")
     public ResponseEntity<String> auth(@RequestBody GoogleAuth creds){
         return new ResponseEntity<String>(userService.authenticate(creds), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable("userId") String userId){
+        return new ResponseEntity<User>(userService.getUser(userId.equalsIgnoreCase("self") ? getUserId() : userId), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}/likes")

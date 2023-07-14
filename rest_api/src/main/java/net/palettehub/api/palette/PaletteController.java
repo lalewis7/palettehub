@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin
 @RestController
 public class PaletteController {
 

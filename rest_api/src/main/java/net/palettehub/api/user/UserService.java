@@ -16,6 +16,8 @@ import com.google.api.client.json.gson.GsonFactory;
 
 import net.palettehub.api.jwt.JwtUtil;
 import net.palettehub.api.palette.PageValueInvalidException;
+import net.palettehub.api.palette.Palette;
+import net.palettehub.api.palette.Palette404Exception;
 import net.palettehub.api.palette.PaletteList;
 
 @Service
@@ -79,6 +81,15 @@ public class UserService {
         }
         System.out.println("Invalid Google ID token.");
         return null;
+    }
+
+    public User getUser(String userId){
+        User user = userRepository.getUserById(userId);
+        // 404 error
+        if (user == null)
+            throw new Palette404Exception("Palette not found.");
+        else
+            return user;
     }
 
     public PaletteList getLikedPalettes(String userId, String page){

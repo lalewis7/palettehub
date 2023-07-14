@@ -13,6 +13,7 @@ The REST API has a Postman workspace for testing the different endpoints. Check 
 | Method     | URL                                   | Action                                      |
 | ------     | ---                                   | ------                                      |
 | **POST**   | `/auth`                               | login user (entry point for google sign in) |
+| **GET**    | `/users/{userId}`                     | get user details by id                      |
 | **GET**    | `/users/{userId}/likes`               | get list of liked palettes by user          |
 | **GET**    | `/palettes?sort={new,popular}&page=1` | get list of palettes                        |
 | **POST**   | `/palettes`                           | create a new palette                        |
@@ -24,7 +25,17 @@ The REST API has a Postman workspace for testing the different endpoints. Check 
 
 *Login user (entry point for google sign in)*
 
-TODO
+Passes google token in header as "credential."
+
+### `[GET] /users/{userId}`
+
+*Get user by ID. Use "self" for userId to get the signed in user*
+
+#### **HTTP Codes**
+- **401** - No JWT passed in header.
+- **403** - User requesting is not authorized to access user likes (user requesting different users).
+- **404** - User does not exist with that ID.
+- **200** - Success.
 
 ### `[GET] /users/{userId}/likes`
 
