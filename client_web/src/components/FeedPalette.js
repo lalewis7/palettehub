@@ -1,8 +1,11 @@
 import { Button, Card } from "react-bootstrap"
 import { Heart, HeartFill } from 'react-bootstrap-icons'
+import { ACTIONS } from "./Feed"
+import { useToken } from "./TokenProvider"
+import LikePopover from "./LikePopover"
 
 function getTimeElapsed(timestamp){
-    let elapsedSeconds = (Date.now() - timestamp) / 1000
+    let elapsedSeconds = (Date.now() / 1000 - timestamp)
     if (elapsedSeconds < 60)
         return Math.floor(elapsedSeconds) + "s"
     else if (elapsedSeconds < 60 * 60)
@@ -18,15 +21,36 @@ function getTimeElapsed(timestamp){
 }
 
 export function FeedPalette(props){
+    const token = useToken()
+
     const cardStyle = {
         width: "14rem",
         overflow: "hidden"
     }
+
+    const onLikeBtn = () => {
+        if (token){
+            if (props.liked)
+                props.dispatch({type: ACTIONS.UNLIKE, id: props.id, token: token})
+            else
+                props.dispatch({type: ACTIONS.LIKE, id: props.id, token: token})
+        }
+    }
+
+    const likeBtn = 
+        <Button variant="light" size="sm" onClick={onLikeBtn}>
+            {props.liked ? <HeartFill color={"red"} /> : <Heart />}
+        </Button>
+
     return <Card style={cardStyle}>
-        {props.colors.map(color => <div className="feed-palette-row" style={{backgroundColor: "#"+color}}></div>)}
+        {props.colors.map((color, i) => <div key={i} className="feed-palette-row feed-palette-color" style={{backgroundColor: "#"+color}}></div>)}
         <div className="feed-palette-row feed-palette-bottom">
             <div className="feed-palette-likes">
-                <Button variant="light" size="sm"><HeartFill color={"red"} /></Button>
+                {token ? likeBtn : 
+                    <LikePopover>
+                        {likeBtn}
+                    </LikePopover>
+                }
                 <span>{props.likes}</span>
             </div>
             <small>{getTimeElapsed(props.timestamp)} ago</small>

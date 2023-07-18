@@ -1,4 +1,4 @@
-import { Button, Dropdown, DropdownButton, NavDropdown } from 'react-bootstrap'
+import { Button, Dropdown, NavDropdown } from 'react-bootstrap'
 import { useTokenUpdate } from './TokenProvider'
 
 export function HeaderUserDropdown(props){
