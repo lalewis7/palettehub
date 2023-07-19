@@ -1,5 +1,6 @@
 import { Button, Dropdown, NavDropdown } from 'react-bootstrap'
 import { useTokenUpdate } from './TokenProvider'
+import { Link } from 'react-router-dom'
 
 export function HeaderUserDropdown(props){
 
@@ -23,7 +24,7 @@ export function HeaderUserDropdown(props){
             <NavDropdown.ItemText><b>{props.name}</b></NavDropdown.ItemText>
             <NavDropdown.ItemText><i>{props.email}</i></NavDropdown.ItemText>
             <Dropdown.Divider />
-            <NavDropdown.Item>Your Likes</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/profile/likes">Your Likes</NavDropdown.Item>
             <NavDropdown.Item as="button" onClick={logout}>Logout</NavDropdown.Item>
         </NavDropdown>
     </>

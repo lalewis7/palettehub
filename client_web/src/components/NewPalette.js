@@ -1,9 +1,9 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import NewPaletteColor from "./NewPaletteColor";
 import { useToken } from "./TokenProvider";
 import { Navigate, useNavigate } from "react-router-dom";
-import API from './ApiUtil';
-import { useRef } from "react";
+import API from './API';
+import { useRef, useState } from "react";
 
 export function NewPalette(){
     const token = useToken()
@@ -13,6 +13,8 @@ export function NewPalette(){
     const color_3 = useRef("")
     const color_4 = useRef("")
     const color_5 = useRef("")
+
+    const [loading, setLoading] = useState(false)
 
     const getColorRef = i => {
         switch (i){
@@ -35,6 +37,7 @@ export function NewPalette(){
     if (!token) return <Navigate to="/" />
 
     const post = () => {
+        setLoading(true)
         API.postPalette(token, {
             color_1: color_1.current.substring(1),
             color_2: color_2.current.substring(1),
@@ -47,7 +50,7 @@ export function NewPalette(){
     return <Container className="mt-3">
         <Row className="mb-3">
             <Col>
-                <h3>Create New Palette</h3>
+                <h4>Create New Palette</h4>
             </Col>
         </Row>
         {[...Array(5)].map((_, i) => <Row className="mb-3">
@@ -57,7 +60,9 @@ export function NewPalette(){
         </Row>)}
         <Row className="justify-content-end">
             <Col>
-                <Button style={{float: 'right'}} onClick={post}>Post Palette</Button>
+                <Button style={{float: 'right'}} onClick={post} disabled={loading}>
+                    {loading ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> Loading...</> : "Post Palette"}
+                </Button>
             </Col>
         </Row>
     </Container>

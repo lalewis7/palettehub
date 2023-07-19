@@ -1,5 +1,5 @@
 // host url
-const API_HOST = process.env.REACT_APP_API_HOST;
+export const API_HOST = process.env.REACT_APP_API_HOST;
 
 function getAuthHeaders(token, otherHeaders = {}){
     return token ? {
@@ -55,6 +55,18 @@ export default {
             method: "POST",
             ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
             body: JSON.stringify(data)
+        })
+    },
+    getPalette: function getPaletteFn(token, id){
+        return fetch(API_HOST+"/palettes/"+id, {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    selfLikedPalettes: function selfLikedPalettesFn(token, page){
+        return fetch(API_HOST+"/users/self/likes?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
         })
     }
 }

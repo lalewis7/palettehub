@@ -1,5 +1,5 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import API from "./ApiUtil";
+import API from "./API";
 
 export default function LoginPrompt(updateToken, successCB = () => {}, failureCB = () => {}){
     return useGoogleLogin({

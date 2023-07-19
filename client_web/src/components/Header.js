@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 
 // docs: https://github.com/MomenSherif/react-oauth
 import { GoogleLogin } from '@react-oauth/google';
-import API from "./ApiUtil";
+import API from "./API";
 import { useToken, useTokenUpdate } from "./TokenProvider";
 import { HeaderUserDropdown } from "./HeaderUserDropdown";
 import { Plus } from "react-bootstrap-icons";
@@ -18,8 +18,13 @@ export function Header() {
 
     const updateProfile = () => {
         API.selfProfile(token)
+            .then(resp => resp.ok ? resp : Promise.reject(resp))
             .then(apiResponse => apiResponse.json())
             .then(selfData => setSelf(selfData))
+            .catch(err => {
+                updateToken(null)
+                setSelf(null)
+            })
     }
 
     const onLogin = (response) => {

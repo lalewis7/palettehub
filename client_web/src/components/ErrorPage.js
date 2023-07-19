@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-export default function PageNotFound(){
+export default function ErrorPage(props){
     const containerStyle = {
         display: "flex",
         flexDirection: "column",
@@ -15,9 +15,10 @@ export default function PageNotFound(){
         // @ts-ignore
         style={containerStyle}>
             <ExclamationTriangle size={96} />
-            <h1>Error <b>404</b></h1>
-            <h4 className="mb-4">Page Not Found</h4>
-            <Link to="/"><Button>Return to homepage</Button></Link>
+            <h1>Error <b>{props.code}</b></h1>
+            {props.msg ? <h4 className="mb-4">{props.msg}</h4> : ''}
+            {props.retry || false ? <Button onClick={props.retry}>Retry</Button> :
+            <Link to="/"><Button>Return to homepage</Button></Link>}
         </div>
     </>
 }

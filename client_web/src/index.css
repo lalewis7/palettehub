@@ -20,6 +20,7 @@ code {
 
 #content{
   flex-grow: 1;
+  display: flex;
 }
 
 #profile-dropdown::after{
@@ -27,10 +28,20 @@ code {
 }
 
 #feed-content{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+}
+
+#feed-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#feed-pagination{
+  align-self: center;
+  margin-top: 1rem;
 }
 
 #create-palette-btn-link{
@@ -42,13 +53,66 @@ code {
   border-radius: 100%;
 }
 
+#palette-card{
+  margin: auto;
+  overflow: hidden;
+  max-width: 24rem;
+}
+
+.palette-placeholder{
+  margin: auto;
+  max-width: 24rem;
+}
+
+#palette-colors{
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+}
+
+#palette-colors > * {
+  flex-grow: 1;
+}
+
+#palette-bar-1{
+  max-width: 24rem;
+  margin: auto;
+  padding-top: 0.5rem;
+}
+
+#palette-bar-1 > .col {
+  padding: 0;
+}
+
+.feed-palette{
+  max-width: 16rem;
+  min-width: 12rem;
+  overflow: hidden;
+}
+
+.feed-palette-placeholder{
+  max-width: 16rem;
+  min-width: 12rem;
+  overflow: hidden;
+  padding: 0;
+}
+
 .feed-palette-row{
   width: 100%;
-  height: 2rem;
+  height: 2.25rem;
 }
 
 .feed-palette-color:hover{
   cursor:pointer;
+}
+
+.feed-palette-color:hover > .feed-palette-code {
+  display:block;
+}
+
+.feed-palette-code{
+  display: none;
+  padding: 0.25rem;
+  float: right;
 }
 
 .feed-palette-bottom{
@@ -64,6 +128,50 @@ code {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.palette-card-color{
+  /* height: 5rem; */
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: end;
+}
+
+.palette-card-color:hover > .palette-code {
+  display:block;
+}
+
+.palette-code{
+  /* display: none; */
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.palette-code:hover{
+  cursor: pointer;
+}
+
+.palette-like-btn{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.palette-like-cnt{
+  font-size: 22px;
+  padding-left: 0.35rem;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.palette-elapsed-time{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  padding-right: 0.25rem !important;
 }
 
 .new-palette-color-row{

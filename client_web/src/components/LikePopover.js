@@ -1,10 +1,10 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
-export default function LikePopover({children}){
+export default function LikePopover(props){
     return <>
         <OverlayTrigger 
             trigger="click"
-            placement="bottom-start"
+            placement={props.placement || "auto-start"}
             delay={50}
             rootClose={true}
             overlay={
@@ -16,7 +16,7 @@ export default function LikePopover({children}){
                 </Popover>
             }
         >
-            {children}
+            {props.children}
         </OverlayTrigger>
     </>
 }
