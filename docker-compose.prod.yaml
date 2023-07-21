@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  client:
+  rest_api:
+  mysql:
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_ONE_TIME_PASSWORD: true

@@ -3,6 +3,11 @@ package net.palettehub.api.palette;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.palettehub.api.palette.exception.PageValueInvalidException;
+import net.palettehub.api.palette.exception.Palette404Exception;
+import net.palettehub.api.palette.exception.PaletteLikeException;
+import net.palettehub.api.palette.exception.SortValueInvalidException;
+
 @Service
 public class PaletteService {
 

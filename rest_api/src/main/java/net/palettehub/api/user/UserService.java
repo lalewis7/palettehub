@@ -15,10 +15,11 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 
 import net.palettehub.api.jwt.JwtUtil;
-import net.palettehub.api.palette.PageValueInvalidException;
 import net.palettehub.api.palette.Palette;
-import net.palettehub.api.palette.Palette404Exception;
 import net.palettehub.api.palette.PaletteList;
+import net.palettehub.api.palette.exception.PageValueInvalidException;
+import net.palettehub.api.palette.exception.Palette404Exception;
+import net.palettehub.api.user.exception.GoogleAuthException;
 
 @Service
 public class UserService {

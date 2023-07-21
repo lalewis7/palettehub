@@ -1,4 +1,4 @@
-package net.palettehub.api.palette;
+package net.palettehub.api.palette.exception;
 
 public class PageValueInvalidException extends RuntimeException{
     public PageValueInvalidException(String errMsg){

@@ -85,14 +85,17 @@ export default function PaletteList(props){
     const pageItem = (num) => <Pagination.Item key={num} active={props.page === num} onClick={() => props.gotoPage(num)} >{num}</Pagination.Item>
 
     return <>
-        <div id="feed-content">
-            {props.loaded ? 
-            props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
-                likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} />)
-            : [...Array(props.placeholder_count)].map(() => <FeedPalettePlaceholder />)}
-        </div>
-        <Pagination id="feed-pagination">
-            {pages()}
-        </Pagination>
+        {props.count > 0 ? <>
+            <div id="feed-content">
+                {props.loaded ? 
+                props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
+                    likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} />)
+                : [...Array(props.placeholder_count)].map(() => <FeedPalettePlaceholder />)}
+            </div>
+            <Pagination id="feed-pagination">
+                {pages()}
+            </Pagination>
+        </>
+        : ''}
     </>
 }

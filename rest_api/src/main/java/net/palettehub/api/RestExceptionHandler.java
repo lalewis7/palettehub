@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import net.palettehub.api.palette.PageValueInvalidException;
-import net.palettehub.api.palette.Palette404Exception;
-import net.palettehub.api.palette.PaletteLikeException;
-import net.palettehub.api.palette.SortValueInvalidException;
-import net.palettehub.api.user.GoogleAuthException;
-import net.palettehub.api.user.User404Exception;
+import net.palettehub.api.palette.exception.PageValueInvalidException;
+import net.palettehub.api.palette.exception.Palette404Exception;
+import net.palettehub.api.palette.exception.PaletteLikeException;
+import net.palettehub.api.palette.exception.SortValueInvalidException;
+import net.palettehub.api.user.exception.GoogleAuthException;
+import net.palettehub.api.user.exception.User404Exception;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
