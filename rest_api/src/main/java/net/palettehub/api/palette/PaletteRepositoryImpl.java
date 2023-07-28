@@ -9,6 +9,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
 
+/**
+ * Implementation of palette repository instance. Calls mysql sprocs.
+ * 
+ * @author Arthur Lewis
+ * @see PaletteRepository
+ */
 @Repository
 public class PaletteRepositoryImpl implements PaletteRepository {
 

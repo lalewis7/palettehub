@@ -11,8 +11,14 @@ import net.palettehub.api.palette.exception.Palette404Exception;
 import net.palettehub.api.palette.exception.PaletteLikeException;
 import net.palettehub.api.palette.exception.SortValueInvalidException;
 import net.palettehub.api.user.exception.GoogleAuthException;
+import net.palettehub.api.user.exception.RestrictedAccessException;
 import net.palettehub.api.user.exception.User404Exception;
 
+/**
+ * Handles the exceptions and returns a proper ResponseEntity for the controller.
+ * 
+ * @author Arthur Lewis
+ */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -27,23 +33,28 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Palette404Exception.class)
-    protected ResponseEntity<String> Palette404Invalid(Palette404Exception ex){
+    protected ResponseEntity<String> palette404Invalid(Palette404Exception ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PaletteLikeException.class)
-    protected ResponseEntity<String> PaletteLikeInvalid(PaletteLikeException ex){
+    protected ResponseEntity<String> paletteLikeInvalid(PaletteLikeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(GoogleAuthException.class)
-    protected ResponseEntity<String> GoogleAuthInvalid(GoogleAuthException ex){
+    protected ResponseEntity<String> googleAuthInvalid(GoogleAuthException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(User404Exception.class)
-    protected ResponseEntity<String> User404Invalid(User404Exception ex){
+    protected ResponseEntity<String> user404Invalid(User404Exception ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RestrictedAccessException.class)
+    protected ResponseEntity<String> restrictedAccess(RestrictedAccessException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     // https://www.baeldung.com/spring-boot-bean-validation

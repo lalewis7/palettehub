@@ -2,6 +2,11 @@ package net.palettehub.api.palette;
 
 import java.util.List;
 
+/**
+ * List of palettes model.
+ * 
+ * @author Arthur Lewis
+ */
 public class PaletteList {
     private List<Palette> palettes;
     private int count;

@@ -8,6 +8,11 @@ import net.palettehub.api.palette.exception.Palette404Exception;
 import net.palettehub.api.palette.exception.PaletteLikeException;
 import net.palettehub.api.palette.exception.SortValueInvalidException;
 
+/**
+ * Palette Service containing business code of the API for palettes.
+ * 
+ * @author Arthur Lewis
+ */
 @Service
 public class PaletteService {
 
@@ -44,6 +49,9 @@ public class PaletteService {
     }
 
     public Palette getPalette(String userId, String paletteId){
+        // not uuid
+        if (paletteId.length() != 32)
+            throw new Palette404Exception("Palette not found.");
         Palette palette = paletteRepository.getPaletteById(userId, paletteId);
         // 404 error
         if (palette == null)
@@ -53,6 +61,9 @@ public class PaletteService {
     }
 
     public void likePalette(String userId, String paletteId){
+        // not uuid
+        if (paletteId.length() != 32)
+            throw new Palette404Exception("Palette not found.");
         Palette palette = paletteRepository.getPaletteById(userId, paletteId);
         // 404 error
         if (palette == null)
@@ -63,6 +74,9 @@ public class PaletteService {
     }
 
     public void unlikePalette(String userId, String paletteId){
+        // not uuid
+        if (paletteId.length() != 32)
+            throw new Palette404Exception("Palette not found.");
         Palette palette = paletteRepository.getPaletteById(userId, paletteId);
         // 404 error
         if (palette == null)

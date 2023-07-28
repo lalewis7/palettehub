@@ -1,5 +1,10 @@
 package net.palettehub.api.user;
 
+/**
+ * Google Auth response containing the important credential field which has the JWT with user google profile.
+ * 
+ * @author Arthur Lewis
+ */
 public class GoogleAuth {
     private String clientId;
     private String credential;

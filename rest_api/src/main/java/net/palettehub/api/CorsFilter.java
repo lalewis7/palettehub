@@ -12,6 +12,11 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Handles the cors headers on responses.
+ * 
+ * @author Arthur Lewis
+ */
 @Component
 public class CorsFilter implements Filter{
 

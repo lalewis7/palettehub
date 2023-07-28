@@ -6,6 +6,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+/**
+ * User model.
+ * 
+ * @author Arthur Lewis
+ */
 @Entity
 public class User {
     

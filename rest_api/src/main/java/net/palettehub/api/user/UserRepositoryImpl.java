@@ -1,7 +1,5 @@
 package net.palettehub.api.user;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +9,12 @@ import jakarta.persistence.StoredProcedureQuery;
 import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.palette.PaletteRepositoryImpl;
 
+/**
+ * Implementation of User repository interface.
+ * 
+ * @author Arthur Lewis
+ * @see UserRepository
+ */
 @Repository
 public class UserRepositoryImpl implements UserRepository{
     

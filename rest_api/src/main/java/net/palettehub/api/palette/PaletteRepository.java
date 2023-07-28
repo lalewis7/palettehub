@@ -1,5 +1,10 @@
 package net.palettehub.api.palette;
 
+/**
+ * Palette Repository interface.
+ * 
+ * @author Arthur Lewis
+ */
 public interface PaletteRepository {
     
     // find new palettes

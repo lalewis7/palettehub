@@ -4,6 +4,11 @@ import org.springframework.stereotype.Repository;
 
 import net.palettehub.api.palette.PaletteList;
 
+/**
+ * User repository interface.
+ * 
+ * @author Arthur Lewis
+ */
 @Repository
 public interface UserRepository {
     

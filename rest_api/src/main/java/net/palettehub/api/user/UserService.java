@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -15,12 +16,17 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 
 import net.palettehub.api.jwt.JwtUtil;
-import net.palettehub.api.palette.Palette;
 import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.palette.exception.PageValueInvalidException;
-import net.palettehub.api.palette.exception.Palette404Exception;
 import net.palettehub.api.user.exception.GoogleAuthException;
+import net.palettehub.api.user.exception.RestrictedAccessException;
+import net.palettehub.api.user.exception.User404Exception;
 
+/**
+ * User service code with the business logic of the user endpoints.
+ * 
+ * @author Arthur Lewis
+ */
 @Service
 public class UserService {
     
@@ -85,10 +91,16 @@ public class UserService {
     }
 
     public User getUser(String userId){
+        // does not have access
+        if (!userId.equals(getUserId())) 
+            throw new RestrictedAccessException("You do not have access to this users profile.");
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
         User user = userRepository.getUserById(userId);
         // 404 error
         if (user == null)
-            throw new Palette404Exception("Palette not found.");
+            throw new User404Exception("User not found.");
         else
             return user;
     }
@@ -103,8 +115,18 @@ public class UserService {
             try {pageValue = Integer.parseInt(page);}
             catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
         }
+        // does not have access
+        if (!userId.equals(getUserId()))
+            throw new RestrictedAccessException("You do not have access to this users profile.");
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
         // return list
         return userRepository.getLikedPalettes(userId, pageValue);
+    }
+
+    private String getUserId(){
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }

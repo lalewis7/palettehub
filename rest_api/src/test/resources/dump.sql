@@ -16,19 +16,19 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `likes`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `likes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
+CREATE TABLE `likes` (
   `user_id` char(32) NOT NULL,
-  `google_id` varchar(255) DEFAULT NULL,
-  `name` varchar(64) DEFAULT NULL,
-  `picture_url` varchar(2048) DEFAULT NULL,
-  `email` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `palette_id` char(32) NOT NULL,
+  KEY `fk_user_id_idx` (`user_id`),
+  KEY `fk_likes_palette_id_idx` (`palette_id`),
+  CONSTRAINT `fk_likes_palette_id` FOREIGN KEY (`palette_id`) REFERENCES `palettes` (`palette_id`),
+  CONSTRAINT `fk_likes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,19 +55,19 @@ CREATE TABLE `palettes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `likes`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `likes`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `likes` (
+CREATE TABLE `users` (
   `user_id` char(32) NOT NULL,
-  `palette_id` char(32) NOT NULL,
-  KEY `fk_user_id_idx` (`user_id`),
-  KEY `fk_likes_palette_id_idx` (`palette_id`),
-  CONSTRAINT `fk_likes_palette_id` FOREIGN KEY (`palette_id`) REFERENCES `palettes` (`palette_id`),
-  CONSTRAINT `fk_likes_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  `google_id` varchar(255) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  `picture_url` varchar(2048) DEFAULT NULL,
+  `email` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
