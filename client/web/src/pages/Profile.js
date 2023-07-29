@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
-import PaletteList, { ACTIONS, reducer } from "./PaletteList";
-import { useToken } from "./TokenProvider";
+import PaletteList, { ACTIONS, reducer } from "../components/PaletteList";
+import { useToken } from "../context/TokenProvider";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { useEffect, useReducer, useRef, useState } from "react";
-import API from "./API";
+import API from "../utils/API";
 
 const PAGE_LENGTH = 20
 

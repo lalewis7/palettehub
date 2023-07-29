@@ -1,13 +1,13 @@
-import { Palette } from './components/Palette';
-import { Feed } from './components/Feed';
+import { Palette } from './pages/Palette';
+import { Feed } from './pages/Feed';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import PageNotFound from 'components/PageNotFound';
-import { NewPalette } from 'components/NewPalette';
-import { About } from 'components/About';
-import { Contact } from 'components/Contact';
-import Profile from 'components/Profile';
+import PageNotFound from 'pages/PageNotFound';
+import { NewPalette } from 'pages/NewPalette';
+import { About } from 'pages/About';
+import { Contact } from 'pages/Contact';
+import Profile from 'pages/Profile';
 
 function App() {
   return <>

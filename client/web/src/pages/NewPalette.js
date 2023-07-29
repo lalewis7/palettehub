@@ -1,8 +1,8 @@
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
-import NewPaletteColor from "./NewPaletteColor";
-import { useToken } from "./TokenProvider";
+import NewPaletteColor from "../components/NewPaletteColor";
+import { useToken } from "../context/TokenProvider";
 import { Navigate, useNavigate } from "react-router-dom";
-import API from './API';
+import API from '../utils/API';
 import { useRef, useState } from "react";
 
 export function NewPalette(){

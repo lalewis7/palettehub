@@ -1,5 +1,5 @@
 import { Overlay, Tooltip } from "react-bootstrap";
-import { pickTextColor } from "./TextColorUtil";
+import { pickTextColor } from "../utils/TextColorUtil";
 import { useRef, useState } from "react";
 
 export function ColorCodeCopy(props){

@@ -1,11 +1,11 @@
 import { Button, Card } from "react-bootstrap"
 import { Heart, HeartFill } from 'react-bootstrap-icons'
 import { ACTIONS } from "./PaletteList"
-import { useToken } from "./TokenProvider"
+import { useToken } from "../context/TokenProvider"
 import LikePopover from "./LikePopover"
-import { pickTextColor } from "./TextColorUtil"
+import { pickTextColor } from "../utils/TextColorUtil"
 import { Link } from "react-router-dom"
-import { getTimeElapsed } from "./PaletteUtil"
+import { getTimeElapsed } from "../utils/PaletteUtil"
 
 export function FeedPalette(props){
     const token = useToken()
@@ -24,21 +24,25 @@ export function FeedPalette(props){
             {props.liked ? <HeartFill color={"red"} /> : <Heart />}
         </Button>
 
-    return <Card className="feed-palette">
-        {props.colors.map((color, i) => <Link key={i} className="feed-palette-row feed-palette-color" 
-                style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
-            <span style={{color: pickTextColor(color, "#FFFFFF", "#000000")}} className="feed-palette-code">{"#"+color}</span>
-        </Link>)}
-        <div className="feed-palette-row feed-palette-bottom">
-            <div className="feed-palette-likes">
-                {token ? likeBtn : 
-                    <LikePopover>
-                        {likeBtn}
-                    </LikePopover>
-                }
-                <span>{props.likes}</span>
-            </div>
-            <small>{getTimeElapsed(props.timestamp)} ago</small>
+    return <>
+        <div className="feed-palette-wrapper">
+            <Card className="feed-palette">
+                {props.colors.map((color, i) => <Link key={i} className="feed-palette-row feed-palette-color" 
+                        style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
+                    <span style={{color: pickTextColor(color, "#FFFFFF", "#000000")}} className="feed-palette-code">{"#"+color}</span>
+                </Link>)}
+                <div className="feed-palette-row feed-palette-bottom">
+                    <div className="feed-palette-likes">
+                        {token ? likeBtn : 
+                            <LikePopover>
+                                {likeBtn}
+                            </LikePopover>
+                        }
+                        <span>{props.likes}</span>
+                    </div>
+                    <small>{getTimeElapsed(props.timestamp)} ago</small>
+                </div>
+            </Card>
         </div>
-    </Card>
+    </>
 }

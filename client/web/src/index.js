@@ -3,13 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // stylesheets
-import './index.css';
+import './styles/index.scss';
 
 // entrypoint app component
 import App from './App';
 
 // CRA web vitals
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './utils/reportWebVitals';
 
 // react browser
 import { BrowserRouter } from 'react-router-dom';
@@ -18,7 +18,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // token provider
-import { TokenProvider } from './components/TokenProvider';
+import { TokenProvider } from './context/TokenProvider';
 
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.css';

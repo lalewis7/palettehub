@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom"
-import { useToken } from "./TokenProvider"
+import { useToken } from "../context/TokenProvider"
 import { Button, Card, Col, Container, Overlay, OverlayTrigger, Ratio, Row, Tooltip } from "react-bootstrap"
 import { useEffect, useReducer, useRef, useState } from "react"
-import API from "./API";
-import { convertColorsToArray, getTimeElapsed } from "./PaletteUtil";
-import { pickTextColor } from "./TextColorUtil";
+import API from "../utils/API";
+import { convertColorsToArray, getTimeElapsed } from "../utils/PaletteUtil";
+import { pickTextColor } from "../utils/TextColorUtil";
 import { Heart, HeartFill, Link45deg } from "react-bootstrap-icons";
-import LikePopover from "./LikePopover";
-import ErrorPage from "./ErrorPage";
-import PalettePlaceholder from "./PalettePlaceholder";
+import LikePopover from "../components/LikePopover";
+import ErrorPage from "../components/ErrorPage";
+import PalettePlaceholder from "../components/PalettePlaceholder";
 import React from "react";
-import { ColorCodeCopy } from "./ColorCodeCopy";
+import { ColorCodeCopy } from "../components/ColorCodeCopy";
 
 const ACTIONS = {
     SET_PALETTE: 'set-palette',

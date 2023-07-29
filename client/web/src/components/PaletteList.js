@@ -1,8 +1,8 @@
 import { Pagination } from "react-bootstrap";
 import { FeedPalette } from "./FeedPalette";
 import FeedPalettePlaceholder from "./FeedPalettePlaceholder";
-import { convertColorsToArray } from "./PaletteUtil";
-import API from "./API";
+import { convertColorsToArray } from "../utils/PaletteUtil";
+import API from "../utils/API";
 
 export const ACTIONS = {
     SET_PALETTES: 'set-palettes',

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import { PencilSquare } from "react-bootstrap-icons";
 import { ChromePicker } from "react-color";
-import { pickTextColor } from "./TextColorUtil";
+import { pickTextColor } from "../utils/TextColorUtil";
 
 export default function NewPaletteColor(props){
     const [color, setColor] = useState("#FFFFFF")
