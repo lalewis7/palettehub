@@ -1,6 +1,8 @@
 package net.palettehub.api;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -23,9 +26,14 @@ public class CorsFilter implements Filter{
     @Value("${client.web.origin}")
 	private String clientOrigin;
 
+    private final String[] whitelistedOrigins = {
+        "http://localhost:3000" // react development origin
+    };
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         /*
@@ -37,13 +45,27 @@ public class CorsFilter implements Filter{
          * 
          * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
          */
-        
-        response.setHeader("Access-Control-Allow-Origin", clientOrigin);
+
+        // allow multiple origins
+        String requestOrigin = request.getHeader("Origin");
+        if (isAllowedOrigin(requestOrigin, Stream.concat(Arrays.stream(whitelistedOrigins), 
+                Arrays.stream(new String[]{clientOrigin})).toArray(String[]::new))){
+            response.setHeader("Access-Control-Allow-Origin", requestOrigin);
+        }
+
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setIntHeader("Access-Control-Max-Age", 180);
+        
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private boolean isAllowedOrigin(String origin, String[] allowedOrigins){
+        for (String allowedOrigin : allowedOrigins) {
+            if(origin.equals(allowedOrigin)) return true;
+        }
+        return false;
     }
     
 }
