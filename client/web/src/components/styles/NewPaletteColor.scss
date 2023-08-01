@@ -1,0 +1,22 @@
+.new-palette-color-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	// border: 1px solid rgba(0, 0, 0, 0.1);
+	// border-radius: 0.5rem;
+	padding: 0.25rem;
+}
+
+.new-palette-color-row:hover{
+	cursor:pointer;
+}
+
+.new-palette-color-edit {
+	margin: 1rem;
+	border: none;
+}
+
+.new-palette-color-code {
+	padding-left: 0.5rem;
+}

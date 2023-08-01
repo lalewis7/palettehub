@@ -11,6 +11,7 @@ import ErrorPage from "../components/ErrorPage";
 import PalettePlaceholder from "../components/PalettePlaceholder";
 import React from "react";
 import { ColorCodeCopy } from "../components/ColorCodeCopy";
+import { useColorMode } from "context/ColorModeProvider";
 
 const ACTIONS = {
     SET_PALETTE: 'set-palette',
@@ -58,6 +59,7 @@ export function Palette(){
     const copyLinkBtnContentCopied = <span>Copied!</span>
 
     const token = useToken()
+    const colorMode = useColorMode()
     const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(null)
     const [palette, dispatch] = useReducer(reducer, {})
@@ -102,7 +104,7 @@ export function Palette(){
     }
 
     const likeBtn = 
-        <Button variant="light" className="palette-like-btn" onClick={onLikeBtn}>
+        <Button variant={colorMode} className="palette-like-btn" onClick={onLikeBtn}>
             {palette.liked ? <HeartFill color={"red"} size={24} /> : <Heart size={24} />}
             <span className="palette-like-cnt">{palette.likes}</span>
         </Button>
@@ -136,7 +138,7 @@ export function Palette(){
                     }
                 </Col>
                 <Col xs sm="auto">
-                    <Button variant="light" onClick={onCopyLink}>{copyLink}</Button>
+                    <Button variant={colorMode} onClick={onCopyLink}>{copyLink}</Button>
                 </Col>
                 <Col></Col>
                 <Col xs sm="auto" className="palette-elapsed-time">

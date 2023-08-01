@@ -71,7 +71,8 @@ export function Feed(){
     return <>
         <Container id="feed-container" className="pt-3">
             <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
-                page={page} page_len={PAGE_LENGTH} count={count.current} placeholder_count={6} gotoPage={gotoPage} />
+                page={page} page_len={PAGE_LENGTH} count={count.current} placeholder_count={6} gotoPage={gotoPage} 
+                empty_msg="Sign in with your google account in the top right to create a palette." />
         </Container>
     </>
 }

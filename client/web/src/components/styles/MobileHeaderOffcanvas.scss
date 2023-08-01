@@ -1,0 +1,37 @@
+.mobile-header-img{
+	width: 48px;
+	height: 48px;
+}
+
+.mobile-header{
+	padding: 1.5rem;
+}
+
+.mobile-header-name{
+	margin: 0;
+	margin-top: 0.5rem;
+}
+
+.mobile-header-navlink{
+	padding: 0 !important;
+}
+
+.mobile-header-navlink-icon{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-header-navlink-text{
+	border-bottom: 1px solid rgba(0,0,0,.3);
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.mobile-header-color-mode-wrapper{
+	position:absolute;
+	right: 0;
+	bottom: 0;
+	margin-bottom: 1rem;
+	margin-right: 1rem;
+}

@@ -14,9 +14,8 @@ export default function PageNotFound(){
         <div 
         // @ts-ignore
         style={containerStyle}>
-            <ExclamationTriangle size={96} />
-            <h1>Error <b>404</b></h1>
-            <h4 className="mb-4">Page Not Found</h4>
+            <h2 className="display-2">404</h2>
+            <h5 className="mb-4">Page Not Found</h5>
             <Link to="/"><Button>Return to homepage</Button></Link>
         </div>
     </>

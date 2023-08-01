@@ -1,0 +1,20 @@
+#new-palette-card{
+    margin: auto;
+    overflow: hidden;
+    max-width: $palette-card-max-width;
+}
+
+#new-palette-post-row{
+    max-width: $palette-card-max-width;
+    margin: auto;
+    margin-top: 0.75rem;
+}
+
+.new-palette-row{
+    max-width: $palette-card-max-width;
+    margin: auto;
+}
+
+.new-palette-error-text{
+    color: $danger;
+}

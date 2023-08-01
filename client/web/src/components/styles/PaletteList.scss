@@ -1,0 +1,10 @@
+#feed-content {
+	display: grid;
+	gap: 0.8rem;
+	grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+}
+
+#feed-pagination {
+	align-self: center;
+	margin-top: 1rem;
+}

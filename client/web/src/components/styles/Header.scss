@@ -1,0 +1,36 @@
+#create-palette-btn-link {
+	margin-right: 0.75rem;
+}
+
+.header-color-mode-btn-wrapper{
+	margin-right: 0.75rem;
+}
+
+#create-palette-btn {
+	padding: 0;
+	border-radius: 100%;
+}
+
+.user-avatar-placeholder {
+	width: $user-avatar-width;
+	height: $user-avatar-height;
+	border-radius: 100%;
+}
+
+#header-anon-right{
+	display: flex;
+	flex-direction: row;
+}
+
+#header-logo-brand{
+	font-family: 'VarelaRound';
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	color: #63beff;
+}
+
+#header-navbar{
+	position:sticky;
+	top:0;
+}

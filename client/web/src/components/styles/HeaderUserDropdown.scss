@@ -1,0 +1,12 @@
+#profile-dropdown{
+	// width: 220px;
+}
+
+#profile-dropdown::after {
+	display: none;
+}
+
+.user-avatar-btn {
+	width: $user-avatar-width;
+    height: $user-avatar-height;
+}

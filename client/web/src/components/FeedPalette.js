@@ -6,9 +6,11 @@ import LikePopover from "./LikePopover"
 import { pickTextColor } from "../utils/TextColorUtil"
 import { Link } from "react-router-dom"
 import { getTimeElapsed } from "../utils/PaletteUtil"
+import { useColorMode } from "context/ColorModeProvider"
 
 export function FeedPalette(props){
     const token = useToken()
+    const colorMode = useColorMode()
 
     const onLikeBtn = () => {
         if (token){
@@ -20,7 +22,7 @@ export function FeedPalette(props){
     }
 
     const likeBtn = 
-        <Button variant="light" size="sm" onClick={onLikeBtn}>
+        <Button variant={colorMode} size="sm" onClick={onLikeBtn}>
             {props.liked ? <HeartFill color={"red"} /> : <Heart />}
         </Button>
 

@@ -1,0 +1,12 @@
+.feed-palette-placeholder {
+	max-width: 16rem;
+	min-width: 12rem;
+	overflow: hidden;
+	padding: 0;
+	flex-grow:1;
+}
+
+.feed-palette-placeholder-wrapper{
+	display: flex;
+    justify-content: center;
+}

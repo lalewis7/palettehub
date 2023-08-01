@@ -14,3 +14,16 @@ export function pickTextColor(bgColor, lightColor, darkColor) {
     var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
     return (L > 0.179) ? darkColor : lightColor;
 }
+
+// https://stackoverflow.com/questions/21646738/convert-hex-to-rgba
+export function hexToRGB(hex, alpha) {
+  var r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+
+  if (alpha) {
+      return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+  } else {
+      return "rgb(" + r + ", " + g + ", " + b + ")";
+  }
+}

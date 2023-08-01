@@ -1,0 +1,81 @@
+// fonts
+
+@font-face {
+	font-family: 'VarelaRound';
+	src: local('VarelaRound'), url('./assets/fonts/VarelaRound-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'LobsterTwo';
+	font-weight: bold;
+	src: local('LobsterTwo'), url('./assets/fonts/LobsterTwo-Bold.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'LobsterTwo';
+	font-weight:bold;
+	font-style: italic;
+	src: local('LobsterTwo'), url('./assets/fonts/LobsterTwo-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'LobsterTwo';
+	font-style: italic;
+	src: local('LobsterTwo'), url('./assets/fonts/LobsterTwo-Italic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'LobsterTwo';
+	src: local('LobsterTwo'), url('./assets/fonts/LobsterTwo-Regular.ttf') format('truetype');
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+#root {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+// App.js styles
+
+#content {
+	flex-grow: 1;
+	display: flex;
+}
+
+// imports
+
+// styles
+@import 'styles/bootstrap.scss';
+@import 'styles/variables.scss';
+
+// pages
+@import 'pages/styles/Feed.scss';
+@import 'pages/styles/Palette.scss';
+@import 'pages/styles//NewPalette.scss';
+@import 'pages/styles/LandingPage.scss';
+
+// components
+@import 'components/styles/HeaderUserDropdown.scss';
+@import 'components/styles/PaletteList.scss';
+@import 'components/styles/Header.scss';
+@import 'components/styles/PalettePlaceholder.scss';
+@import 'components/styles/FeedPalette.scss';
+@import 'components/styles/FeedPalettePlaceholder.scss';
+@import 'components/styles/ColorCodeCopy.scss';
+@import 'components/styles/NewPaletteColor.scss';
+@import 'components/styles/MobileHeaderOffcanvas.scss';
+@import 'components/styles/ColorModeButton.scss';

@@ -8,13 +8,14 @@ import { NewPalette } from 'pages/NewPalette';
 import { About } from 'pages/About';
 import { Contact } from 'pages/Contact';
 import Profile from 'pages/Profile';
+import LandingPage from 'pages/LandingPage';
 
 function App() {
   return <>
     <Header />
     <div id="content">
       <Routes>
-        <Route path="/" element={<Navigate to="/feed/new" />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/profile">
           <Route path="likes" element={<Profile />} />
         </Route>

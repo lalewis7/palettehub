@@ -11,7 +11,7 @@ export default function LikePopover(props){
                 <Popover>
                     <Popover.Header>Like this palette?</Popover.Header>
                     <Popover.Body>
-                        Sign in with google to show your enjoyment.
+                        Sign in with google to like this post.
                     </Popover.Body>
                 </Popover>
             }

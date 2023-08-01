@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // stylesheets
-import './styles/index.scss';
+import './index.scss';
 
 // entrypoint app component
 import App from './App';
@@ -17,11 +17,12 @@ import { BrowserRouter } from 'react-router-dom';
 // google auth
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-// token provider
+// context providers
 import { TokenProvider } from './context/TokenProvider';
+import { ColorModeProvider } from 'context/ColorModeProvider';
 
 // bootstrap
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -29,7 +30,9 @@ root.render(
     <BrowserRouter>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <TokenProvider>
-          <App />
+          <ColorModeProvider>
+            <App />
+          </ColorModeProvider>
         </TokenProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>

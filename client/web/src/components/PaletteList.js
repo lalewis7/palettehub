@@ -3,6 +3,7 @@ import { FeedPalette } from "./FeedPalette";
 import FeedPalettePlaceholder from "./FeedPalettePlaceholder";
 import { convertColorsToArray } from "../utils/PaletteUtil";
 import API from "../utils/API";
+import EmptyPage from "./EmptyPage";
 
 export const ACTIONS = {
     SET_PALETTES: 'set-palettes',
@@ -85,17 +86,19 @@ export default function PaletteList(props){
     const pageItem = (num) => <Pagination.Item key={num} active={props.page === num} onClick={() => props.gotoPage(num)} >{num}</Pagination.Item>
 
     return <>
-        {props.count > 0 ? <>
-            <div id="feed-content">
-                {props.loaded ? 
-                props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
-                    likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} />)
-                : [...Array(props.placeholder_count)].map(() => <FeedPalettePlaceholder />)}
-            </div>
-            <Pagination id="feed-pagination">
-                {pages()}
-            </Pagination>
-        </>
+        <div id="feed-content">
+            {props.loaded ? 
+            props.count > 0 ? <>
+                {props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
+                    likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} />)}
+            </>
+            : <EmptyPage msg={props.empty_msg} />
+            : [...Array(props.placeholder_count)].map(() => <FeedPalettePlaceholder />)}
+        </div>
+        {props.loaded && props.count > 0 ? 
+        <Pagination id="feed-pagination">
+            {pages()}
+        </Pagination>
         : ''}
     </>
 }
