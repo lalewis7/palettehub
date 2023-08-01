@@ -1,8 +1,18 @@
 version: '3.8'
 services:
   client:
+    restart: always
   rest_api:
+    restart: always
   mysql:
+    restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_ONE_TIME_PASSWORD: true
+secrets:
+  db_api_pass:
+    external: true
+  jwt_secret:
+    external: true
+  db_root_pass:
+    external: true

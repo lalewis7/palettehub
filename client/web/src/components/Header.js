@@ -23,8 +23,11 @@ export function Header() {
     const location = useLocation()
     const colorMode = useColorMode()
     const [self, setSelf] = useState(null)
-    const [googleLoginState, setGoogleLoginState] = useState(null)
-    const [showJoin, setShowJoin] = useState(false);
+
+    const [googleLoginWrapperRef, setGoogleLoginWrapperRef] = useState(null)
+    const [googleLoginVisible, setGoogleLoginVisible] = useState(false)
+
+    const [mobileGoogleLoginWrapperRef, setMobileGoogleLoginWrapperRef] = useState(null)
 
     const updateProfile = () => {
         API.selfProfile(token)
@@ -51,11 +54,6 @@ export function Header() {
         if (token) updateProfile()
     }, [token])
 
-    useEffect(() => {
-        if (googleLoginState)
-            console.log(googleLoginState.getBoundingClientRect())
-    }, [googleLoginState])
-
     const expandBreakpoint = "md";
 
     return (<>
@@ -66,15 +64,21 @@ export function Header() {
                 Palette Hub
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="headerOffcanvasContent" data-bs-target="#headerOffcanvasContent" 
-                data-bs-toggle="offcanvas" />
+                data-bs-toggle="offcanvas" ref={c => c && !mobileGoogleLoginWrapperRef && setMobileGoogleLoginWrapperRef(c)}/>
+            {location.pathname.startsWith("/feed") || location.pathname.startsWith("/palettes") ? 
+            <NewUserHelperOverlay show={token === null} target={mobileGoogleLoginWrapperRef} /> : ''}
             <Navbar.Collapse className={"d-none d-"+expandBreakpoint+"-block"}>
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="/feed/new" {...(location.pathname === "/feed/new" ? {active: true} : {})}><Stars />{' '}New</Nav.Link>
                     <Nav.Link as={Link} to="/feed/popular" {...(location.pathname === "/feed/popular" ? {active: true} : {})}><Fire />{' '}Popular</Nav.Link>
                 </Nav>
-                <OverlayTrigger placement="bottom" overlay={<Tooltip style={{position: 'fixed'}}>Switch to {colorMode === "light" ? "Dark" : "Light"} Mode</Tooltip>}>
+                <OverlayTrigger placement="bottom" overlay={
+                        <Tooltip style={{position: 'fixed'}}>
+                            Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
+                        </Tooltip>
+                    }>
                     <div className="header-color-mode-btn-wrapper">
-                    <ColorModeButton btn_size="sm" size={20} />
+                        <ColorModeButton btn_size="sm" size={20} />
                     </div>
                 </OverlayTrigger>
                 {token ? 
@@ -93,9 +97,9 @@ export function Header() {
                     : 
                     <div id="header-anon-right">
                         <ResizeObserver onResize={(dim) => {
-                                if (dim.width > 0 && !showJoin) setShowJoin(true)
+                                if (dim.width > 0 && !googleLoginVisible) setGoogleLoginVisible(true)
                             }}>
-                            <div style={{colorScheme: 'auto'}} ref={c => c && !googleLoginState && setGoogleLoginState(c)}>
+                            <div style={{colorScheme: 'auto'}} ref={c => c && !googleLoginWrapperRef && setGoogleLoginWrapperRef(c)}>
                                 <GoogleLogin 
                                     onSuccess={onLogin} 
                                     onError={onLoginError} 
@@ -108,7 +112,7 @@ export function Header() {
                             </div>
                         </ResizeObserver>
                         {location.pathname.startsWith("/feed") || location.pathname.startsWith("/palettes") ? 
-                        <NewUserHelperOverlay show={showJoin} target={googleLoginState} /> : ''}
+                        <NewUserHelperOverlay show={googleLoginVisible} target={googleLoginWrapperRef} /> : ''}
                     </div>
                 }
             </Navbar.Collapse>

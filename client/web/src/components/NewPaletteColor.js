@@ -19,6 +19,10 @@ export default function NewPaletteColor(props){
     const rowStyle = {
         backgroundColor: colorSet.current ? color : hexToRGB(color, "0")
     }
+
+    useEffect(() => {
+        if (!colorSet.current && props.color) setColor(props.color)
+    }, [props.color])
     
     return <OverlayTrigger
             trigger="click"

@@ -1,8 +1,13 @@
-# **PaletteHub MySQL**
+# **Palette Hub MySQL**
 
-## Dumps
+## Init Data
 
-Structure dumps are stored in the `/dumps` folder and loaded into the docker container upon initialization. Modify which file is loaded by changing the `PALETTE_HUB_MYSQL_DUMP` variable in the `.env` file in the root folder.
+All files in the `init` folder are loaded into the docker container upon initialization. This includes:
+
+- `01_users.sh` - creates the API user with limited privilges.
+- `02_dump.sql` - strucuture dump containing schemas and sprocs.
+
+When changes are made to the schemas or sprocs and dumped into `02_dump.sql` they should also be saved to `rest_api/src/test/resources/dump.sql` for use in the REST API unit tests.
 
 > Check out the [MySQL Docker Hub page](https://hub.docker.com/_/mysql/) for more information on using the mysql image.
 

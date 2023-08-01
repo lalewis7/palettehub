@@ -6,8 +6,16 @@ export function About(){
         <Row>
             <Col>
                 <h1 className="display-5 mb-3">About Palette Hub</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non lacus faucibus justo cursus placerat nec in mi. Sed vulputate risus ac gravida convallis. Nulla ac leo iaculis, vehicula lorem vel, suscipit justo. Vestibulum at tincidunt nunc, non tempus orci. Suspendisse sollicitudin, erat non tempor fringilla, leo dolor tincidunt sem, ut maximus massa massa nec sem. Donec euismod lectus ac turpis commodo, sit amet cursus orci convallis. Nullam at mattis nunc.</p>
-                <p>Aliquam vel justo ac lectus varius dignissim. Integer venenatis aliquam lacinia. Sed fermentum enim a molestie fermentum. Proin eget nisl in odio luctus eleifend et at leo. Nam maximus erat et sem auctor pulvinar. Nam iaculis purus ante, ac egestas lacus feugiat eget. Morbi ut lacus sapien. Donec luctus urna justo, in fringilla augue accumsan vel.</p>
+                <p>Palette Hub is a social media site for sharing palettes of hex code colors. Users can create, browse, 
+                    and share palettes, as well as engage with them through “likes”. Palette Hub does not store user 
+                    credentials on the site but instead uses Google’s third-party authentication service “Sign In 
+                    with Google for Web.” Becoming a user — which unlocks all of the site’s available features — is 
+                    simple and only requires a Google account to sign up.</p>
+                <p>The purpose of Palette Hub is to showcase a full stack website including Database Management, 
+                    Backend REST API, Frontend Website, and Container Orchestration. I diversified the stack to 
+                    exhibit a wide range of skills. The stack includes a MySQL Database, Spring Boot REST API, 
+                    Create-react-app website, Nginx web server, and Docker Compose container orchestration. Visit 
+                    the repository to read more about the technical side and review the code.</p>
                 <a href={process.env.REACT_APP_GITHUB_LINK} className="text-decoration-none" target="_blank" rel="noopener noreferrer">
                     <Button className="d-flex align-items-center">View Github<BoxArrowUpRight className="ms-2"/></Button>
                 </a>

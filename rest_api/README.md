@@ -14,11 +14,11 @@ This project follows the controller-service-repository architecture. Here's a go
 
 ## Authentication
 
-For registration and logging in clients use a third party service: Google sign in. Although the latest version of google sign in does not handle session management, so the session is handled using a JWT with the user info in the payload.
+For registration, clients use a third party service: [Sign In with Google for Web](https://developers.google.com/identity/gsi/web/guides/overview). The latest version of google sign in does not handle session management, so the session is handled using a JWT with the user info in the payload.
 
 ## Testing
 
-> This project uses [Testcontainers](https://testcontainers.com/) to create containerized test mysql databases.
+> This project uses [Testcontainers](https://testcontainers.com/) to create containerized mysql databases.
 
 To the run the unit test scripts you can use the following command:
 
@@ -222,7 +222,7 @@ Error Codes
 
 ### **[POST]** Like a Palette
 
-`/palettes/:paletteId/likes`
+`/palettes/:paletteId/like`
 
 Like a palette.
 
@@ -252,7 +252,7 @@ Error Codes
 
 ### **[DELETE]** Unlike a Palette
 
-`/palettes/:paletteId/likes`
+`/palettes/:paletteId/like`
 
 Unlike a palette.
 

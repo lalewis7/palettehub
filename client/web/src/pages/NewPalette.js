@@ -15,6 +15,7 @@ export function NewPalette(){
     const color_3 = useRef("")
     const color_4 = useRef("")
     const color_5 = useRef("")
+    const [lastColor, setLastColor] = useState()
 
     const [loading, setLoading] = useState(false)
 
@@ -67,9 +68,10 @@ export function NewPalette(){
         <Card id="new-palette-card">
             {[...Array(5)].map((_, i) => <Row>
                 <Col>
-                    <NewPaletteColor onColorChange={color => {
+                    <NewPaletteColor color={lastColor} onColorChange={color => {
                         setErrMsg(null)
                         getColorRef(i).current = color
+                        setLastColor(color)
                     }}/>
                 </Col>
             </Row>)}
