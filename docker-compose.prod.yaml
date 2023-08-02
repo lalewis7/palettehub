@@ -19,8 +19,7 @@ services:
   certbot:
     image: certbot/certbot:latest
     container_name: palette_hub_certbot
-    command: [certonly, --webroot, --webroot-path=/var/www/palettehub/, -d, palettehub.net, -d, www.palettehub.net, 
-      -d, api.palettehub.net, --agree-tos, --staging, --email, palettehub.net@gmail.com]
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     depends_on:
       - client
     volumes:
