@@ -1,0 +1,2 @@
+docker tag palette_hub_client:latest arthurlewis/palette_hub_client:latest
+docker tag palette_hub_rest_api:latest arthurlewis/palette_hub_rest_api:latest
