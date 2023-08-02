@@ -9,7 +9,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - certbot_conf:/etc/nginx/ssl
+      - certbot_conf:/etc/nginx/ssl:ro
       - certbot_var:/var/lib/letsencrypt:ro
       - certbot_data:/var/share/nginx/html/letsencrypt:ro
   rest_api:
@@ -19,8 +19,8 @@ services:
   certbot:
     image: certbot/certbot:latest
     container_name: palette_hub_certbot
-    command: [certonly, --webroot, --webroot-path, "/var/www/palettehub/", -d, palettehub.net, -d, www.palettehub.net, 
-      -d, api.palettehub.net, --agree-tos, --force-renewal, --email, palettehub.net@gmail.com]
+    command: [certonly, --webroot, --webroot-path=/var/www/palettehub/, -d, palettehub.net, -d, www.palettehub.net, 
+      -d, api.palettehub.net, --agree-tos, --staging, --email, palettehub.net@gmail.com]
     depends_on:
       - client
     volumes:

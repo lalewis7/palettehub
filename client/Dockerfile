@@ -27,7 +27,7 @@ FROM nginx:1.25.1 AS prod
 
 # Generate temp self-signed certificate to be later overwritten by certbot
 RUN mkdir -p /etc/nginx/ssl/live/palettehub.net
-RUN openssl req -x509 -nodes -days 1 -sha256 -newkey rsa:4096 \
+RUN openssl req -x509 -nodes -days 3650 -sha256 -newkey rsa:4096 \
     -keyout /etc/nginx/ssl/live/palettehub.net/privkey.pem \
     -out /etc/nginx/ssl/live/palettehub.net/fullchain.pem \
     -subj "/CN=localhost"
