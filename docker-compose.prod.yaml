@@ -19,8 +19,8 @@ services:
   certbot:
     image: certbot/certbot:latest
     container_name: palette_hub_certbot
-    command: [certonly, --webroot, -w, /var/www/palettehub, -d, palettehub.net, -d, "*.palettehub.net", 
-      --agree-tos, --force-renewal, --rsa-key-size, "4096", --email, palettehub.net@gmail.com]
+    command: [certonly, --webroot, -w, /var/www/palettehub, -d, palettehub.net, -d, www.palettehub.net, 
+      -d, api.palettehub.net, --agree-tos, --force-renewal, --rsa-key-size, "4096", --email, palettehub.net@gmail.com]
     depends_on:
       - client
     volumes:

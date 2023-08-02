@@ -14,3 +14,6 @@ Run the following in :
 openssl dhparam -out %cd%/dhparam-2048.pem 2048
 ```
 
+```
+sudo openssl dhparam -out $PWD/dhparam-2048.pem 2048
+```
