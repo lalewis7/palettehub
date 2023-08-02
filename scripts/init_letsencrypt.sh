@@ -1,17 +1,16 @@
 #!/bin/bash
 # https://github.com/wmnnd/nginx-certbot/blob/master/init-letsencrypt.sh
 
-if ! [ -x "$(command -v docker-compose)" ]; then
+if ! [ -x "$(command -v docker)" ]; then
   echo 'Error: docker compose is not installed.' >&2
   exit 1
 fi
 
 domains=(palettehub.net www.palettehub.net api.palettehub.net)
 rsa_key_size=4096
-data_path="/var/lib/docker/volumes/palette_hub_certbot_conf _volume/_data"
+data_path="/var/lib/docker/volumes/palette_hub_certbot_conf_volume/_data"
 email="palettehub.net@gmail.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
-compose_files="-f docker-compose.yaml -f docker-compose.prod.yaml"
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
@@ -31,23 +30,23 @@ fi
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$data_path/live/$domains"
-docker compose $compose_files run --rm --entrypoint "\
+docker exec run -d palette_hub_certbot \
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'" ertbot
+    -subj '/CN=localhost'
 echo
 
 
 echo "### Starting nginx ..."
-docker compose $compose_files up --force-recreate -d client
+docker restart palette_hub_client
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
-docker compose $compose_files run --rm --entrypoint "\
+docker exec -d palette_hub_certbot \
   rm -Rf /etc/letsencrypt/live/$domains && \
   rm -Rf /etc/letsencrypt/archive/$domains && \
-  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+  rm -Rf /etc/letsencrypt/renewal/$domains.conf
 echo
 
 
@@ -67,15 +66,15 @@ esac
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker compose run --rm --entrypoint "\
+docker exec -d palette_hub_certbot \
   certbot certonly --webroot -w /var/www/palettehub \
     $staging_arg \
     $email_arg \
     $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
-    --force-renewal" certbot
+    --force-renewal
 echo
 
 echo "### Reloading nginx ..."
-docker compose $compose_files exec client nginx -s reload
+docker exec palette_hub_client nginx -s reload
