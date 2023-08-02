@@ -9,7 +9,6 @@ services:
     ports:
       - "443:443"
     volumes:
-      # - ./data/certbot/conf:/etc/letsencrypt
       - certbot_conf:/etc/nginx/ssl
       - certbot_data:/var/share/nginx/html/letsencrypt
   rest_api:
