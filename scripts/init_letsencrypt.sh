@@ -11,6 +11,7 @@ rsa_key_size=4096
 data_path="/var/lib/docker/volumes/palette_hub_certbot_conf _volume/_data"
 email="palettehub.net@gmail.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
+compose_files="-f docker-compose.yaml -f docker-compose.prod.yaml"
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
@@ -30,7 +31,7 @@ fi
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$data_path/live/$domains"
-docker compose run --rm --entrypoint "\
+docker compose $compose_files run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
@@ -39,11 +40,11 @@ echo
 
 
 echo "### Starting nginx ..."
-docker compose up --force-recreate -d client
+docker compose $compose_files up --force-recreate -d client
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
-docker compose run --rm --entrypoint "\
+docker compose $compose_files run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/live/$domains && \
   rm -Rf /etc/letsencrypt/archive/$domains && \
   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
@@ -77,4 +78,4 @@ docker compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker compose exec client nginx -s reload
+docker compose $compose_files exec client nginx -s reload
