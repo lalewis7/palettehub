@@ -26,7 +26,7 @@ RUN npm run build
 FROM nginx:1.25.1 AS prod
 
 # Copy over nginx conf
-ARG NGINX_MODE
+ARG NGINX_CONF
 COPY $NGINX_CONF /etc/nginx/conf.d/default.conf
 
 # Copy ssl certificate
