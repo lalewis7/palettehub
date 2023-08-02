@@ -8,7 +8,7 @@ fi
 
 domains=(palettehub.net www.palettehub.net api.palettehub.net)
 rsa_key_size=4096
-data_path="/var/lib/docker/volumes/palette_hub_certbot_data_volume/_data"
+data_path="/var/lib/docker/volumes/palette_hub_certbot_conf _volume/_data"
 email="palettehub.net@gmail.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
 
@@ -34,19 +34,19 @@ docker compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'" palette_hub_certbot
+    -subj '/CN=localhost'" ertbot
 echo
 
 
 echo "### Starting nginx ..."
-docker compose up --force-recreate -d palette_hub_client
+docker compose up --force-recreate -d client
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
 docker compose run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/live/$domains && \
   rm -Rf /etc/letsencrypt/archive/$domains && \
-  rm -Rf /etc/letsencrypt/renewal/$domains.conf" palette_hub_certbot
+  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
 echo
 
 
@@ -73,8 +73,8 @@ docker compose run --rm --entrypoint "\
     $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
-    --force-renewal" palette_hub_certbot
+    --force-renewal" certbot
 echo
 
 echo "### Reloading nginx ..."
-docker compose exec palette_hub_client nginx -s reload
+docker compose exec client nginx -s reload
