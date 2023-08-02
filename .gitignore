@@ -11,3 +11,6 @@ rest_api/.mvn/timing.properties
 
 # VSCode
 .vscode
+
+# Client
+client/dhparam-2048.pem

@@ -25,15 +25,22 @@ RUN npm run build
 # nginx dist
 FROM nginx:1.25.1 AS prod
 
+# Generate temp self-signed certificate to be later overwritten by certbot
+RUN mkdir -p /etc/nginx/ssl/live/palettehub.net
+RUN openssl req -x509 -nodes -days 1 -sha256 -newkey rsa:4096 \
+    -keyout /etc/nginx/ssl/live/palettehub.net/privkey.pem \
+    -out /etc/nginx/ssl/live/palettehub.net/fullchain.pem \
+    -subj "/CN=localhost"
+
 # Copy over nginx conf
 ARG NGINX_CONF
 COPY $NGINX_CONF /etc/nginx/conf.d/default.conf
 
-# Copy ssl certificate
-COPY ssl_cert.pem /etc/ssl/palettehub_cert.pem
-
 # Copy over react build
 COPY --from=build /usr/app/build /usr/app/
+
+# Copy over dh params
+COPY dhparam-2048.pem /etc/nginx/dhparam/dhparam-2048.pem
 
 # Expose port
 EXPOSE 80
