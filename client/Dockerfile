@@ -26,7 +26,11 @@ RUN npm run build
 FROM nginx:1.25.1 AS prod
 
 # Copy over nginx conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+ARG NGINX_MODE
+COPY $NGINX_CONF /etc/nginx/conf.d/default.conf
+
+# Copy ssl certificate
+COPY ssl_cert.pem /etc/ssl/palettehub_cert.pem
 
 # Copy over react build
 COPY --from=build /usr/app/build /usr/app/

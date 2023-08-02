@@ -10,7 +10,6 @@ services:
     image: palette_hub_client
     ports:
       - "80:80"
-      - "${PALETTE_HUB_NGINX_API_PORT}:3000"
     networks:
       - frontnet
   rest_api:

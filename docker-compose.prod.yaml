@@ -2,17 +2,24 @@ version: '3.8'
 services:
   client:
     restart: always
+    build:
+      args:
+        REACT_APP_API_HOST: https://api.palettehub.net
+        NGINX_CONF: nginx.conf
+    ports:
+      - "443:443"
+    secrets:
+      - ssl_key
   rest_api:
     restart: always
   mysql:
     restart: always
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: true
-      MYSQL_ONE_TIME_PASSWORD: true
 secrets:
   db_api_pass:
-    external: true
+    file: ${PALETTE_HUB_SECRETS}/mysql_api_pass.txt
   jwt_secret:
-    external: true
+    file: ${PALETTE_HUB_SECRETS}/jwt_secret.txt
   db_root_pass:
-    external: true
+    file: ${PALETTE_HUB_SECRETS}/mysql_root_pass.txt
+  ssl_key:
+    file: ${PALETTE_HUB_SECRETS}/ssl_key.txt

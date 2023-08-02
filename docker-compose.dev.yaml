@@ -4,6 +4,9 @@ services:
     build:
       args:
         REACT_APP_API_HOST: http://localhost:${PALETTE_HUB_NGINX_API_PORT}
+        NGINX_MODE: nginx.dev.conf
+    ports:
+      - "${PALETTE_HUB_NGINX_API_PORT}:3000"
 volumes:
   mysql-data:
     name: palette_hub_mysql_dev_volume

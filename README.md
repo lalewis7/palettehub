@@ -60,17 +60,14 @@ The environment uses three containers:
 
 ### Secrets
 
-In development mode the docker compose is setup to use the secrets found in the `/secrets` folder. In production mode the secrets need to be setup externally using the [docker secret create](https://docs.docker.com/engine/reference/commandline/secret_create/) command:
+In development mode the docker compose is setup to use the secrets found in the `/secrets` folder. In production mode the secrets are retrieved from the `$PALETTE_HUB_SECRETS` folder. Set the environment variable in `/etc/environment` for system-wde access.
 
-```sh
-printf "This is my super secret secret" | docker secret create my_secret -
-```
+These are the files that should be included:
 
-These are the secrets that need to be set:
-
-- db_api_pass
-- jwt_secret
-- db_root_pass
+- db_api_pass.txt
+- jwt_secret.txt
+- db_root_pass.txt
+- ssl_key.txt
 
 ## Client
 
