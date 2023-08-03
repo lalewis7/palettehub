@@ -14,6 +14,8 @@ services:
       - certbot_data:/var/share/nginx/html/letsencrypt:ro
   rest_api:
     restart: always
+    environment:
+      CLIENT_WEB_ORIGIN: https://palettehub.net
   mysql:
     restart: always
   certbot:
