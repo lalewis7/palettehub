@@ -8,6 +8,8 @@ services:
         NGINX_CONF: nginx.conf
     ports:
       - "443:443"
+    depends_on:
+      - rest_api
     volumes:
       - certbot_conf:/etc/nginx/ssl:ro
       - certbot_var:/var/lib/letsencrypt:ro
