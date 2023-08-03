@@ -19,7 +19,7 @@ services:
   certbot:
     image: certbot/certbot:latest
     container_name: palette_hub_certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while true; do certbot renew; sleep 12h; done;'"
     restart: always
     volumes:
       - certbot_conf:/etc/letsencrypt

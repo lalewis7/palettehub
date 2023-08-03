@@ -37,4 +37,4 @@ EXPOSE 80
 EXPOSE 3000
 
 # start nginx server
-ENTRYPOINT /bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
+ENTRYPOINT while true; do sleep 12h; nginx -s reload; done & nginx -g "daemon off;"
