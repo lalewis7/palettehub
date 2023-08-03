@@ -29,11 +29,10 @@ fi
 
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
-mkdir -p "$data_path/live/$domains"
-docker exec run -d palette_hub_certbot \
-  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
-    -keyout '$path/privkey.pem' \
-    -out '$path/fullchain.pem' \
+docker exec -d palette_hub_certbot mkdir -p $path && \
+  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1 \
+    -keyout $path/privkey.pem \
+    -out $path/fullchain.pem \
     -subj '/CN=localhost'
 echo
 
@@ -41,6 +40,8 @@ echo
 echo "### Starting nginx ..."
 docker restart palette_hub_client
 echo
+
+
 
 echo "### Deleting dummy certificate for $domains ..."
 docker exec -d palette_hub_certbot \
