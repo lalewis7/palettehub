@@ -11,7 +11,8 @@ import { HeaderUserDropdown } from "./HeaderUserDropdown";
 import { Fire, Palette, Plus, Stars } from "react-bootstrap-icons";
 import ResizeObserver from 'rc-resize-observer';
 
-import logo from '../assets/logo.svg';
+// import {ReactComponent as Logo} from '../assets/palette-8-svgrepo-com.svg';
+import Logo from "./Logo";
 import MobileHeaderOffcanvas from "./MobileHeaderOffcanvas";
 import ColorModeButton from "./ColorModeButton";
 import { useColorMode } from "context/ColorModeProvider";
@@ -60,8 +61,8 @@ export function Header() {
       <Navbar id="header-navbar" expand={expandBreakpoint} collapseOnSelect className="bg-body-tertiary" sticky="top" >
         <Container>
             <Navbar.Brand as={Link} to="/" id="header-logo-brand">
-                <Palette size={24} className="me-2" />
-                Palette Hub
+                <Logo size={28} height={28} color="#249cf3" className="me-2" />
+                <span className="lh-1">Palette Hub</span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="headerOffcanvasContent" data-bs-target="#headerOffcanvasContent" 
                 data-bs-toggle="offcanvas" ref={c => c && !mobileGoogleLoginWrapperRef && setMobileGoogleLoginWrapperRef(c)}/>

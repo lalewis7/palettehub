@@ -11,16 +11,18 @@ export function convertColorsToArray(palette){
 
 export function getTimeElapsed(timestamp){
     let elapsedSeconds = (Date.now() / 1000 - timestamp)
-    if (elapsedSeconds < 60)
-        return Math.floor(elapsedSeconds) + "s"
+    if (elapsedSeconds < 2)
+        return "just now"
+    else if (elapsedSeconds < 60)
+        return Math.floor(elapsedSeconds) + "s ago"
     else if (elapsedSeconds < 60 * 60)
-        return Math.floor(elapsedSeconds / 60) + "m"
+        return Math.floor(elapsedSeconds / 60) + "m ago"
     else if (elapsedSeconds < 60 * 60 * 24)
-        return Math.floor(elapsedSeconds / (60 * 60)) + "h"
+        return Math.floor(elapsedSeconds / (60 * 60)) + "h ago"
     else if (elapsedSeconds < 60 * 60 * 24 * 30)
-        return Math.floor(elapsedSeconds / (60 * 60 * 24)) + "d"
+        return Math.floor(elapsedSeconds / (60 * 60 * 24)) + "d ago"
     else if (elapsedSeconds < 60 * 60 * 24 * 365)
-        return Math.floor(elapsedSeconds / (60 * 60 * 24 * 30)) + "mo"
+        return Math.floor(elapsedSeconds / (60 * 60 * 24 * 30)) + "mo ago"
     else
-        return Math.floor(elapsedSeconds / (60 * 60 * 24 * 365)) + "yr"
+        return Math.floor(elapsedSeconds / (60 * 60 * 24 * 365)) + "yr ago"
 }

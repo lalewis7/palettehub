@@ -8,7 +8,7 @@ export function Footer(){
     const colorMode = useColorMode()
     
     return <>
-        <Container as="footer" className="mt-3">
+        <Container id="ph-footer" as="footer" className="pt-3 bg-body-tertiary" fluid={true}>
             <Row>
                 <Nav as="ul" className="justify-content-center">
                     <Nav.Item as="li">
@@ -22,16 +22,16 @@ export function Footer(){
             <Row>
                 <Nav as="ul" className="justify-content-center mb-2">
                     <Nav.Item as="li">
-                        <Nav.Link as={Link} to="/feed/new">New</Nav.Link>
+                        <Nav.Link as={Link} to="/feed/new" className="text-reset">New</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link as={Link} to="/feed/popular">Popular</Nav.Link>
+                        <Nav.Link as={Link} to="/feed/popular" className="text-reset">Popular</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link as={Link} to="/about">About</Nav.Link>
+                        <Nav.Link as={Link} to="/about" className="text-reset">About</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
+                        <Nav.Link as={Link} to="/contact" className="text-reset">Contact</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </Row>

@@ -10,6 +10,13 @@ function getAuthHeaders(token, otherHeaders = {}){
     } : ""
 }
 
+export function checkResponse(resp){
+    if (resp.ok)
+        return resp
+    else
+        return Promise.reject({message: "Failed to fetch", code: resp.status})
+}
+
 export default {
     auth: function authFn(data){
         return fetch(API_HOST+"/auth", {

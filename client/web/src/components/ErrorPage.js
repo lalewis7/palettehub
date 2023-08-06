@@ -14,9 +14,9 @@ export default function ErrorPage(props){
         <div 
         // @ts-ignore
         style={containerStyle}>
-            <ExclamationTriangle size={96} />
-            <h1>Error <b>{props.code}</b></h1>
-            {props.msg ? <h4 className="mb-4">{props.msg}</h4> : ''}
+            <ExclamationTriangle size={72} />
+            <h1 className="display-5">Error {props.code}</h1>
+            {props.msg ? <p className="mb-4">{props.msg}</p> : ''}
             {props.retry || false ? <Button onClick={props.retry}>Retry</Button> :
             <Link to="/"><Button>Return to homepage</Button></Link>}
         </div>

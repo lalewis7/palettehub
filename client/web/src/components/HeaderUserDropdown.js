@@ -20,7 +20,7 @@ export function HeaderUserDropdown(props){
 
     return <>
         <NavDropdown id="profile-dropdown" align="end" title={
-            <Button type="button" variant="secondary" style={btnStyles} >
+            <Button type="button" variant="" style={btnStyles} >
                 <img src={props.pictureUrl} referrerPolicy="no-referrer" className="user-avatar-placeholder" />
             </Button>
         }>

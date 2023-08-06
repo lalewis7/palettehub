@@ -1,12 +1,12 @@
 import { Overlay, Tooltip } from "react-bootstrap";
-import { pickTextColor } from "../utils/TextColorUtil";
+import { pickTextColorWhiteBlack } from "../utils/TextColorUtil";
 import { useRef, useState } from "react";
 
 export function ColorCodeCopy(props){
     const [show, setShow] = useState(false);
     const target = useRef(null);
     return <>
-        <span ref={target} style={{color: pickTextColor(props.color, "#FFFFFF", "#000000")}} 
+        <span ref={target} style={{color: pickTextColorWhiteBlack(props.color)}} 
                 className="palette-code" onClick={(e) => {
                     setShow(true)
                     navigator.clipboard.writeText("#"+props.color)

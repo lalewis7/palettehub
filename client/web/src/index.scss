@@ -29,6 +29,24 @@
 	src: local('LobsterTwo'), url('./assets/fonts/LobsterTwo-Regular.ttf') format('truetype');
 }
 
+@font-face {
+	font-family: 'Nunito';
+	font-weight: 400;
+	src: local('Nunito'), url('./assets/fonts/Nunito-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Nunito';
+	font-weight: 500;
+	src: local('Nunito'), url('./assets/fonts/Nunito-Medium.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Nunito';
+	font-weight: 800;
+	src: local('Nunito'), url('./assets/fonts/Nunito-ExtraBold.ttf') format('truetype');
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -79,3 +97,4 @@ code {
 @import 'components/styles/NewPaletteColor.scss';
 @import 'components/styles/MobileHeaderOffcanvas.scss';
 @import 'components/styles/ColorModeButton.scss';
+@import 'components/styles/Footer.scss';

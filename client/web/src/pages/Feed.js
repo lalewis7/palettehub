@@ -1,11 +1,11 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useToken } from "../context/TokenProvider";
 import { Container } from "react-bootstrap";
-import API from "../utils/API";
+import API, { checkResponse } from "../utils/API";
 import { useLocation, useSearchParams } from "react-router-dom";
 import PaletteList, { ACTIONS, reducer } from "../components/PaletteList";
 
-const PAGE_LENGTH = 20
+const PAGE_LENGTH = 50
 
 export function Feed(){
     const token = useToken()
@@ -18,7 +18,9 @@ export function Feed(){
     const [page, setPage] = useState(1)
     const count = useRef(0)
 
-    useEffect(() => {
+    const loadPage = () => {
+        setError(null)
+        window.scrollTo(0, 0)
         let apiPage = page
         let timeout = setTimeout(() => {
             setLoaded(false)
@@ -29,6 +31,7 @@ export function Feed(){
         }
         if (location.pathname === "/feed/new")
             API.newPalettes(token, apiPage)
+                .then(res => checkResponse(res))
                 .then(palettes => palettes.json())
                 .then(res => {
                     count.current = res.count
@@ -37,8 +40,10 @@ export function Feed(){
                 })
                 .then(() => clearTimeout(timeout))
                 .then(() => setLoaded(true))
+                .catch((err) => setError({code: "", msg:err.message, retry: loadPage}))
         else if (location.pathname === "/feed/popular")
             API.popularPalettes(token, apiPage)
+                .then(res => checkResponse(res))
                 .then(palettes => palettes.json())
                 .then(res => {
                     count.current = res.count
@@ -47,6 +52,11 @@ export function Feed(){
                 })
                 .then(() => clearTimeout(timeout))
                 .then(() => setLoaded(true))
+                .catch((err) => setError({code: "", msg:err.message, retry: loadPage}))
+    }
+
+    useEffect(() => {
+        loadPage()
     }, [token, location, page])
 
     useEffect(() => {

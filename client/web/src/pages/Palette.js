@@ -54,7 +54,7 @@ function reducer(pal, action){
 
 export function Palette(){
 
-    const copyLinkBtnContent = <><Link45deg size={24} />{' '}<span>Link</span></>
+    const copyLinkBtnContent = <><Link45deg size={24}/>{' '}<span  className="ms-1">Link</span></>
 
     const copyLinkBtnContentCopied = <span>Copied!</span>
 
@@ -64,7 +64,6 @@ export function Palette(){
     const [error, setError] = useState(null)
     const [palette, dispatch] = useReducer(reducer, {})
     const [copyLink, setCopyLink] = useState(copyLinkBtnContent)
-    const colorCodes = useRef([])
     let { id } = useParams()
 
     const getData = () => API.getPalette(token, id)
@@ -130,19 +129,19 @@ export function Palette(){
                 </Ratio>
             </Card>
             <Row id="palette-bar-1">
-                <Col xs sm="auto">
+                <Col bsPrefix="col col" xs="auto" className="me-2">
                     {token ? likeBtn : 
                         <LikePopover placement="top-start">
                             {likeBtn}
                         </LikePopover>
                     }
                 </Col>
-                <Col xs sm="auto">
-                    <Button variant={colorMode} onClick={onCopyLink}>{copyLink}</Button>
+                <Col bsPrefix="col col" xs="auto">
+                    <Button variant={colorMode} onClick={onCopyLink} className="d-flex">{copyLink}</Button>
                 </Col>
                 <Col></Col>
-                <Col xs sm="auto" className="palette-elapsed-time">
-                    <span className="text-secondary">{getTimeElapsed(palette.posted)} ago</span>
+                <Col bsPrefix="col col" xs="auto" className="palette-elapsed-time">
+                    <span className="text-secondary">{getTimeElapsed(palette.posted)}</span>
                 </Col>
             </Row>
     </Container>

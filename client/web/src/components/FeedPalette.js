@@ -3,7 +3,7 @@ import { Heart, HeartFill } from 'react-bootstrap-icons'
 import { ACTIONS } from "./PaletteList"
 import { useToken } from "../context/TokenProvider"
 import LikePopover from "./LikePopover"
-import { pickTextColor } from "../utils/TextColorUtil"
+import { pickTextColorWhiteBlack } from "../utils/TextColorUtil"
 import { Link } from "react-router-dom"
 import { getTimeElapsed } from "../utils/PaletteUtil"
 import { useColorMode } from "context/ColorModeProvider"
@@ -22,7 +22,7 @@ export function FeedPalette(props){
     }
 
     const likeBtn = 
-        <Button variant={colorMode} size="sm" onClick={onLikeBtn}>
+        <Button variant={colorMode} size="sm" onClick={onLikeBtn} className="m-1">
             {props.liked ? <HeartFill color={"red"} /> : <Heart />}
         </Button>
 
@@ -31,7 +31,7 @@ export function FeedPalette(props){
             <Card className="feed-palette">
                 {props.colors.map((color, i) => <Link key={i} className="feed-palette-row feed-palette-color" 
                         style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
-                    <span style={{color: pickTextColor(color, "#FFFFFF", "#000000")}} className="feed-palette-code">{"#"+color}</span>
+                    <span style={{color: pickTextColorWhiteBlack(color)}} className="feed-palette-code">{"#"+color}</span>
                 </Link>)}
                 <div className="feed-palette-row feed-palette-bottom">
                     <div className="feed-palette-likes">
@@ -42,7 +42,7 @@ export function FeedPalette(props){
                         }
                         <span>{props.likes}</span>
                     </div>
-                    <small>{getTimeElapsed(props.timestamp)} ago</small>
+                    <small>{getTimeElapsed(props.timestamp)}</small>
                 </div>
             </Card>
         </div>

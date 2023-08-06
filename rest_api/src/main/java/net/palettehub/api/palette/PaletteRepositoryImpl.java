@@ -18,7 +18,7 @@ import jakarta.persistence.StoredProcedureQuery;
 @Repository
 public class PaletteRepositoryImpl implements PaletteRepository {
 
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 50;
     
     @Autowired
     private EntityManager em;

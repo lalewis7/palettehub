@@ -4,6 +4,7 @@ import FeedPalettePlaceholder from "./FeedPalettePlaceholder";
 import { convertColorsToArray } from "../utils/PaletteUtil";
 import API from "../utils/API";
 import EmptyPage from "./EmptyPage";
+import ErrorPage from "./ErrorPage";
 
 export const ACTIONS = {
     SET_PALETTES: 'set-palettes',
@@ -84,6 +85,9 @@ export default function PaletteList(props){
     }
 
     const pageItem = (num) => <Pagination.Item key={num} active={props.page === num} onClick={() => props.gotoPage(num)} >{num}</Pagination.Item>
+
+    if (props.error)
+        return <ErrorPage code={props.error.code} msg={props.error.msg} retry={props.error.retry} />
 
     return <>
         {props.loaded ? 

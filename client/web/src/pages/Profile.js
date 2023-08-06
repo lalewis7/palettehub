@@ -5,7 +5,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import { useEffect, useReducer, useRef, useState } from "react";
 import API from "../utils/API";
 
-const PAGE_LENGTH = 20
+const PAGE_LENGTH = 50
 
 export default function Profile(){
     const token = useToken()

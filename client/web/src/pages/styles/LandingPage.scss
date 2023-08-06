@@ -1,3 +1,24 @@
-#landing-page-header-1{
+.landing-page-header-1{
     font-family: 'LobsterTwo';
+}
+
+.landingpage-h{
+	font-family: 'Nunito';
+	font-weight: 800;
+}
+
+.landingpage-h1-text{
+	line-height: 1.4;
+}
+
+#landingpage-cont-1{
+	background-image: linear-gradient(45deg, #63beff, #7910b6);
+}
+
+.landingpage-mw{
+	max-width: 740px;
+}
+
+.landingpage-mw-2{
+	max-width: 960px;
 }
