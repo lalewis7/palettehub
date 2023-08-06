@@ -16,9 +16,10 @@ export function About(){
                     exhibit a wide range of skills. The stack includes a MySQL Database, Spring Boot REST API, 
                     Create-react-app website, Nginx web server, and Docker Compose container orchestration. Visit 
                     the repository to read more about the technical side and review the code.</p>
-                <a href={process.env.REACT_APP_GITHUB_LINK} className="text-decoration-none" target="_blank" rel="noopener noreferrer">
-                    <Button className="d-flex align-items-center">View Github<BoxArrowUpRight className="ms-2"/></Button>
-                </a>
+                <Button as="a" href={process.env.REACT_APP_GITHUB_LINK} target="_blank" rel="noopener noreferrer" 
+                    className="d-flex align-items-center about-fit-content mb-3">
+                        View Github<BoxArrowUpRight className="ms-2"/>
+                </Button>
             </Col>
         </Row>
     </Container>

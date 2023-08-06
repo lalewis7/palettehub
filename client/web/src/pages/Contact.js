@@ -12,9 +12,10 @@ export function Contact(){
                     infrastructure. I built this website to showcase my skills in those respects while learning new 
                     technologies. If you’re interested in chatting about Palette Hub or software engineering, connect 
                     with me on LinkedIn.</p>
-                <a href={process.env.REACT_APP_LINKEDIN_LINK} className="text-decoration-none" target="_blank" rel="noopener noreferrer">
-                    <Button className="d-flex align-items-center">View LinkedIn<BoxArrowUpRight className="ms-2"/></Button>
-                </a>
+                <Button as="a" href={process.env.REACT_APP_LINKEDIN_LINK} target="_blank" rel="noopener noreferrer" 
+                    className="d-flex align-items-center contact-fit-content mb-3">
+                        View LinkedIn<BoxArrowUpRight className="ms-2"/>
+                </Button>
             </Col>
         </Row>
     </Container>

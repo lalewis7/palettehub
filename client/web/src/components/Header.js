@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import API from "../utils/API";
 import { useToken, useTokenUpdate } from "../context/TokenProvider";
 import { HeaderUserDropdown } from "./HeaderUserDropdown";
-import { Fire, Palette, Plus, Stars } from "react-bootstrap-icons";
+import { EnvelopeAt, Fire, InfoCircle, Palette, Plus, Stars } from "react-bootstrap-icons";
 import ResizeObserver from 'rc-resize-observer';
 
 // import {ReactComponent as Logo} from '../assets/palette-8-svgrepo-com.svg';
@@ -70,9 +70,35 @@ export function Header() {
             <NewUserHelperOverlay show={token === null} target={mobileGoogleLoginWrapperRef} /> : ''}
             <Navbar.Collapse className={"d-none d-"+expandBreakpoint+"-block"}>
                 <Nav className="me-auto">
-                    <Nav.Link as={Link} to="/feed/new" {...(location.pathname === "/feed/new" ? {active: true} : {})}><Stars />{' '}New</Nav.Link>
                     <Nav.Link as={Link} to="/feed/popular" {...(location.pathname === "/feed/popular" ? {active: true} : {})}><Fire />{' '}Popular</Nav.Link>
+                    <Nav.Link as={Link} to="/feed/new" {...(location.pathname === "/feed/new" ? {active: true} : {})}><Stars />{' '}New</Nav.Link>
                 </Nav>
+                <OverlayTrigger placement="bottom" overlay={
+                    <Tooltip style={{position: 'fixed'}}>
+                        About Page
+                    </Tooltip>
+                }>
+                    <div className="header-color-mode-btn-wrapper">
+                        <Link to="/about">
+                            <Button variant={colorMode} className="header-circle-btn">
+                                <InfoCircle size={20} />
+                            </Button>
+                        </Link>
+                    </div>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" overlay={
+                    <Tooltip style={{position: 'fixed'}}>
+                        Contact Page
+                    </Tooltip>
+                }>
+                    <div className="header-color-mode-btn-wrapper">
+                        <Link to="/contact">
+                            <Button variant={colorMode} className="header-circle-btn">
+                                <EnvelopeAt size={20} />
+                            </Button>
+                        </Link>
+                    </div>
+                </OverlayTrigger>
                 <OverlayTrigger placement="bottom" overlay={
                         <Tooltip style={{position: 'fixed'}}>
                             Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
