@@ -6,9 +6,27 @@ This directory contains all the client code.
 
 The main website made using `create-react-app`.
 
-## Setting up TSL
+## Nginx Web Server
 
-Setting up the SSL certificates using the certbot for Let's Encrypt proved to be difficult due to the memory issues with docker. Additionally there were issues with the running the script so this tutorial will show the manual way while stop containers to save memory.
+### HTTP Traffic
+
+Redirect to https uri.
+
+### www.palettehub.net
+
+Redirect to palettehub.net.
+
+### palettehub.net
+
+Serve static react app build.
+
+### api.palettehub.net
+
+Reverse proxy to Spring Boot REST API.
+
+## Setting up SSL
+
+Setting up the SSL certificates using the certbot for Let's Encrypt proved to be difficult due to the memory issues with docker. Additionally there were issues with the running the script `scripts/init_letsencrypt.sh` so this tutorial will show the manual way while stop containers to save memory.
 
 ### 1. Setup Environment
 
