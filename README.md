@@ -6,28 +6,43 @@ The purpose of Palette Hub is to showcase a full stack website including Databas
 
 ## The Stack
 
-- Docker
-    - Container orchestration
-- Spring Boot REST API
-    - Testcontainers
-    - JWT Authentication
-    - Maven
-- MySQL database
-    - Stored Procedures
-- Nginx Web server
-    - Create react app
-        - Bootstrap
-        - Bootstrap icons
-        - Sass
-        - Google Analytics
-    - Reverse proxy to REST API
-    - SSL
-        - Let's encrypt
+### Deployment
+
+- Docker images
 - Azure VM
+- Docker Compose Container Orchestration
+- Bash scripts
+
+### REST API
+
+- Java Spring Boot
+- JWT Authentication
+- Sign In with Google for Web
+- Apache Maven
+- Testcontainers
+
+### MySQL Database
+
+- Schema design
+- Stored procedures
+
+### Nginx Web Server
+
+- Reverse Proxy to REST API
+- Serve react app build
+- Let's Encrypt (SSL Certificate) with certbot
+
+### React App
+
+- Create react app
+- Bootstrap
+- Bootstrap icons
+- SASS
+- Google Analytics
 
 ## Scripts
 
-### Dev Environment
+### Development Environment
 
 To start the development containers on your local machine use the following commands:
 
@@ -115,7 +130,7 @@ The website was made using [Create-react-app](https://create-react-app.dev/) alo
 
 ## REST API
 
-The REST API uses the [Java Spring Boot Framework](https://spring.io/projects/spring-boot) using [Maven](https://maven.apache.org/) for dependency control. Unit tests are setup with [Testcontainers](https://testcontainers.com/). For more information checkout  `/rest_api`.
+The REST API uses the [Java Spring Boot Framework](https://spring.io/projects/spring-boot) using [Maven](https://maven.apache.org/) for dependency management. Unit tests are setup with [Testcontainers](https://testcontainers.com/). For more information checkout  `/rest_api`.
 
 ## MySQL
 
