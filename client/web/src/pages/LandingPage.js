@@ -12,7 +12,7 @@ export default function LandingPage(){
                         <h1 className="display-1 text-white landing-page-header-1 mb-5">Join the color community</h1>
                         <h5 className="text-white landingpage-h landingpage-h1-text mb-4">Are you a web developer styling a website? An artist 
                         in need of inspiration for your next project? Or just a color enthusiast looking for fun? </h5>
-                        <h5 className="text-white landingpage-h landingpage-h1-text mb-4">Palette Hub allows you to inspire your creativty 
+                        <h5 className="text-white landingpage-h landingpage-h1-text mb-4">Palette Hub allows you to inspire your creativity 
                         and put it to use by browsing, curating, and sharing color palettes of any and all aesthetics.</h5>
                         {/* <h5 className="text-white landingpage-h">Have an idea or need inspiration for a color palette?
                         Browse dozens of our aesthetic color palettes or make your own and share them with your friends.</h5>
