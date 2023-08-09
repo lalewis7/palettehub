@@ -64,7 +64,7 @@ export default function Profile(){
     return <>
         <Container id="feed-container" className="pt-3">
             <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
-                page={page} page_len={PAGE_LENGTH} count={count.current} placeholder_count={6} gotoPage={gotoPage} 
+                page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
                 empty_msg="Browse the &ldquo;New&rdquo; and &ldquo;Popular&rdquo; pages for palettes to add to your liked collection."/>
         </Container>
     </>

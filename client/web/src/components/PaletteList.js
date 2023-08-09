@@ -59,7 +59,6 @@ export function reducer(palettes, action){
  * - page: num
  * - page_len: num
  * - count: num
- * - placeholder_count: num
  * - gotoPage: func
  * @param {*} props 
  * @returns 
@@ -98,7 +97,7 @@ export default function PaletteList(props){
             </div>
         </>
         : <EmptyPage msg={props.empty_msg} />
-        : <div id="feed-content">{[...Array(props.placeholder_count)].map(() => <FeedPalettePlaceholder />)}</div>}
+        : <div id="feed-content-placeholder">{[...Array(15)].map(() => <FeedPalettePlaceholder />)}</div>}
         {props.loaded && props.count > 0 ? 
         <Pagination id="feed-pagination">
             {pages()}
