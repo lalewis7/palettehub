@@ -1,0 +1,50 @@
+.profile-header{
+    overflow: hidden;
+}
+
+.profile-banner{
+    background-image: linear-gradient(45deg, #63beff, #7910b6);
+    height: 6rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile-avatar-img{
+    width: 4em;
+    height: 4em;
+    border-radius: 100%;
+    // position: relative;
+    // top: -2em;
+    position: absolute;
+    top: 4em;
+    left: 1.5em;
+}
+
+.profile-stats-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: auto;
+    //padding: 1.25rem 0.5rem 0.8rem 0.75rem;
+    width: 224px;
+    padding: .75rem 0 0.3rem 0;
+    list-style-type: none;
+    position: absolute;
+    top: 4.5em;
+    right: 1em;
+    background-color: var(--bs-tertiary-bg);
+    border-radius: 0.25rem;
+    // border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.profile-stats-item{
+    text-align: center;
+    // padding-left: 0.5rem;
+    // padding-right: 0.5rem;
+    font-family: 'Nunito';
+    font-weight: 800;
+}

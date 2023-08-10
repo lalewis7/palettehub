@@ -1,5 +1,5 @@
 .feed-palette {
-	max-width: 16rem;
+	max-width: 18rem;
 	min-width: 12rem;
 	overflow: hidden;
 	flex-grow: 1;
@@ -43,4 +43,11 @@
 	flex-direction: row;
 	align-items: center;
 	height: 100%;
+	padding: 0.2rem;
+}
+
+.feed-palette-colors-grid{
+	display:grid;
+	grid-template-rows: repeat(5, 1fr);
+	gap:0;
 }

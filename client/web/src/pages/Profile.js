@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Card, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import PaletteList, { ACTIONS, reducer } from "../components/PaletteList";
 import { useToken } from "../context/TokenProvider";
 import { Navigate, useSearchParams } from "react-router-dom";
@@ -62,10 +62,32 @@ export default function Profile(){
     }
 
     return <>
-        <Container id="feed-container" className="pt-3">
-            <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
-                page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
-                empty_msg="Browse the &ldquo;New&rdquo; and &ldquo;Popular&rdquo; pages for palettes to add to your liked collection."/>
-        </Container>
+        <div className="d-flex flex-column w-100">
+            {/* <Container className="mt-3">
+                <Card className="profile-header bg-body-tertiary">
+                    <div className="profile-banner">
+                    <img className="profile-avatar-img" width="32" src="https://lh3.googleusercontent.com/a/AAcHTtcNGVsdckVs5BZssPcdI78Wz3KDDHpVtoSu8-VrZ3ZLNA=s96-c" referrerPolicy="no-referrer" />
+                    <ul className="profile-stats-list">
+                        <li className="profile-stats-item"><h6>25<br/>Palettes</h6></li>
+                        <li className="profile-stats-item"><h6>18<br/>Likes</h6></li>
+                        <li className="profile-stats-item"><h6>35<br/>Liked</h6></li>
+                    </ul>
+                    </div>
+                    <div className="px-4 pb-2">
+                        <h2 className="mt-5 me-5 flex-grow-1">Arthur</h2>
+                    </div>
+                    <Tabs defaultActiveKey="liked" className="mt-3">
+                        <Tab eventKey="palettes" title="Palettes" disabled></Tab>
+                        <Tab eventKey="liked" title="Likes"></Tab>
+                        <Tab eventKey="collections" title="Collections" disabled></Tab>
+                    </Tabs>
+                </Card>
+            </Container> */}
+            <Container id="feed-container" className="pt-3">
+                <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
+                    page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
+                    empty_msg="Browse the &ldquo;New&rdquo; and &ldquo;Popular&rdquo; pages for palettes to add to your liked collection."/>
+            </Container>
+        </div>
     </>
 }

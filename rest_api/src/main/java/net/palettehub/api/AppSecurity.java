@@ -65,9 +65,9 @@ public class AppSecurity {
             // -> /users/{userId}
             .requestMatchers("/users/{userId}").permitAll()
             .requestMatchers(HttpMethod.GET, "/users/{userId}").authenticated()
-            // -> /users/{userId}/like
+            // -> /users/{userId}/likes
             .requestMatchers("/users/{userId}/likes").permitAll()
-            .requestMatchers(HttpMethod.GET, "/palettes/{paletteId}/like").authenticated()
+            .requestMatchers(HttpMethod.GET, "/users/{userId}/likes").authenticated()
             // -> /palettes
             .requestMatchers("/palettes").permitAll()
             .requestMatchers(HttpMethod.POST, "/palettes").authenticated()

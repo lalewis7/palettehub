@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap"
+import { Button, Card, Ratio } from "react-bootstrap"
 import { Heart, HeartFill } from 'react-bootstrap-icons'
 import { ACTIONS } from "./PaletteList"
 import { useToken } from "../context/TokenProvider"
@@ -22,17 +22,21 @@ export function FeedPalette(props){
     }
 
     const likeBtn = 
-        <Button variant={colorMode} size="sm" onClick={onLikeBtn} className="m-1">
-            {props.liked ? <HeartFill color={"red"} /> : <Heart />}
+        <Button variant={colorMode} size="sm" onClick={onLikeBtn} className="h-100">
+            {props.liked ? <HeartFill color={"red"} size={18} /> : <Heart size={16} />}
         </Button>
 
     return <>
         <div className="feed-palette-wrapper">
             <Card className="feed-palette">
-                {props.colors.map((color, i) => <Link key={i} className="feed-palette-row feed-palette-color" 
-                        style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
-                    <span style={{color: pickTextColorWhiteBlack(color)}} className="feed-palette-code">{"#"+color}</span>
-                </Link>)}
+                <Ratio aspectRatio={90}>
+                    <div className="feed-palette-colors-grid">
+                        {props.colors.map((color, i) => <Link key={i} className="feed-palette-color" 
+                                style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
+                            <span style={{color: pickTextColorWhiteBlack(color)}} className="feed-palette-code">{"#"+color}</span>
+                        </Link>)}
+                    </div>
+                </Ratio>
                 <div className="feed-palette-row feed-palette-bottom">
                     <div className="feed-palette-likes">
                         {token ? likeBtn : 
@@ -40,7 +44,7 @@ export function FeedPalette(props){
                                 {likeBtn}
                             </LikePopover>
                         }
-                        <span>{props.likes}</span>
+                        <span className="ms-1">{props.likes}</span>
                     </div>
                     <small>{getTimeElapsed(props.timestamp)}</small>
                 </div>

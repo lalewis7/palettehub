@@ -1,7 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useToken, useTokenUpdate } from "context/TokenProvider";
 import { Nav, Offcanvas, Image, Row, Col } from "react-bootstrap";
-import { Box2Heart, BoxArrowDownRight, BoxArrowRight, EnvelopeAt, Fire, InfoCircle, PlusSquare, Stars } from "react-bootstrap-icons";
+import { Box2Heart, BoxArrowRight, EnvelopeAt, Fire, InfoCircle, PlusSquare, Stars } from "react-bootstrap-icons";
 import { Link, useLocation } from "react-router-dom";
 import ColorModeButton from "./ColorModeButton";
 
@@ -16,7 +16,7 @@ export default function MobileHeaderOffcanvas(props){
     }
 
     return <>
-        <Offcanvas.Header className="mobile-header bg-body-secondary" closeButton>
+        <Offcanvas.Header className="mobile-header bg-body-secondary" closeButton >
             {token ? <>
                 {props.self ? <>
                     <div>

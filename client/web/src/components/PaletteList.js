@@ -98,7 +98,7 @@ export default function PaletteList(props){
         </>
         : <EmptyPage msg={props.empty_msg} />
         : <div id="feed-content-placeholder">{[...Array(15)].map(() => <FeedPalettePlaceholder />)}</div>}
-        {props.loaded && props.count > 0 ? 
+        {props.loaded && props.count > props.page_len ? 
         <Pagination id="feed-pagination">
             {pages()}
         </Pagination>

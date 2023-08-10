@@ -2,6 +2,7 @@
 	display: grid;
 	gap: 0.8rem;
 	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	margin-bottom: 3rem;
 }
 
 #feed-content-placeholder{
