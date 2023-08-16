@@ -26,6 +26,19 @@ public class Palette {
     @JsonProperty("user_id")
     private String userId;
 
+    // @Column(name = "user_name")
+    // @JsonProperty("user_name")
+    // private String userName;
+
+    // @Column(name = "user_img")
+    // @JsonProperty("user_img")
+    // private String userImg;
+
+    // @Column(name = "show_picture")
+    // @JsonProperty(access = Access.WRITE_ONLY)
+    // @JdbcTypeCode(SqlTypes.BOOLEAN)
+    // private boolean userShowImg;
+
     @Valid
     @NotBlank
     @Pattern(regexp = "^[A-Fa-f0-9]{6}$", message="Color 1 is not a 6 digit hex color code.")
@@ -155,6 +168,30 @@ public class Palette {
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
+
+    // public String getUserName() {
+    //     return this.userName;
+    // }
+
+    // public void setUserName(String userName) {
+    //     this.userName = userName;
+    // }
+
+    // public String getUserImg() {
+    //     return this.userImg;//this.userShowImg ? this.userImg : "";
+    // }
+
+    // public void setUserImg(String userImg) {
+    //     this.userImg = userImg;
+    // }
+
+    // public boolean getUserShowImg() {
+    //     return this.userShowImg;
+    // }
+
+    // public void setUserShowImg(boolean userShowImg) {
+    //     this.userShowImg = userShowImg;
+    // }
 
     @Override
     public String toString() {

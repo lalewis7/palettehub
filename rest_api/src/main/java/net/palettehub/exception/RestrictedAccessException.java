@@ -1,4 +1,4 @@
-package net.palettehub.api.user.exception;
+package net.palettehub.exception;
 
 /**
  * RuntimeException thrown when a user tries to access private info of another user.

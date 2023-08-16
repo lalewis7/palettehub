@@ -64,19 +64,34 @@ public class AppSecurity {
             .requestMatchers("/auth").permitAll()
             // -> /users/{userId}
             .requestMatchers("/users/{userId}").permitAll()
-            .requestMatchers(HttpMethod.GET, "/users/{userId}").authenticated()
+            .requestMatchers(HttpMethod.PUT, "/users/{userId}").authenticated()
             // -> /users/{userId}/likes
             .requestMatchers("/users/{userId}/likes").permitAll()
-            .requestMatchers(HttpMethod.GET, "/users/{userId}/likes").authenticated()
+            // -> /users/{userId}/palettes
+            .requestMatchers("/users/{userId}/palettes").permitAll()
+            // -> /users/{userId}/collections
+            .requestMatchers("/users/{userId}/collections").permitAll()
             // -> /palettes
             .requestMatchers("/palettes").permitAll()
             .requestMatchers(HttpMethod.POST, "/palettes").authenticated()
             // -> /palettes/{paletteId}
             .requestMatchers("/palettes/{paletteId}").permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/palettes/{paletteId}").authenticated()
             // -> /palttes/{paletteId}/like
             .requestMatchers("/palettes/{paletteId}/like").permitAll()
             .requestMatchers(HttpMethod.POST, "/palettes/{paletteId}/like").authenticated()
             .requestMatchers(HttpMethod.DELETE, "/palettes/{paletteId}/like").authenticated()
+            // -> /collections
+            .requestMatchers("/collections").permitAll()
+            .requestMatchers(HttpMethod.POST, "/collections").authenticated()
+            // -> collections/{collectionId}
+            .requestMatchers("/collections/{collectionId}").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/collections/{collectionId}").authenticated()
+            .requestMatchers(HttpMethod.DELETE, "/collections/{collectionId}").authenticated()
+            // -> /collections/{collectionId}/palettes/{paletteId}
+            .requestMatchers("/collections/{collectionId}/palettes/{paletteId}").permitAll()
+            .requestMatchers(HttpMethod.POST, "/collections/{collectionId}/palettes/{paletteId}").authenticated()
+            .requestMatchers(HttpMethod.DELETE, "/collections/{collectionId}/palettes/{paletteId}").authenticated()
             // any other request
             .anyRequest().denyAll()
         );

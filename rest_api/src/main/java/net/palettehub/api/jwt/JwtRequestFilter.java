@@ -58,8 +58,9 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             return;
         }
 
-        // get user id from token
+        // get user info from token
         String userId = jwtUtil.getUserIdFromToken(token);
+        String role = jwtUtil.getRoleFromToken(token);
 
         // validate token
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -67,7 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             // UserDetails userDetails = new User(userId, null, new ArrayList<>());
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userId, null, null);
+                    userId, null, jwtUtil.getAuthorities(role));
             usernamePasswordAuthenticationToken
                     .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             // After setting the Authentication in the context, we specify

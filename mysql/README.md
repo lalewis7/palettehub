@@ -15,14 +15,16 @@ When changes are made to the schemas or sprocs and dumped into `02_dump.sql` the
 
 ## Users Schema
 
-| Column Name | Datatype          | Notes             |
-| ----------- | --------          | -----             |
-| **user_id** | CHAR(32)          | primary key, uuid |
-| google_id   | [VARCHAR(255)][1] | google id         |
-| name        | VARCHAR(64)       | google name       |
-| picture_url | VARCHAR(2048)     | google avatar     |
-| email       | VARCHAR(256)      | google email      |
-
+| Column Name    | Datatype          | Notes              |
+| -----------    | --------          | -----              |
+| **user_id**    | CHAR(32)          | primary key, uuid  |
+| google_id      | [VARCHAR(255)][1] | google id          |
+| name           | VARCHAR(64)       | google name        |
+| email          | VARCHAR(256)      | google email       |
+| picture_url    | VARCHAR(2048)     | google avatar      |
+| show_picture   | BOOLEAN           | show google avatar |
+| banner_color_1 | CHAR(6)           | hex value          |
+| banner_color_2 | CHAR(6)           | hex value          |
 
 ## Palettes Schema
 
@@ -43,5 +45,21 @@ When changes are made to the schemas or sprocs and dumped into `02_dump.sql` the
 | -----------    | --------     | -----       |
 | **palette_id** | CHAR(32)     | foreign key |
 | **user_id**    | CHAR(32)     | foreign key |
+
+## Collections Schema
+
+| Column Name       | Datatype     | Notes                |
+| -----------       | --------     | -----                |
+| **collection_id** | CHAR(32)     | primary key, uuid    |
+| **user_id**       | CHAR(32)     | foreign key, user_id | 
+| name              | VARCHAR(32)  | name                 |
+
+## Collection Palettes Schema
+
+| Column Name       | Datatype     | Notes                |
+| -----------       | --------     | -----                |
+| **collection_id** | CHAR(32)     | foreign key          |
+| **palette_id**    | CHAR(32)     | foreign key          |
+
 
 [1]: https://developers.google.com/identity/openid-connect/openid-connect#an-id-tokens-payload

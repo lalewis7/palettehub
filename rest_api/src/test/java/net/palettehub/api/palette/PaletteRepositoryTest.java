@@ -3,7 +3,7 @@ package net.palettehub.api.palette;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -207,7 +207,6 @@ public class PaletteRepositoryTest extends MySQLContainerBaseTest {
         ResultSet res = ps.executeQuery();
 
         assertTrue(res.next());
-        assertEquals(res.getString("user_id"), palette.getUserId());
         assertEquals(res.getString("user_id"), palette.getUserId());
         assertEquals(res.getString("color_1"), palette.getColor1());
         assertEquals(res.getString("color_2"), palette.getColor2());

@@ -32,16 +32,26 @@ The REST API has a Postman workspace for testing the different endpoints. Check 
 
 ## API Endpoints Table
 
-| Method     | URL                                   |
-| ------     | ---                                   |
-| **POST**   | `/auth`                               |
-| **GET**    | `/users/:userId`                      |
-| **GET**    | `/users/:userId/likes`                |
-| **GET**    | `/palettes`                           |
-| **POST**   | `/palettes`                           |
-| **GET**    | `/palettes/:paletteId`                |
-| **POST**   | `/palettes/:paletteId/like`           |
-| **DELETE** | `/palettes/:paletteId/like`           |
+| Method     | URL                                              |
+| ------     | ---                                              |
+| **POST**   | `/auth`                                          |
+| **GET**    | `/users/:userId`                                 |
+| **PUT**    | `/users/:userId`                                 |
+| **GET**    | `/users/:userId/likes`                           |
+| **GET**    | `/users/:userId/palettes`                        |
+| **GET**    | `/users/:userId/collections`                     |
+| **GET**    | `/palettes`                                      |
+| **POST**   | `/palettes`                                      |
+| **GET**    | `/palettes/:paletteId`                           |
+| **DELETE** | `/palettes/:paletteId`                           |
+| **POST**   | `/palettes/:paletteId/like`                      |
+| **DELETE** | `/palettes/:paletteId/like`                      |
+| **POST**   | `/collections/`                                  |
+| **GET**    | `/collections/:collectionId`                     |
+| **PUT**    | `/collections/:collectionId`                     |
+| **DELETE** | `/collections/:collectionId`                     |
+| **POST**   | `/collections/:collectionId/palettes/:paletteId` |
+| **DELETE** | `/collections/:collectionId/palettes/:paletteId` |
 
 ---
 
@@ -282,12 +292,28 @@ Error Codes
 
 ## Models
 
+### Collection Model
+
+```json
+{
+    "collection_id": "948186ea143d11eebe560242ac120002",
+    "user_id": "a1b72978143d11eebe560242ac120002",
+    "user_img": "https://lh3.googleusercontent.com/a-/e2718281828459045235360uler",
+    "user_name": "Elisa Beckett",
+    "name": "Summertime Palettes",
+    "palettes": [ /* array of palette models */ ],
+    "count": 23 /* Total number of palettes in list (used for pagination) */
+}
+```
+
 ### Palette Model
 
 ```json
 {
     "palette_id": "948186ea143d11eebe560242ac120002",
     "user_id": "a1b72978143d11eebe560242ac120002",
+    "user_img": "https://lh3.googleusercontent.com/a-/e2718281828459045235360uler",
+    "user_name": "Elisa Beckett",
     "color_1": "FFFFFF",
     "color_2": "123456",
     "color_3": "DDDDDD",
@@ -314,6 +340,11 @@ Error Codes
     "google_id": "3141592653589793238",
     "name": "Elisa Beckett",
     "picture_url": "https://lh3.googleusercontent.com/a-/e2718281828459045235360uler",
-    "email": "elisa.g.beckett@gmail.com"
+    "email": "elisa.g.beckett@gmail.com",
+    "banner_color_left": "213719",
+    "banner_color_right": "93d01d",
+    "palettes": 23,
+    "likes": 7, /* Likes received on all palettes */
+    "liked": 5 /* Amount of likes you've given to palettes */
 }
 ```

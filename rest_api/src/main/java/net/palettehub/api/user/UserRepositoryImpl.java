@@ -1,11 +1,17 @@
 package net.palettehub.api.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
+import net.palettehub.api.collection.Collection;
+import net.palettehub.api.collection.CollectionList;
+import net.palettehub.api.collection.CollectionRepositoryImpl;
+import net.palettehub.api.palette.Palette;
 import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.palette.PaletteRepositoryImpl;
 
@@ -73,9 +79,89 @@ public class UserRepositoryImpl implements UserRepository{
         return (User) query.getResultStream().findFirst().orElse(null);
     }
 
+    private PaletteList userPaletteList(String sproc, String userId, String requesterId, int page){
+        // create sproc query
+        StoredProcedureQuery query = em.createStoredProcedureQuery(sproc, Palette.class);
+        
+        // register params
+        query.registerStoredProcedureParameter("id", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("userId", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pageSize", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pageNum", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("count", Integer.class, ParameterMode.OUT);
+
+        // set params
+        query.setParameter("id", userId);
+        query.setParameter("userId", requesterId);
+        query.setParameter("pageSize", PaletteRepositoryImpl.PAGE_SIZE);
+        query.setParameter("pageNum", page);
+
+        // get output param count
+        int count = ((Number) query.getOutputParameterValue("count")).intValue();
+
+        // get result list
+        @SuppressWarnings("unchecked")
+        List<Palette> palettes = query.getResultList();
+
+        // return palette list
+        return new PaletteList(palettes, count);
+    }
+
     @Override
-    public PaletteList getLikedPalettes(String userId, int page){
-        return PaletteRepositoryImpl.getPalettes(userId, page, "find_user_liked_palettes", em);
+    public PaletteList getLikedPalettes(String userId, String requesterId, int page){
+        return userPaletteList("find_user_liked_palettes", userId, requesterId, page);
+    }
+
+    @Override
+    public PaletteList getPalettes(String userId, String requesterId, int page){
+        return userPaletteList("find_user_palettes", userId, requesterId, page);
+    }
+
+    @Override
+    public boolean editUser(String userId, User user){
+        StoredProcedureQuery query = em.createStoredProcedureQuery("edit_user", User.class);
+
+        query.registerStoredProcedureParameter("id", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("newName", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("newPicture", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("showPicture", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("newBannerColor1", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("newBannerColor2", String.class, ParameterMode.IN);
+
+        query.setParameter("id", userId);
+        query.setParameter("newName", user.getName());
+        query.setParameter("newPicture", user.getName());
+        query.setParameter("showPicture", user.getName());
+        query.setParameter("newBannerColor1", user.getName());
+        query.setParameter("newBannerColor2", user.getName());
+
+        return query.executeUpdate() > 0;
+    }
+
+    @Override
+    public CollectionList getUserCollections(String userId, int page){
+        StoredProcedureQuery query = em.createStoredProcedureQuery("find_user_collections", Collection.class);
+
+        query.registerStoredProcedureParameter("id", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pageSize", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("pageNum", Integer.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("count", Integer.class, ParameterMode.OUT);
+
+        query.setParameter("id", userId);
+        query.setParameter("pageSize", CollectionRepositoryImpl.PAGE_SIZE);
+        query.setParameter("pageNum", page);
+
+        int count = ((Number) query.getOutputParameterValue("count")).intValue();
+
+        @SuppressWarnings("unchecked")
+        List<Collection> collections = query.getResultList();
+
+        for (int i = 0; i < collections.size(); i++){
+            collections.set(i, CollectionRepositoryImpl.getCollection(collections.get(i).getCollectionId(), em));
+        }
+
+        return new CollectionList(collections, count);
+
     }
     
 }

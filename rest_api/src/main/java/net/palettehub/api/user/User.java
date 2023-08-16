@@ -1,6 +1,7 @@
 package net.palettehub.api.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +21,7 @@ public class User {
     private String userId;
 
     @Column(name = "google_id")
-    @JsonProperty("google_id")
+    @JsonProperty(defaultValue = "google_id", access = Access.WRITE_ONLY)
     private String googleId;
 
     @Column
@@ -31,8 +32,24 @@ public class User {
     private String pictureUrl;
 
     @Column
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String email;
 
+    @Column(name = "show_picture")
+    @JsonProperty("picture_visible")
+    private boolean showPicture;
+
+    @Column(name = "banner_color_left")
+    @JsonProperty("banner_color_left")
+    private String bannerColorLeft;
+
+    @Column(name = "banner_color_right")
+    @JsonProperty("banner_color_right")
+    private String bannerColorRight;
+
+    @Column(name = "role")
+    @JsonProperty("role")
+    private String role;
 
     public String getUserId() {
         return this.userId;
@@ -72,6 +89,42 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isShowPicture() {
+        return this.showPicture;
+    }
+
+    public boolean getShowPicture() {
+        return this.showPicture;
+    }
+
+    public void setShowPicture(boolean showPicture) {
+        this.showPicture = showPicture;
+    }
+
+    public String getBannerColorLeft() {
+        return this.bannerColorLeft;
+    }
+
+    public void setBannerColorLeft(String bannerColorLeft) {
+        this.bannerColorLeft = bannerColorLeft;
+    }
+
+    public String getBannerColorRight() {
+        return this.bannerColorRight;
+    }
+
+    public void setBannerColorRight(String bannerColorRight) {
+        this.bannerColorRight = bannerColorRight;
+    }
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

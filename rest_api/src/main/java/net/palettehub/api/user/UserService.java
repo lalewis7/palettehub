@@ -15,12 +15,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 
+import net.palettehub.api.collection.CollectionList;
 import net.palettehub.api.jwt.JwtUtil;
 import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.palette.exception.PageValueInvalidException;
 import net.palettehub.api.user.exception.GoogleAuthException;
-import net.palettehub.api.user.exception.RestrictedAccessException;
 import net.palettehub.api.user.exception.User404Exception;
+import net.palettehub.exception.RestrictedAccessException;
 
 /**
  * User service code with the business logic of the user endpoints.
@@ -40,28 +41,33 @@ public class UserService {
 	private String clientId;
 
     public String authenticate(GoogleAuth creds){
-        User user;
+        User googleUser;
         String errMsg = "Google authentication failed.";
         try {
-            user = getGoogleProfile(creds);
+            googleUser = getGoogleProfile(creds);
         } catch (GeneralSecurityException e) {
             throw new GoogleAuthException(errMsg);
         } catch (IOException e) {
             throw new GoogleAuthException(errMsg);
         }
-        if (user == null) throw new GoogleAuthException(errMsg);
-        String userId = createUser(user);
-        return jwtUtil.generateToken(userId);
+        if (googleUser == null) throw new GoogleAuthException(errMsg);
+        User user = createUser(googleUser);
+        return jwtUtil.generateToken(user.getUserId(), jwtUtil.getClaims(user.getRole()));
     }
 
-    private String createUser(User user){
+    private User createUser(User user){
         User userLookup = userRepository.getUserByGoogleId(user.getGoogleId());
         // user doesn't exist (sign up)
-        if (userLookup == null) 
-            return userRepository.createUser(user);
+        if (userLookup == null) {
+            String id = userRepository.createUser(user);
+            User newUser = new User();
+            newUser.setUserId(id);
+            newUser.setRole("user");
+            return newUser;
+        }
         // user already exists (logging in)
         else 
-            return userLookup.getUserId();
+            return userLookup;
     }
 
     private User getGoogleProfile(GoogleAuth creds) throws GeneralSecurityException, IOException {
@@ -98,6 +104,11 @@ public class UserService {
         if (userId.length() != 32)
             throw new User404Exception("User not found.");
         User user = userRepository.getUserById(userId);
+        // remove user image if censored
+        // if picture not visible and someone else or not admin
+        if (!(user.getShowPicture() && !getUserId().equals(userId)) || !hasAuthority("ROLE_ADMIN")){
+            user.setPictureUrl("");
+        }
         // 404 error
         if (user == null)
             throw new User404Exception("User not found.");
@@ -115,14 +126,63 @@ public class UserService {
             try {pageValue = Integer.parseInt(page);}
             catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
         }
-        // does not have access
-        if (!userId.equals(getUserId()))
-            throw new RestrictedAccessException("You do not have access to this users profile.");
         // not uuid
         if (userId.length() != 32)
             throw new User404Exception("User not found.");
         // return list
-        return userRepository.getLikedPalettes(userId, pageValue);
+        return userRepository.getLikedPalettes(userId, getUserId(), pageValue);
+    }
+
+    // edit user
+    public void editUser(String userId, User user){
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // owner or admin
+        if (userId.equals(getUserId()) || hasAuthority("ROLE_ADMIN"))
+            userRepository.editUser(userId, user);
+        else 
+            throw new RestrictedAccessException("You do not have access to edit this user.");
+    }
+
+    // user palettes
+    public PaletteList getUserPalettes(String userId, String page){
+        // check page value
+        int pageValue;
+        if (page.equals("")){ // no page given set to 1
+            pageValue = 1;
+        }
+        else { // check passed page value
+            try {pageValue = Integer.parseInt(page);}
+            catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
+        }
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // return list
+        return userRepository.getPalettes(userId, getUserId(), pageValue);
+    }
+
+    // user collections
+    public CollectionList getCollections(String userId, String page){
+        // check page value
+        int pageValue;
+        if (page.equals("")){ // no page given set to 1
+            pageValue = 1;
+        }
+        else { // check passed page value
+            try {pageValue = Integer.parseInt(page);}
+            catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
+        }
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // return list
+        return userRepository.getUserCollections(userId, pageValue);
+    }
+
+    private boolean hasAuthority(Object authority){
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority);
     }
 
     private String getUserId(){
