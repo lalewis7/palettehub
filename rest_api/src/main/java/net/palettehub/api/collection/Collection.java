@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import net.palettehub.api.palette.Palette;
 
 /**
@@ -42,7 +43,9 @@ public class Collection {
     @Column
     private String name;
 
+    @Transient
     private List<Palette> palettes;
+    @Transient
     private int count;
 
     public String getCollectionId() {

@@ -360,11 +360,13 @@ BEGIN
     SELECT count(*) INTO count FROM palettes;
     
     # Get list of palettes
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
-    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = p.user_id)
-    FROM palettes AS p 
+    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
+    FROM palettes p
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     ORDER BY posted_timestamp DESC
     LIMIT pageSize
     OFFSET page_offset;
@@ -399,11 +401,13 @@ BEGIN
     SELECT count(*) INTO count FROM palettes;
     
     # Get list of palettes
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
-    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = p.user_id)
-    FROM palettes AS p 
+    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
+    FROM palettes p 
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     ORDER BY likes DESC
     LIMIT pageSize
     OFFSET page_offset;
@@ -440,9 +444,11 @@ BEGIN
     WHERE user_id = id;
     
     # Get List of collections
-	SELECT collection_id, user_id, name,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = c.user_id)
-    FROM collections AS c
+	SELECT collection_id, c.user_id, name,
+    u.user_name, u.user_img, u.show_picture
+    FROM collections c
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     WHERE user_id = id;
 END ;;
 DELIMITER ;
@@ -478,11 +484,13 @@ BEGIN
     WHERE (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) = true;
     
     # Get list of palettes
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
-    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = p.user_id)
-    FROM palettes AS p 
+    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
+    FROM palettes p 
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     WHERE (SELECT COUNT(*) > 0  FROM likes WHERE palette_id = p.palette_id AND user_id = id)
     ORDER BY posted_timestamp DESC
     LIMIT pageSize
@@ -521,11 +529,13 @@ BEGIN
     WHERE (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) = true;
     
     # Get list of palettes
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
-    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = p.user_id)
-    FROM palettes AS p 
+    (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
+    FROM palettes p 
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     HAVING p.user_id = id
     ORDER BY posted_timestamp DESC
     LIMIT pageSize
@@ -550,9 +560,11 @@ CREATE DEFINER=`root`@`%` PROCEDURE `get_collection_by_id`(
 	IN id CHAR(32)
 )
 BEGIN
-	SELECT collection_id, user_id, name,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = id)
-    FROM collections
+	SELECT collection_id, c.user_id, name,
+    u.user_name, u.user_img, u.show_picture
+    FROM collections c
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = c.user_id
     WHERE collection_id = id;
 END ;;
 DELIMITER ;
@@ -586,12 +598,15 @@ BEGIN
     SELECT count(*) INTO count FROM collection_palettes WHERE collection_id = id;
     
     # Get list of palettes
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
     (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
-    FROM palettes AS p
-    INNER JOIN collection_palettes as c
+    FROM palettes p
+    INNER JOIN collection_palettes c
     ON p.palette_id = c.palette_id
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     WHERE c.collection_id = id
     ORDER BY likes DESC
     LIMIT pageSize
@@ -617,11 +632,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_palette_by_id`(
     IN userId VARCHAR(32)
 )
 BEGIN
-	SELECT palette_id, user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+    u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
-    (SELECT COUNT(*) > 0 as liked FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked,
-    (SELECT name AS user_name, picture_url AS user_img, show_picture FROM users WHERE user_id = p.user_id)
-    FROM palettes AS p 
+    (SELECT COUNT(*) > 0 as liked FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
+    FROM palettes p 
+    JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
+    ON u.user_id = p.user_id
     WHERE p.palette_id = id;
 END ;;
 DELIMITER ;
@@ -643,7 +660,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_by_gid`(
 	IN gid CHAR(32)
 )
 BEGIN
-	SELECT user_id, google_id, name, picture_url, email, show_picture, banner_color_1, banner_color_2
+	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2
     FROM users 
     WHERE google_id = gid;
 END ;;
@@ -666,7 +683,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_by_id`(
 	IN id CHAR(32)
 )
 BEGIN
-	SELECT user_id, google_id, name, picture_url, email, show_picture, banner_color_1, banner_color_2
+	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2
     FROM users 
     WHERE user_id = id;
 END ;;
@@ -791,4 +808,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-16  1:21:38
+-- Dump completed on 2023-08-17  2:25:29

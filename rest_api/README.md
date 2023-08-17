@@ -20,7 +20,15 @@ For registration, clients use a third party service: [Sign In with Google for We
 
 > This project uses [Testcontainers](https://testcontainers.com/) to create containerized mysql databases.
 
-To the run the unit test scripts you can use the following command:
+To the run the unit test scripts you can use the following commands:
+
+Build the target folder
+
+```
+mvn clean install -DskipTests
+```
+
+Run the test scripts:
 
 ```
 mvn clean test

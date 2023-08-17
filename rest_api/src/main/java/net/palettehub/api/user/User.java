@@ -39,11 +39,11 @@ public class User {
     @JsonProperty("picture_visible")
     private boolean showPicture;
 
-    @Column(name = "banner_color_left")
+    @Column(name = "banner_color_1")
     @JsonProperty("banner_color_left")
     private String bannerColorLeft;
 
-    @Column(name = "banner_color_right")
+    @Column(name = "banner_color_2")
     @JsonProperty("banner_color_right")
     private String bannerColorRight;
 
