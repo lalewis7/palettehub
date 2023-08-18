@@ -17,6 +17,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import net.palettehub.api.MySQLContainerBaseTest;
+import net.palettehub.api.collection.Collection;
+import net.palettehub.api.collection.CollectionList;
 import net.palettehub.api.palette.Palette;
 import net.palettehub.api.palette.PaletteList;
 
@@ -25,6 +27,8 @@ import static net.palettehub.api.AppTest.deleteAllData;
 import static net.palettehub.api.palette.PaletteRepositoryTest.getSamplePalettes;
 import static net.palettehub.api.palette.PaletteRepositoryTest.insertPalettePreparedStatement;
 import static net.palettehub.api.palette.PaletteRepositoryTest.insertLikePreparedStatement;
+import static net.palettehub.api.collection.CollectionRepositoryTest.getSampleColletions;
+import static net.palettehub.api.collection.CollectionRepositoryTest.insertCollectionPreparedStatement;;
 
 /**
  * Test class for testing all palette sprocs using a UserRepository.
@@ -56,6 +60,9 @@ public class UserRepositoryTest extends MySQLContainerBaseTest{
             user.setEmail(AppTest.generateRandomString(10, AppTest.LETTERS)+"@example.com");
             user.setName(AppTest.generateRandomString(8, AppTest.LETTERS) + " " + AppTest.generateRandomString(6, AppTest.LETTERS));
             user.setPictureUrl("https://www.example.com/"+AppTest.generateRandomString(20, AppTest.LETTERS));
+            user.setBannerColorLeft(AppTest.generateRandomString(6, AppTest.HEX));
+            user.setBannerColorRight(AppTest.generateRandomString(6, AppTest.HEX));
+            user.setRole("user");
             users[i] = user;
         }
         return users;
@@ -69,12 +76,16 @@ public class UserRepositoryTest extends MySQLContainerBaseTest{
      * @throws SQLException
      */
     public static PreparedStatement insertUserPreparedStatement(Connection conn, User user) throws SQLException{
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO users (user_id, google_id, email, name, picture_url) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO users (user_id, google_id, email, name, picture_url, show_picture, role, banner_color_1, banner_color_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setString(1, user.getUserId());
         ps.setString(2, user.getGoogleId());
         ps.setString(3, user.getEmail());
         ps.setString(4, user.getName());
         ps.setString(5, user.getPictureUrl());
+        ps.setBoolean(6, user.getShowPicture());
+        ps.setString(7, user.getRole());
+        ps.setString(8, user.getBannerColorLeft());
+        ps.setString(9, user.getBannerColorRight());
         return ps;
     }
 
@@ -167,8 +178,73 @@ public class UserRepositoryTest extends MySQLContainerBaseTest{
         assertEquals(likedPalette.getColor3(), palette.getColor3());
         assertEquals(likedPalette.getColor4(), palette.getColor4());
         assertEquals(likedPalette.getColor5(), palette.getColor5());
-        // assertEquals(likedPalette.getLikes(), 1);
-        // assertTrue(likedPalette.isLiked());
+        assertEquals(likedPalette.getLikes(), 1);
+        assertTrue(likedPalette.isLiked());
+    }
+
+    @Test
+    public void checkUserPalettes() throws SQLException{
+        User user = getSampleUsers(1)[0];
+        PreparedStatement ps = insertUserPreparedStatement(dataSource.getConnection(), user);
+        assertEquals(1, ps.executeUpdate());
+
+        Palette palette = getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
+        PreparedStatement ps2 = insertPalettePreparedStatement(dataSource.getConnection(), palette);
+        assertEquals(1, ps2.executeUpdate());
+
+        PaletteList paletteList = usersRepository.getPalettes(user.getUserId(), user.getUserId(), 1);
+        assertEquals(1, paletteList.getCount());
+        Palette ownPalette = paletteList.getPalettes().get(0);
+        assertEquals(palette.getPaletteId(), ownPalette.getPaletteId());
+        assertEquals(palette.getUserId(), ownPalette.getUserId());
+        assertEquals(palette.getColor1(), ownPalette.getColor1());
+        assertEquals(palette.getColor2(), ownPalette.getColor2());
+        assertEquals(palette.getColor3(), ownPalette.getColor3());
+        assertEquals(palette.getColor4(), ownPalette.getColor4());
+        assertEquals(palette.getColor5(), ownPalette.getColor5());
+    }
+
+    @Test
+    public void checkUserCollections() throws SQLException{
+        User user = getSampleUsers(1)[0];
+        PreparedStatement ps = insertUserPreparedStatement(dataSource.getConnection(), user);
+        assertEquals(1, ps.executeUpdate());
+
+        Collection collection = getSampleColletions(1)[0];
+        collection.setUserId(user.getUserId());
+        PreparedStatement ps2 = insertCollectionPreparedStatement(dataSource.getConnection(), collection);
+        assertEquals(1, ps2.executeUpdate());
+
+        CollectionList collectionList = usersRepository.getUserCollections(user.getUserId(), 1);
+        assertEquals(1, collectionList.getCount());
+        Collection ownCollection = collectionList.getCollections().get(0);
+        assertEquals(collection.getCollectionId(), ownCollection.getCollectionId());
+        assertEquals(collection.getUserId(), ownCollection.getUserId());
+        assertEquals(collection.getName(), ownCollection.getName());
+    }
+
+    @Test
+    public void checkEditUser() throws SQLException {
+        User user = getSampleUsers(1)[0];
+        PreparedStatement ps = insertUserPreparedStatement(dataSource.getConnection(), user);
+        assertEquals(ps.executeUpdate(), 1);
+
+        User changedUser = getSampleUsers(1)[0];
+        changedUser.setUserId(user.getUserId());
+        usersRepository.editUser(user.getUserId(), changedUser);
+
+        PreparedStatement ps2 = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE user_id = ?");
+        ps2.setString(1, user.getUserId());
+        ResultSet res = ps2.executeQuery();
+
+        assertTrue(res.next());
+        assertEquals(res.getString("name"), changedUser.getName());
+        assertEquals(res.getString("picture_url"), changedUser.getPictureUrl());
+        assertEquals(res.getBoolean("show_picture"), changedUser.getShowPicture());
+        assertEquals(res.getString("role"), changedUser.getRole());
+        assertEquals(res.getString("banner_color_1"), changedUser.getBannerColorLeft());
+        assertEquals(res.getString("banner_color_2"), changedUser.getBannerColorRight());
     }
 
 }

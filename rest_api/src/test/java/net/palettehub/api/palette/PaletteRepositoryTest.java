@@ -216,6 +216,23 @@ public class PaletteRepositoryTest extends MySQLContainerBaseTest {
     }
 
     @Test
+    public void checkDeletePalette() throws SQLException {
+        User user = getSampleUsers(1)[0];
+        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+
+        Palette palette = getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
+        assertEquals(1, insertPalettePreparedStatement(dataSource.getConnection(), palette).executeUpdate());
+
+        paletteRepository.deletePalette(palette.getPaletteId());
+
+        PreparedStatement ps = dataSource.getConnection().prepareStatement("SELECT * FROM palettes WHERE palette_id = ?");
+        ps.setString(1, palette.getPaletteId());
+        ResultSet res = ps.executeQuery();
+        assertEquals(false, res.next());
+    }
+
+    @Test
     public void checkLikePalette() throws SQLException{
         User user = getSampleUsers(1)[0];
         assertEquals(insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate(), 1);

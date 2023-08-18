@@ -124,18 +124,19 @@ public class UserRepositoryImpl implements UserRepository{
         query.registerStoredProcedureParameter("id", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("newName", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("newPicture", String.class, ParameterMode.IN);
-        query.registerStoredProcedureParameter("showPicture", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("showPicture", Boolean.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("newBannerColor1", String.class, ParameterMode.IN);
         query.registerStoredProcedureParameter("newBannerColor2", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
         query.setParameter("id", userId);
         query.setParameter("newName", user.getName());
-        query.setParameter("newPicture", user.getName());
-        query.setParameter("showPicture", user.getName());
-        query.setParameter("newBannerColor1", user.getName());
-        query.setParameter("newBannerColor2", user.getName());
+        query.setParameter("newPicture", user.getPictureUrl());
+        query.setParameter("showPicture", user.getShowPicture());
+        query.setParameter("newBannerColor1", user.getBannerColorLeft());
+        query.setParameter("newBannerColor2", user.getBannerColorRight());
 
-        return query.executeUpdate() > 0;
+        return ((Number) query.getOutputParameterValue("result")).intValue() > 0;
     }
 
     @Override

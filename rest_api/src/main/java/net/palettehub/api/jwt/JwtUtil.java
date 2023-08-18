@@ -36,11 +36,6 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtil {
 
 	/**
-	 * Lifespan of tokens in seconds. Currently 5 hours.
-	 */
-    public static final long JWT_LIFESPAN = 5 * 60 * 60;
-
-	/**
 	 * Name for the role claim in JWT payload.
 	 */
 	public static final String ROLE_CLAIM = "role";
@@ -50,6 +45,12 @@ public class JwtUtil {
 	 */
     @Value("${jwt.secret}")
 	private String secret;
+
+	/**
+	 * Lifespan of tokens in seconds.
+	 */
+	@Value("${jwt.lifespan}")
+	private long lifespan;
 
     /**
 	 * Retrieves the user id from the payload of a token.
@@ -119,7 +120,7 @@ public class JwtUtil {
 	 */
 	public String generateToken(String subject, Map<String, Object> claims) {
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_LIFESPAN * 1000))
+				.setExpiration(new Date(System.currentTimeMillis() + lifespan * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 

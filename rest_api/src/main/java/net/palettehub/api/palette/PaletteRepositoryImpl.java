@@ -134,10 +134,11 @@ public class PaletteRepositoryImpl implements PaletteRepository {
         StoredProcedureQuery query = em.createStoredProcedureQuery("delete_palette", Palette.class);
 
         query.registerStoredProcedureParameter("paletteId", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
         query.setParameter("paletteId", paletteId);
 
-        return query.executeUpdate() > 0;
+        return ((Number) query.getOutputParameterValue("result")).intValue() > 0;
     }
 
 }

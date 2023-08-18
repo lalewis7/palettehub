@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,6 +53,22 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
             collections[i] = collection;
         }
         return collections;
+    }
+
+    /**
+     * Prepares a PreparedStatement object to insert a new collection.
+     * @param conn SQL connection
+     * @param collection collection data to be inserted
+     * @return Insert PreparedStatement
+     * @throws SQLException
+     */
+    public static PreparedStatement insertCollectionPreparedStatement(Connection conn, Collection collection) throws SQLException{
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO collections " + 
+            "(collection_id, user_id, name) VALUES (?, ?, ?)");
+        ps.setString(1, collection.getCollectionId());
+        ps.setString(2, collection.getUserId());
+        ps.setString(3, collection.getName());
+        return ps;
     }
 
     @After

@@ -66,8 +66,14 @@ public class UserService {
             return newUser;
         }
         // user already exists (logging in)
-        else 
+        else {
+            // update image
+            if (!user.getPictureUrl().equals(userLookup.getPictureUrl())){
+                userLookup.setPictureUrl(user.getPictureUrl());
+                userRepository.editUser(userLookup.getUserId(), userLookup);
+            }
             return userLookup;
+        }
     }
 
     private User getGoogleProfile(GoogleAuth creds) throws GeneralSecurityException, IOException {
@@ -97,23 +103,21 @@ public class UserService {
     }
 
     public User getUser(String userId){
-        // does not have access
-        if (!userId.equals(getUserId())) 
-            throw new RestrictedAccessException("You do not have access to this users profile.");
         // not uuid
         if (userId.length() != 32)
             throw new User404Exception("User not found.");
         User user = userRepository.getUserById(userId);
-        // remove user image if censored
-        // if picture not visible and someone else or not admin
-        if (!(user.getShowPicture() && !getUserId().equals(userId)) || !hasAuthority("ROLE_ADMIN")){
-            user.setPictureUrl("");
-        }
         // 404 error
         if (user == null)
             throw new User404Exception("User not found.");
-        else
+        else {
+            // remove user image if censored
+            // if picture not visible and someone else or not admin
+            if (!(user.getShowPicture() && !getUserId().equals(userId)) || !hasAuthority("ROLE_ADMIN")){
+                user.setPictureUrl("");
+            }
             return user;
+        }
     }
 
     public PaletteList getLikedPalettes(String userId, String page){
@@ -138,6 +142,12 @@ public class UserService {
         // not uuid
         if (userId.length() != 32)
             throw new User404Exception("User not found.");
+        // check if user exists
+        User userLookup = userRepository.getUserById(userId);
+        if (userLookup == null)
+            throw new User404Exception("User not found.");
+        // not allowed to manually change picture url
+        user.setPictureUrl(userLookup.getPictureUrl());
         // owner or admin
         if (userId.equals(getUserId()) || hasAuthority("ROLE_ADMIN"))
             userRepository.editUser(userId, user);

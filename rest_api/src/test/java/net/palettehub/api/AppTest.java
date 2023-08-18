@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class AppTest {
     
     public static void deleteAllData(Connection conn) throws SQLException{
-        String[] tables = {"likes", "palettes", "users"};
+        String[] tables = {"likes", "palettes", "collection_palettes", "collections", "users"};
         for (int i = 0; i < tables.length; i++){
             PreparedStatement ps = conn.prepareStatement("DELETE FROM "+tables[i]);
             //ps.setString(1, tables[i]);

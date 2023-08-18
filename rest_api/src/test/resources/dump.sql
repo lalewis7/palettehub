@@ -242,11 +242,13 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`%` PROCEDURE `delete_collection`(
-	IN id CHAR(32)
+	IN id CHAR(32),
+    OUT result INT
 )
 BEGIN
 	DELETE FROM collection_palettes WHERE collection_id = id;
     DELETE FROM collections WHERE collection_id = id;
+    SET result = ROW_COUNT();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -264,7 +266,8 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`%` PROCEDURE `delete_palette`(
-	IN paletteId CHAR(32)
+	IN paletteId CHAR(32),
+    OUT result INT
 )
 BEGIN
 	# Delete all likes
@@ -272,7 +275,9 @@ BEGIN
     # Delete from collections
     DELETE FROM collection_palettes WHERE palette_id = paletteId;
     # Delete palette
-    DELETE FROM collection_palettes WHERE palette_id = paletteId;
+    DELETE FROM palettes WHERE palette_id = paletteId;
+    # Output success
+    SET result = ROW_COUNT();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -291,12 +296,14 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`%` PROCEDURE `edit_collection`(
 	IN id CHAR(32),
-    IN collectionName VARCHAR(32)
+    IN collectionName VARCHAR(32),
+    OUT result INT
 )
 BEGIN
 	UPDATE collections
     SET name = collectionName
     WHERE collection_id = id;
+    SET result = ROW_COUNT();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -319,7 +326,8 @@ CREATE DEFINER=`root`@`%` PROCEDURE `edit_user`(
     IN newPicture VARCHAR(2048),
     IN showPicture BOOLEAN,
     IN newBannerColor1 CHAR(6),
-    IN newBannerColor2 CHAR(6)
+    IN newBannerColor2 CHAR(6),
+    OUT result INT
 )
 BEGIN
 	UPDATE users
@@ -329,6 +337,7 @@ BEGIN
     banner_color_1 = newBannerColor1,
     banner_color_2 = newBannerColor2
     WHERE user_id = id;
+    SET result = ROW_COUNT();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -448,8 +457,8 @@ BEGIN
     u.user_name, u.user_img, u.show_picture
     FROM collections c
     JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
-    ON u.user_id = p.user_id
-    WHERE user_id = id;
+    ON c.user_id = u.user_id
+    WHERE c.user_id = id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -525,8 +534,8 @@ BEGIN
     
 	# Get total count
     SELECT count(*) INTO count 
-    FROM palettes as p
-    WHERE (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) = true;
+    FROM palettes p
+    WHERE p.user_id = id;
     
     # Get list of palettes
 	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
@@ -808,4 +817,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-17  2:25:29
+-- Dump completed on 2023-08-18  1:47:29
