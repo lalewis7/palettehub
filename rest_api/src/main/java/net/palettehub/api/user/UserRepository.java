@@ -32,6 +32,6 @@ public interface UserRepository {
     boolean editUser(String userId, User user);
 
     // get collections
-    CollectionList getUserCollections(String userId, int page);
+    CollectionList getUserCollections(String userId, String requesterId, int page);
 
 }

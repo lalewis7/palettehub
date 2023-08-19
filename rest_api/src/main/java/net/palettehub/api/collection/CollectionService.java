@@ -5,7 +5,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import net.palettehub.api.collection.exception.Collection404Exception;
+import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.palette.PaletteService;
+import net.palettehub.api.palette.exception.PageValueInvalidException;
 import net.palettehub.exception.RestrictedAccessException;
 
 @Service
@@ -23,8 +25,7 @@ public class CollectionService {
         return collectionRepository.createCollection(collection);
     }
 
-    // GET	/collections/:collectionId
-    public Collection getCollection(String collectionId){
+    private Collection getCollection(String collectionId){
         // not uuid
         if (collectionId.length() != 32)
             throw new Collection404Exception("Collection not found.");
@@ -34,6 +35,24 @@ public class CollectionService {
             throw new Collection404Exception("Collection not found.");
         else
             return collection;
+    }
+
+    // GET	/collections/:collectionId
+    public Collection getCollection(String collectionId, String page){
+        // check page value
+        int pageValue;
+        if (page.equals("")){ // no page given set to 1
+            pageValue = 1;
+        }
+        else { // check passed page value
+            try {pageValue = Integer.parseInt(page);}
+            catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
+        }
+        Collection collection = getCollection(collectionId);
+        PaletteList paletteList = collectionRepository.getCollectionPalettes(collectionId, getUserId(), pageValue);
+        collection.setCount(paletteList.getCount());
+        collection.setPalettes(paletteList.getPalettes());
+        return collection;
     }
 
     // PUT	/collections/:collectionId

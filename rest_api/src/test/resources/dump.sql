@@ -607,7 +607,7 @@ BEGIN
     SELECT count(*) INTO count FROM collection_palettes WHERE collection_id = id;
     
     # Get list of palettes
-	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
+	SELECT p.palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
     u.user_name, u.user_img, u.show_picture,
     (SELECT COUNT(*) FROM likes WHERE palette_id = p.palette_id) AS likes,
     (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) as liked
@@ -817,4 +817,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-18  1:47:29
+-- Dump completed on 2023-08-19  1:36:02

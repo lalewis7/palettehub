@@ -188,7 +188,7 @@ public class UserService {
         if (userId.length() != 32)
             throw new User404Exception("User not found.");
         // return list
-        return userRepository.getUserCollections(userId, pageValue);
+        return userRepository.getUserCollections(userId, getUserId(), pageValue);
     }
 
     private boolean hasAuthority(Object authority){

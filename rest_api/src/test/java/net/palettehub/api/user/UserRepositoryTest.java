@@ -216,7 +216,7 @@ public class UserRepositoryTest extends MySQLContainerBaseTest{
         PreparedStatement ps2 = insertCollectionPreparedStatement(dataSource.getConnection(), collection);
         assertEquals(1, ps2.executeUpdate());
 
-        CollectionList collectionList = usersRepository.getUserCollections(user.getUserId(), 1);
+        CollectionList collectionList = usersRepository.getUserCollections(user.getUserId(), user.getUserId(), 1);
         assertEquals(1, collectionList.getCount());
         Collection ownCollection = collectionList.getCollections().get(0);
         assertEquals(collection.getCollectionId(), ownCollection.getCollectionId());

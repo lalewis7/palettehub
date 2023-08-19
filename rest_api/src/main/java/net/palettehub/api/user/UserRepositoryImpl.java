@@ -140,7 +140,7 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public CollectionList getUserCollections(String userId, int page){
+    public CollectionList getUserCollections(String userId, String requesterId, int page){
         StoredProcedureQuery query = em.createStoredProcedureQuery("find_user_collections", Collection.class);
 
         query.registerStoredProcedureParameter("id", String.class, ParameterMode.IN);
@@ -158,7 +158,9 @@ public class UserRepositoryImpl implements UserRepository{
         List<Collection> collections = query.getResultList();
 
         for (int i = 0; i < collections.size(); i++){
-            collections.set(i, CollectionRepositoryImpl.getCollection(collections.get(i).getCollectionId(), em));
+            PaletteList paletteList = CollectionRepositoryImpl.getCollectionPalettes(collections.get(i).getCollectionId(), requesterId, 1, em);
+            collections.get(i).setCount(paletteList.getCount());
+            collections.get(i).setPalettes(paletteList.getPalettes());
         }
 
         return new CollectionList(collections, count);

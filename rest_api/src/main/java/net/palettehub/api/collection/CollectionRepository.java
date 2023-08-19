@@ -2,6 +2,8 @@ package net.palettehub.api.collection;
 
 import org.springframework.stereotype.Repository;
 
+import net.palettehub.api.palette.PaletteList;
+
 /**
  * Collection repository interface.
  * 
@@ -21,5 +23,7 @@ public interface CollectionRepository {
     boolean addToCollection(String collectionId, String paletteId);
 
     boolean removeFromCollection(String collectionId, String paletteId);
+
+    PaletteList getCollectionPalettes(String id, String userId, int page);
 
 }

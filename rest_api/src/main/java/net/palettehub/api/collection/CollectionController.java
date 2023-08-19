@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -33,8 +34,8 @@ public class CollectionController {
 
     // get collection
     @GetMapping("/collections/{collectionId}")
-    public ResponseEntity<Collection> getCollection(@PathVariable("collectionId") String collectionId){
-        return new ResponseEntity<Collection>(collectionService.getCollection(collectionId), HttpStatus.OK);
+    public ResponseEntity<Collection> getCollection(@PathVariable("collectionId") String collectionId, @RequestParam(name = "page", defaultValue = "1") String page){
+        return new ResponseEntity<Collection>(collectionService.getCollection(collectionId, page), HttpStatus.OK);
     }
 
     // edit collection
