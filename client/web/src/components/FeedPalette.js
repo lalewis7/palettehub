@@ -36,14 +36,14 @@ export function FeedPalette(props){
     }
 
     const likeBtn = 
-        <Button variant={colorMode} size="sm" onClick={onLikeBtn} className="h-100">
-            {props.liked ? <HeartFill color={"red"} size={18} /> : <Heart size={16} />}
+        <Button variant={colorMode} className="feed-palette-like" onClick={onLikeBtn} >
+            {props.liked ? <HeartFill color={"red"} size={22} /> : <Heart size={20} />}
         </Button>
 
     return <>
         <div className="feed-palette-wrapper">
             <Card className="feed-palette">
-                <div className="feed-palette-row feed-palette-top">
+                <Card.Header className="feed-palette-row feed-palette-top">
                     <Link to={"/profile/"+props.user_id} className="feed-palette-user">
                         <img src={props.user_img && props.user_img !== "" ? props.user_img : profile_img} referrerPolicy="no-referrer" className="feed-palette-avatar" />
                         <span className="feed-palette-user-name">{props.user_name}</span>
@@ -66,7 +66,7 @@ export function FeedPalette(props){
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                </div>
+                </Card.Header>
                 <Ratio aspectRatio={80}>
                     <div className="feed-palette-colors-grid">
                         {props.colors.map((color, i) => <Link key={i} className="feed-palette-color" 
@@ -75,7 +75,7 @@ export function FeedPalette(props){
                         </Link>)}
                     </div>
                 </Ratio>
-                <div className="feed-palette-row feed-palette-bottom">
+                <Card.Body className="feed-palette-row feed-palette-bottom">
                     <div className="feed-palette-likes">
                         {token ? likeBtn : 
                             <LikePopover>
@@ -85,7 +85,7 @@ export function FeedPalette(props){
                         <span className="ms-1">{props.likes}</span>
                     </div>
                     <small>{getTimeElapsed(props.timestamp)}</small>
-                </div>
+                </Card.Body>
             </Card>
         </div>
     </>

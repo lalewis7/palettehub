@@ -106,5 +106,11 @@ export default {
             method: "DELETE",
             ...getAuthHeaders(token)
         })
+    },
+    getUserCollections: function getUserCollectionsFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/collections?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
     }
 }

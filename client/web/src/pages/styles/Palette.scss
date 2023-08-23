@@ -77,6 +77,8 @@
 	text-overflow: ellipsis;
     text-wrap: nowrap;
     overflow-x: hidden;
+	font-family: 'Nunito';
+	font-weight: bold;
 }
 
 .palette-user{
@@ -86,4 +88,8 @@
 	text-decoration: none;
 	color: inherit;
 	overflow: hidden;
+}
+
+.palette-kebab-btn::after{
+	display: none;
 }

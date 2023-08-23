@@ -5,12 +5,13 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import API from "../utils/API";
 import UserLikedPalettes from "components/UserLikedPalettes";
 import UserPalettes from "components/UserPalettes";
-import { Pencil } from "react-bootstrap-icons";
+import { Brush, Folder, FolderPlus, Heart, Palette, Pencil, Plus, PlusSquare } from "react-bootstrap-icons";
 import { useColorMode } from "context/ColorModeProvider";
 import { useSelector } from 'react-redux'
 import EditProfile from "components/EditProfile";
 import profile_img from '../assets/user-avatar.png';
 import ErrorPage from "components/ErrorPage";
+import UserCollections from "components/UserCollections";
 
 export const ACTIONS = {
     SET_USER: 'set-user'
@@ -96,23 +97,41 @@ export default function Profile(){
                     </div>
                     <Nav variant="pills" className="px-4 pb-3">
                         <Nav.Item>
-                            <Nav.Link as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>Palettes</Nav.Link>
+                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>
+                                <Brush className="d-none d-sm-block" size={18} />Palettes
+                            </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>Liked</Nav.Link>
+                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>
+                                <Heart className="d-none d-sm-block" size={18} />Liked
+                            </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link as={Link} to={"/profile/"+id+"/collections"} disabled>Collections</Nav.Link>
+                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/collections"} className={location.pathname.split("/").slice(-1)[0] === "collections" ? "active" : ""}>
+                                <Folder className="d-none d-sm-block" size={18} />Collections
+                            </Nav.Link>
                         </Nav.Item>
+                        {self && self.user_id === id ? <>
+                            <Nav.Item className="d-none d-lg-block">
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/palettes/new"}>
+                                    <PlusSquare size={18} /> Create Palette
+                                </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item className="d-none d-lg-block">
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/collections/new"}>
+                                    <FolderPlus size={18} /> Create Collection
+                                </Nav.Link>
+                            </Nav.Item>
+                        </>
+                        : ''}
                     </Nav>
                 </Card>
             </Container>
             <Routes>
                 <Route path="" element={<Navigate to="palettes" />} />
-                <Route path="palettes" element={<UserPalettes id={id} />} /><Route path="likes" element={<UserLikedPalettes id={id} />} />
-                <Route path="collections">
-
-                </Route>
+                <Route path="palettes" element={<UserPalettes id={id} />} />
+                <Route path="likes" element={<UserLikedPalettes id={id} />} />
+                <Route path="collections" element={<UserCollections id={id} />} />
             </Routes>
         </div>
         <EditProfile show={show} handleClose={handleClose} user={user} submit={editProfile} />

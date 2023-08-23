@@ -125,7 +125,7 @@ export function Palette(){
                         <span className="palette-user-name">{palette.user_name}</span>
                     </Link>
                     <Dropdown align="end" className="h-100">
-                        <Dropdown.Toggle variant={colorMode} className="h-100 lh-1 feed-palette-kebab-btn">
+                        <Dropdown.Toggle variant={colorMode} className="h-100 lh-1 palette-kebab-btn">
                             <ThreeDotsVertical size={18} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
