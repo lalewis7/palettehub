@@ -1,17 +1,18 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useToken } from "../context/TokenProvider"
-import { Button, Card, Col, Container, Overlay, OverlayTrigger, Ratio, Row, Tooltip } from "react-bootstrap"
+import { Button, Card, Col, Container, Dropdown, Overlay, OverlayTrigger, Ratio, Row, Tooltip } from "react-bootstrap"
 import { useEffect, useReducer, useRef, useState } from "react"
 import API from "../utils/API";
 import { convertColorsToArray, getTimeElapsed } from "../utils/PaletteUtil";
 import { pickTextColor } from "../utils/TextColorUtil";
-import { Heart, HeartFill, Link45deg } from "react-bootstrap-icons";
+import { Heart, HeartFill, Link45deg, ThreeDotsVertical } from "react-bootstrap-icons";
 import LikePopover from "../components/LikePopover";
 import ErrorPage from "../components/ErrorPage";
 import PalettePlaceholder from "../components/PalettePlaceholder";
 import React from "react";
 import { ColorCodeCopy } from "../components/ColorCodeCopy";
 import { useColorMode } from "context/ColorModeProvider";
+import profile_img from '../assets/user-avatar.png';
 
 const ACTIONS = {
     SET_PALETTE: 'set-palette',
@@ -117,6 +118,23 @@ export function Palette(){
     }
 
     return <Container className="pt-3">
+            <Row id="palette-bar-top">
+                <Col bsPrefix="col col" xs="auto" className="d-flex justify-content-between w-100">
+                    <Link to={"/profile/"+palette.user_id} className="palette-user">
+                        <img src={palette.user_img && palette.user_img !== "" ? palette.user_img : profile_img} referrerPolicy="no-referrer" className="palette-avatar" />
+                        <span className="palette-user-name">{palette.user_name}</span>
+                    </Link>
+                    <Dropdown align="end" className="h-100">
+                        <Dropdown.Toggle variant={colorMode} className="h-100 lh-1 feed-palette-kebab-btn">
+                            <ThreeDotsVertical size={18} />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Add to collection</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Delete</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Col>
+            </Row>
             <Card id="palette-card">
                 <Ratio aspectRatio="1x1">
                     <div id="palette-colors">

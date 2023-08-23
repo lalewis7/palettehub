@@ -13,13 +13,20 @@
 	flex-grow: 1;
 }
 
-#palette-bar-1 {
+#palette-bar-1, #palette-bar-top {
 	max-width: $palette-card-max-width;
 	margin: auto;
+}
+
+#palette-bar-top {
+	margin-bottom: 0.65rem;
+}
+
+#palette-bar-1{
 	padding-top: 0.5rem;
 }
 
-#palette-bar-1>.col {
+#palette-bar-1>.col, #palette-bar-top>.col {
 	padding: 0;
 }
 
@@ -55,4 +62,28 @@
 	padding-left: 0.35rem;
 	line-height: 0;
 	vertical-align: middle;
+}
+
+.palette-avatar{
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.palette-user-name{
+	font-size: 20px;
+	text-decoration: none;
+	text-overflow: ellipsis;
+    text-wrap: nowrap;
+    overflow-x: hidden;
+}
+
+.palette-user{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+	text-decoration: none;
+	color: inherit;
+	overflow: hidden;
 }

@@ -17,13 +17,21 @@ import MobileHeaderOffcanvas from "./MobileHeaderOffcanvas";
 import ColorModeButton from "./ColorModeButton";
 import { useColorMode } from "context/ColorModeProvider";
 import NewUserHelperOverlay from "./NewUserHelperOverlay";
+import { useSelector, useDispatch } from 'react-redux'
+import { setUser, removeUser } from '../redux/userSlice'
 
 export function Header() {
     const updateToken = useTokenUpdate()
     const token = useToken()
     const location = useLocation()
     const colorMode = useColorMode()
-    const [self, setSelf] = useState(null)
+    // @ts-ignore
+    const self = useSelector(state => state.user.value)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        console.log(self)
+    }, [self])
 
     const [googleLoginWrapperRef, setGoogleLoginWrapperRef] = useState(null)
     const [googleLoginVisible, setGoogleLoginVisible] = useState(false)
@@ -34,10 +42,10 @@ export function Header() {
         API.selfProfile(token)
             .then(resp => resp.ok ? resp : Promise.reject(resp))
             .then(apiResponse => apiResponse.json())
-            .then(selfData => setSelf(selfData))
+            .then(selfData => dispatch(setUser(selfData)))
             .catch(err => {
                 updateToken(null)
-                setSelf(null)
+                dispatch(removeUser())
             })
     }
 

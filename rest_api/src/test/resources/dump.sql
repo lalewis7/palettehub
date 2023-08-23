@@ -669,8 +669,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_by_gid`(
 	IN gid CHAR(32)
 )
 BEGIN
-	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2
-    FROM users 
+	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2,
+    (SELECT COUNT(*) FROM palettes WHERE user_id = u.user_id) AS palettes,
+    (SELECT COUNT(*) FROM likes l JOIN palettes p ON l.palette_id = p.palette_id WHERE p.user_id = u.user_id) AS likes,
+    (SELECT COUNT(*) FROM likes WHERE user_id = u.user_id) AS liked
+    FROM users u
     WHERE google_id = gid;
 END ;;
 DELIMITER ;
@@ -692,7 +695,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_by_id`(
 	IN id CHAR(32)
 )
 BEGIN
-	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2
+	SELECT user_id, google_id, name, picture_url, email, role, show_picture, banner_color_1, banner_color_2,
+    (SELECT COUNT(*) FROM palettes WHERE user_id = id) AS palettes,
+    (SELECT COUNT(*) FROM likes l JOIN palettes p ON l.palette_id = p.palette_id WHERE p.user_id = id) AS likes,
+    (SELECT COUNT(*) FROM likes WHERE user_id = id) AS liked
     FROM users 
     WHERE user_id = id;
 END ;;
@@ -817,4 +823,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-19  1:36:02
+-- Dump completed on 2023-08-20 13:46:05

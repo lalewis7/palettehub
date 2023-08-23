@@ -16,9 +16,7 @@ function App() {
     <div id="content">
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/profile">
-          <Route path="likes" element={<Profile />} />
-        </Route>
+        <Route path="/profile/:id/*" element={<Profile />} />
         <Route path="/palettes">
           <Route path=":id" element={<Palette />} />
           <Route path="new" element={<NewPalette />} />

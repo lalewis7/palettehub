@@ -3,22 +3,37 @@
 }
 
 .profile-banner{
-    background-image: linear-gradient(45deg, #63beff, #7910b6);
+    // background-image: linear-gradient(45deg, #63beff, #7910b6);
     height: 6rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.profile-avatar-img{
-    width: 4em;
-    height: 4em;
+#profile-avatar-bg{
+    width: 6.5rem;
+    height: 6.5rem;
     border-radius: 100%;
-    // position: relative;
-    // top: -2em;
     position: absolute;
-    top: 4em;
+    top: 2.75em;
     left: 1.5em;
+}
+
+.profile-avatar-img{
+    width: 5em;
+    height: 5em;
+    border-radius: 100%;
+    position: relative;
+    top: 0.75rem;
+    left: 0.75rem;
+    // top: -2em;
+    // position: absolute;
+    // top: 3.5em;
+    // left: 1.5em;
+}
+
+.profile-name{
+    margin-top: 3.5rem;
 }
 
 .profile-stats-list{
@@ -47,4 +62,16 @@
     // padding-right: 0.5rem;
     font-family: 'Nunito';
     font-weight: 800;
+}
+
+.profile-stats-item-font{
+    font-size: 16px;
+    font-family: 'Nunito';
+    font-weight: 500;
+}
+
+#edit-profile-btn{
+    padding: 0.65rem;
+    border-radius: 100%;
+    line-height: 0;
 }

@@ -1,5 +1,5 @@
 .feed-palette {
-	max-width: 18rem;
+	max-width: 22rem;
 	min-width: 12rem;
 	overflow: hidden;
 	flex-grow: 1;
@@ -50,4 +50,43 @@
 	display:grid;
 	grid-template-rows: repeat(5, 1fr);
 	gap:0;
+}
+
+.feed-palette-top{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.feed-palette-avatar{
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
+.feed-palette-user{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+	text-decoration: none;
+	color: inherit;
+	overflow: hidden;
+}
+
+.feed-palette-user-name{
+	text-decoration: none;
+	text-overflow: ellipsis;
+    text-wrap: nowrap;
+    overflow-x: hidden;
+}
+
+.feed-palette-kebab-btn::after{
+	display: none;
+}
+
+.feed-palette-kebab-menu{
+	top: -4px !important;
+    right: -1px !important;
 }

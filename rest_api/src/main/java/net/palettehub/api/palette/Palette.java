@@ -193,11 +193,15 @@ public class Palette {
         this.userShowImg = userShowImg;
     }
 
+
     @Override
     public String toString() {
         return "{" +
             " paletteId='" + getPaletteId() + "'" +
             ", userId='" + getUserId() + "'" +
+            ", userName='" + getUserName() + "'" +
+            ", userImg='" + getUserImg() + "'" +
+            ", userShowImg='" + getUserShowImg() + "'" +
             ", color1='" + getColor1() + "'" +
             ", color2='" + getColor2() + "'" +
             ", color3='" + getColor3() + "'" +
@@ -208,5 +212,6 @@ public class Palette {
             ", liked='" + isLiked() + "'" +
             "}";
     }
+    
 
 }

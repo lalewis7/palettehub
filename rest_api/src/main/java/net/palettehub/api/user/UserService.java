@@ -113,7 +113,7 @@ public class UserService {
         else {
             // remove user image if censored
             // if picture not visible and someone else or not admin
-            if (!(user.getShowPicture() && !getUserId().equals(userId)) || !hasAuthority("ROLE_ADMIN")){
+            if (!user.getShowPicture() && !getUserId().equals(userId) && !hasAuthority("ROLE_ADMIN")){
                 user.setPictureUrl("");
             }
             return user;

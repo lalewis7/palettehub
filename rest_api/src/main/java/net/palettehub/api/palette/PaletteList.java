@@ -34,4 +34,12 @@ public class PaletteList {
         this.count = count;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " palettes='" + getPalettes() + "'" +
+            ", count='" + getCount() + "'" +
+            "}";
+    }
+
 }

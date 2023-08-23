@@ -1,14 +1,14 @@
 #feed-content {
 	display: grid;
 	gap: 0.8rem;
-	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 	margin-bottom: 3rem;
 }
 
 #feed-content-placeholder{
 	display: grid;
     column-gap: 0.8rem;
-    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     grid-template-rows: repeat(3, 1fr);
     overflow-y: hidden;
     grid-auto-rows: 0;

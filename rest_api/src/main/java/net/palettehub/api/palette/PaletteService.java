@@ -23,12 +23,12 @@ public class PaletteService {
     
     public PaletteList getPalettes(String userId, String sort, String page){
         // Check sort value
-        if ((!sort.equals("new") && !sort.equals("popular")) || sort == null)
+        if (sort == null)
             throw new SortValueInvalidException("Invalid sort value, must be \"new\" or \"popular\".");
 
         // check page value
         int pageValue;
-        if (page.equals("")){ // no page given set to 1
+        if (page == null || page.equals("")){ // no page given set to 1
             pageValue = 1;
         }
         else { // check passed page value

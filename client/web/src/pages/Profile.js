@@ -1,93 +1,120 @@
-import { Card, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
-import PaletteList, { ACTIONS, reducer } from "../components/PaletteList";
+import { Button, Card, Col, Container, Nav, Row, Tab, Tabs } from "react-bootstrap";
 import { useToken } from "../context/TokenProvider";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useReducer, useRef, useState } from "react";
 import API from "../utils/API";
+import UserLikedPalettes from "components/UserLikedPalettes";
+import UserPalettes from "components/UserPalettes";
+import { Pencil } from "react-bootstrap-icons";
+import { useColorMode } from "context/ColorModeProvider";
+import { useSelector } from 'react-redux'
+import EditProfile from "components/EditProfile";
+import profile_img from '../assets/user-avatar.png';
+import ErrorPage from "components/ErrorPage";
 
-const PAGE_LENGTH = 50
+export const ACTIONS = {
+    SET_USER: 'set-user'
+}
+
+export function reducer(user, action){
+    switch(action.type){
+        case ACTIONS.SET_USER:
+            return action.user;
+        default:
+            return user;
+    }
+}
 
 export default function Profile(){
     const token = useToken()
-    let [searchParams, setSearchParams] = useSearchParams()
+    const colorMode = useColorMode()
+    const location = useLocation()
 
+    // user stuff
+    const [user, dispatch] = useReducer(reducer, {})
     const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(null)
-    const [palettes, dispatch] = useReducer(reducer, [])
-    const [page, setPage] = useState(1)
-    const count = useRef(0)
+    const [canEdit, setCanEdit] = useState(false)
+    let { id } = useParams()
 
-    useEffect(() => {
-        if (searchParams.has("page") && Number(searchParams.get("page")) !== page)
-            setPage(Number(searchParams.get("page")))
-    }, [])
+    // @ts-ignore
+    const self = useSelector(state => state.user.value)
 
-    useEffect(() => {
-        if (!token)
-            return
-        let apiPage = page
-        let timeout = setTimeout(() => {
-            setLoaded(false)
-        }, 100)
-        if (!searchParams.has("page")){
-            apiPage = 1
-            setPage(1)
-        }
-        API.selfLikedPalettes(token, apiPage)
-            .then(palettes => palettes.json())
-            .then(res => {
-                count.current = res.count
-                // @ts-ignore
-                dispatch({type: ACTIONS.SET_PALETTES, palettes: res.palettes})
-            })
-            .then(() => clearTimeout(timeout))
-            .then(() => setLoaded(true))
-    }, [token, page])
+    // edit profile
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
-    if (!token)
-        return <Navigate to="/" />
-
-    const gotoPage = (page) => {
-        setPage(page)
-        if (page !== 1)
-            setSearchParams(params => {
-                params.set('page', page)
-                return params
-            })
-        else
-            setSearchParams(params => {
-                params.delete('page')
-                return params
-            })
+    const editProfile = async (data) => {
+        return API.editUserProfile(token, id, data)
+            .then(() => loadProfile())
     }
+
+    const loadProfile = () => {
+        setError(null)
+        setLoaded(false)
+        API.getProfile(token, id)
+            .then(user => user.json())
+            .then(res => {
+                // @ts-ignore
+                dispatch({type: ACTIONS.SET_USER, user: res})
+            })
+            .then(() => setLoaded(true))
+            .catch((err) => setError({code: "", msg:err.message, retry: loadProfile}))
+    }
+
+    useEffect(() => {
+        loadProfile()
+    }, [token, id])
+
+    useEffect(() => {
+        setCanEdit(self && token && (self.user_id === id || self.role === "admin"))
+    }, [token, self, id])
+
+    if (error)
+        return <ErrorPage code={error.code} msg={error.msg} retry={error.retry} />
 
     return <>
         <div className="d-flex flex-column w-100">
-            {/* <Container className="mt-3">
+            <Container className="mt-3">
                 <Card className="profile-header bg-body-tertiary">
-                    <div className="profile-banner">
-                    <img className="profile-avatar-img" width="32" src="https://lh3.googleusercontent.com/a/AAcHTtcNGVsdckVs5BZssPcdI78Wz3KDDHpVtoSu8-VrZ3ZLNA=s96-c" referrerPolicy="no-referrer" />
-                    <ul className="profile-stats-list">
-                        <li className="profile-stats-item"><h6>25<br/>Palettes</h6></li>
-                        <li className="profile-stats-item"><h6>18<br/>Likes</h6></li>
-                        <li className="profile-stats-item"><h6>35<br/>Liked</h6></li>
-                    </ul>
+                    <div className="profile-banner" style={{backgroundImage: "linear-gradient(45deg, #" + user.banner_color_left + ", #" + user.banner_color_right + ")"}}>
+                        <div id="profile-avatar-bg" className="bg-body-tertiary">
+                            <img className="profile-avatar-img" width="32" src={user.picture_url && user.picture_url !== "" ? user.picture_url : profile_img} referrerPolicy="no-referrer" />
+                        </div>
                     </div>
-                    <div className="px-4 pb-2">
-                        <h2 className="mt-5 me-5 flex-grow-1">Arthur</h2>
+                    <div className="px-4 pb-3 d-flex justify-content-between">
+                        <div>
+                            <h2 className="profile-name me-5 flex-grow-1">{user.name}</h2>
+                            <span className="profile-stats-item-font">{user.palettes} Palettes &#8226; {user.likes} Likes &#8226; {user.liked} Liked</span>
+                        </div>
+                        <div className="mt-3">
+                            {canEdit ? 
+                                <Button id="edit-profile-btn" variant={colorMode} onClick={handleShow}><Pencil size={22}/></Button>
+                            : ''}
+                        </div>
                     </div>
-                    <Tabs defaultActiveKey="liked" className="mt-3">
-                        <Tab eventKey="palettes" title="Palettes" disabled></Tab>
-                        <Tab eventKey="liked" title="Likes"></Tab>
-                        <Tab eventKey="collections" title="Collections" disabled></Tab>
-                    </Tabs>
+                    <Nav variant="pills" className="px-4 pb-3">
+                        <Nav.Item>
+                            <Nav.Link as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>Palettes</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>Liked</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link as={Link} to={"/profile/"+id+"/collections"} disabled>Collections</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
                 </Card>
-            </Container> */}
-            <Container id="feed-container" className="pt-3">
-                <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
-                    page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
-                    empty_msg="Browse the &ldquo;New&rdquo; and &ldquo;Popular&rdquo; pages for palettes to add to your liked collection."/>
             </Container>
+            <Routes>
+                <Route path="" element={<Navigate to="palettes" />} />
+                <Route path="palettes" element={<UserPalettes id={id} />} /><Route path="likes" element={<UserLikedPalettes id={id} />} />
+                <Route path="collections">
+
+                </Route>
+            </Routes>
         </div>
+        <EditProfile show={show} handleClose={handleClose} user={user} submit={editProfile} />
     </>
 }

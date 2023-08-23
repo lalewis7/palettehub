@@ -75,5 +75,36 @@ export default {
             method: "GET",
             ...getAuthHeaders(token)
         })
+    },
+    getProfile: function getProfileFn(token, id){
+        return fetch(API_HOST+"/users/"+id, {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    getUserLikedPalettes: function getUserLikedPalettesFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/likes?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    getUserPalettes: function getUserPalettesFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/palettes?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    editUserProfile: function editUserProfileFn(token, id, data){
+        return fetch(API_HOST+"/users/"+id, {
+            method: "PUT",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
+    },
+    deletePalette: function deletePaletteFn(token, id){
+        return fetch(API_HOST+"/palettes/"+id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
     }
 }
