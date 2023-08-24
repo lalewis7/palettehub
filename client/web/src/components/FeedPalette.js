@@ -49,7 +49,7 @@ export function FeedPalette(props){
                         <span className="feed-palette-user-name">{props.user_name}</span>
                     </Link>
                     <div className="feed-palette-kebab">
-                        <Dropdown  className="h-100">
+                        <Dropdown className="h-100" align="end">
                             <Dropdown.Toggle variant={colorMode} className="h-100 lh-1 feed-palette-kebab-btn">
                                 <ThreeDotsVertical size={18} />
                             </Dropdown.Toggle>

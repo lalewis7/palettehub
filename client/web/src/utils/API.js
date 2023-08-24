@@ -112,5 +112,11 @@ export default {
             method: "GET",
             ...getAuthHeaders(token)
         })
+    },
+    getCollection: function getCollectionFn(token, id, page){
+        return fetch(API_HOST+"/collections/"+id+"?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
     }
 }

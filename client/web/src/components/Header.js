@@ -29,10 +29,6 @@ export function Header() {
     const self = useSelector(state => state.user.value)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        console.log(self)
-    }, [self])
-
     const [googleLoginWrapperRef, setGoogleLoginWrapperRef] = useState(null)
     const [googleLoginVisible, setGoogleLoginVisible] = useState(false)
 

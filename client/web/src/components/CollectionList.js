@@ -3,6 +3,7 @@ import ErrorPage from "./ErrorPage"
 import EmptyPage from "./EmptyPage"
 import FeedPalettePlaceholder from "./FeedPalettePlaceholder"
 import FeedCollection from "./FeedCollection"
+import { convertColorsToArray } from "utils/PaletteUtil"
 
 export const ACTIONS = {
     SET_COLLECTIONS: 'collections'
@@ -11,7 +12,15 @@ export const ACTIONS = {
 export function reducer(collections, action){
     switch (action.type){
         case ACTIONS.SET_COLLECTIONS:
-            return [...action.collections]
+            let newCollections = [...action.collections]
+            newCollections.map(collection => {
+                collection.palettes = collection.palettes.map(pal => {
+                    if (pal.colors)
+                        return pal
+                    return convertColorsToArray(pal)
+                })
+            })
+            return newCollections
         default:
             return collections
     }
@@ -41,15 +50,14 @@ export default function CollectionList(props){
 
     if (props.error)
         return <ErrorPage code={props.error.code} msg={props.error.msg} retry={props.error.retry} />
-
+    console.log(props.collections)
     return <>
         {props.loaded ? 
         props.count > 0 ? <>
             <div id="feed-content">
-            {/* {props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
-                likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} 
-                user_id={palette.user_id} user_name={palette.user_name} user_img={palette.user_img} delete={() => removePalette(palette.palette_id)}/>)} */}
-                {props.collections.map(collection => <FeedCollection key={collection.collection_id} id={collection.collection_id} name={collection.name} />)}
+                {props.collections.map(collection => <FeedCollection key={collection.collection_id} id={collection.collection_id} name={collection.name} 
+                user_id={collection.user_id} user_name={collection.user_name} user_img={collection.user_img} palettes={collection.palettes} 
+                palette_count={collection.palettes} />)}
             </div>
         </>
         : <EmptyPage msg={props.empty_msg} />
