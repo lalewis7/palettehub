@@ -10,6 +10,7 @@ import { Contact } from 'pages/Contact';
 import Profile from 'pages/Profile';
 import LandingPage from 'pages/LandingPage';
 import Collection from 'pages/Collection';
+import NewCollection from 'pages/NewCollection';
 
 function App() {
   return <>
@@ -24,6 +25,7 @@ function App() {
         </Route>
         <Route path="/collections">
           <Route path=":id" element={<Collection />} />
+          <Route path="new" element={<NewCollection />} />
         </Route>
         <Route path="/feed">
           <Route path="new" element={<Feed />} />

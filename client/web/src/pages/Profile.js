@@ -12,6 +12,7 @@ import EditProfile from "components/EditProfile";
 import profile_img from '../assets/user-avatar.png';
 import ErrorPage from "components/ErrorPage";
 import UserCollections from "components/UserCollections";
+import ProfilePlaceholder from "components/ProfilePlaceholder";
 
 export const ACTIONS = {
     SET_USER: 'set-user'
@@ -79,52 +80,56 @@ export default function Profile(){
         <div className="d-flex flex-column w-100">
             <Container className="mt-3">
                 <Card className="profile-header bg-body-tertiary">
-                    <div className="profile-banner" style={{backgroundImage: "linear-gradient(45deg, #" + user.banner_color_left + ", #" + user.banner_color_right + ")"}}>
-                        <div id="profile-avatar-bg" className="bg-body-tertiary">
-                            <img className="profile-avatar-img" width="32" src={user.picture_url && user.picture_url !== "" ? user.picture_url : profile_img} referrerPolicy="no-referrer" />
+                    {loaded ? 
+                    <>
+                        <div className="profile-banner" style={{backgroundImage: "linear-gradient(45deg, #" + user.banner_color_left + ", #" + user.banner_color_right + ")"}}>
+                            <div id="profile-avatar-bg" className="bg-body-tertiary">
+                                <img className="profile-avatar-img" width="32" src={user.picture_url && user.picture_url !== "" ? user.picture_url : profile_img} referrerPolicy="no-referrer" />
+                            </div>
                         </div>
-                    </div>
-                    <div className="px-4 pb-3 d-flex justify-content-between">
-                        <div>
-                            <h2 className="profile-name me-5 flex-grow-1">{user.name}</h2>
-                            <span className="profile-stats-item-font">{user.palettes} Palettes &#8226; {user.likes} Likes &#8226; {user.liked} Liked</span>
+                        <div className="px-4 pb-3 d-flex justify-content-between">
+                            <div>
+                                <h2 className="profile-name me-5 flex-grow-1">{user.name}</h2>
+                                <span className="profile-stats-item-font">{user.palettes} Palettes &#8226; {user.likes} Likes &#8226; {user.liked} Liked</span>
+                            </div>
+                            <div className="mt-3">
+                                {canEdit ? 
+                                    <Button id="edit-profile-btn" variant={colorMode} onClick={handleShow}><Pencil size={22}/></Button>
+                                : ''}
+                            </div>
                         </div>
-                        <div className="mt-3">
-                            {canEdit ? 
-                                <Button id="edit-profile-btn" variant={colorMode} onClick={handleShow}><Pencil size={22}/></Button>
+                        <Nav variant="pills" className="px-4 pb-3">
+                            <Nav.Item>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>
+                                    <Brush className="d-none d-sm-block" size={18} />Palettes
+                                </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>
+                                    <Heart className="d-none d-sm-block" size={18} />Liked
+                                </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/collections"} className={location.pathname.split("/").slice(-1)[0] === "collections" ? "active" : ""}>
+                                    <Folder className="d-none d-sm-block" size={18} />Collections
+                                </Nav.Link>
+                            </Nav.Item>
+                            {self && self.user_id === id ? <>
+                                <Nav.Item className="d-none d-lg-block">
+                                    <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/palettes/new"}>
+                                        <PlusSquare size={18} /> Create Palette
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item className="d-none d-lg-block">
+                                    <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/collections/new"}>
+                                        <FolderPlus size={18} /> Create Collection
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </>
                             : ''}
-                        </div>
-                    </div>
-                    <Nav variant="pills" className="px-4 pb-3">
-                        <Nav.Item>
-                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>
-                                <Brush className="d-none d-sm-block" size={18} />Palettes
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>
-                                <Heart className="d-none d-sm-block" size={18} />Liked
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/collections"} className={location.pathname.split("/").slice(-1)[0] === "collections" ? "active" : ""}>
-                                <Folder className="d-none d-sm-block" size={18} />Collections
-                            </Nav.Link>
-                        </Nav.Item>
-                        {self && self.user_id === id ? <>
-                            <Nav.Item className="d-none d-lg-block">
-                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/palettes/new"}>
-                                    <PlusSquare size={18} /> Create Palette
-                                </Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="d-none d-lg-block">
-                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/collections/new"}>
-                                    <FolderPlus size={18} /> Create Collection
-                                </Nav.Link>
-                            </Nav.Item>
-                        </>
-                        : ''}
-                    </Nav>
+                        </Nav>
+                    </>
+                    : <ProfilePlaceholder />}
                 </Card>
             </Container>
             <Routes>

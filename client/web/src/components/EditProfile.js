@@ -5,14 +5,22 @@ import { ChromePicker } from "react-color"
 import { pickTextColor } from "utils/TextColorUtil"
 
 export default function EditProfile(props){
-    const [validated, setValidated] = useState(false)
+    // values
     const [colorLeft, setColorLeft] = useState("#"+props.user.banner_color_left)
     const [colorRight, setColorRight] = useState("#"+props.user.banner_color_right)
     const [name, setName] = useState(props.user.name)
-    const [nameInvalid, setNameInvalid] = useState(false)
     const [show, setShow] = useState(props.user.picture_visible)
+
+    // validation
+    const [nameInvalid, setNameInvalid] = useState(false)
+
+    // changes
     const [edited, setEdited] = useState(false)
+
+    // loading api
     const [loading, setLoading] = useState(false)
+
+    // which color is open right now (left/right)
     const [color, setColor] = useState("left")
 
     const resetValues = () => {
@@ -32,7 +40,6 @@ export default function EditProfile(props){
 
     const handleClose = () => {
         setNameInvalid(false)
-        setValidated(false)
         resetValues()
         props.handleClose()
     }
@@ -56,9 +63,7 @@ export default function EditProfile(props){
         if (form.checkValidity() && !newNameInvalid){
             await props.submit({name: name, banner_color_left: colorLeft.substring(1), banner_color_right: colorRight.substring(1), picture_visible: show})
             handleClose()
-        } else {
-            //setValidated(true)
-        }
+        } 
         setLoading(false)
         setNameInvalid(newNameInvalid)
     }
@@ -68,7 +73,7 @@ export default function EditProfile(props){
             <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group>
                     <Form.Label>Banner</Form.Label>
                     <div id="edit-profile-banner-demo" style={{backgroundImage: "linear-gradient(45deg, "+colorLeft+", "+colorRight+")"}}>

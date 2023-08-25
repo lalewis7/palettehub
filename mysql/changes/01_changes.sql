@@ -1,7 +1,7 @@
 CREATE TABLE `palette_hub`.`collections` (
   `collection_id` CHAR(32) NOT NULL,
   `user_id` CHAR(32) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
-  `name` VARCHAR(32) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NULL,
+  `name` VARCHAR(64) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NULL,
   PRIMARY KEY (`collection_id`),
   INDEX `user_id_fk_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `user_id_fk`

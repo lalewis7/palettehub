@@ -6,21 +6,37 @@ import FeedCollection from "./FeedCollection"
 import { convertColorsToArray } from "utils/PaletteUtil"
 
 export const ACTIONS = {
-    SET_COLLECTIONS: 'collections'
+    SET_COLLECTIONS: 'collections',
+    REMOVE_COLLECTION: 'remove-collection'
 }
 
 export function reducer(collections, action){
     switch (action.type){
         case ACTIONS.SET_COLLECTIONS:
-            let newCollections = [...action.collections]
-            newCollections.map(collection => {
-                collection.palettes = collection.palettes.map(pal => {
-                    if (pal.colors)
-                        return pal
-                    return convertColorsToArray(pal)
+            {
+                let newCollections = [...action.collections]
+                newCollections.map(collection => {
+                    collection.palettes = collection.palettes.map(pal => {
+                        if (pal.colors)
+                            return pal
+                        return convertColorsToArray(pal)
+                    })
                 })
-            })
-            return newCollections
+                return newCollections
+            }
+        case ACTIONS.REMOVE_COLLECTION:
+            {
+                console.log(action)
+                let newCollections = [...collections]
+                for (let i = 0; i < newCollections.length; i++){
+                    let collection = newCollections[i]
+                    if (collection.collection_id === action.id){
+                        newCollections.splice(i, 1)
+                        return newCollections
+                    }
+                }
+                return newCollections
+            }
         default:
             return collections
     }
@@ -50,14 +66,14 @@ export default function CollectionList(props){
 
     if (props.error)
         return <ErrorPage code={props.error.code} msg={props.error.msg} retry={props.error.retry} />
-    console.log(props.collections)
+    
     return <>
         {props.loaded ? 
         props.count > 0 ? <>
             <div id="feed-content">
                 {props.collections.map(collection => <FeedCollection key={collection.collection_id} id={collection.collection_id} name={collection.name} 
                 user_id={collection.user_id} user_name={collection.user_name} user_img={collection.user_img} palettes={collection.palettes} 
-                palette_count={collection.palettes} />)}
+                palette_count={collection.palettes} dispatch={props.dispatch_collections} />)}
             </div>
         </>
         : <EmptyPage msg={props.empty_msg} />

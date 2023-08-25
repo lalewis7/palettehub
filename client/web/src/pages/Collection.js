@@ -10,6 +10,8 @@ import { Pencil } from "react-bootstrap-icons"
 import profile_img from '../assets/user-avatar.png'
 import { useColorMode } from "context/ColorModeProvider"
 import { useSelector } from "react-redux"
+import EditCollection from "components/EditCollection"
+import CollectionPlaceholder from "components/CollectionPlaceholder"
 
 const PAGE_LENGTH = 50
 
@@ -48,6 +50,11 @@ export default function Collection(){
     const [page, setPage] = useState(1)
     const count = useRef(0)
     let { id } = useParams()
+
+    // edit profile
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     useEffect(() => {
         if (searchParams.has("page") && Number(searchParams.get("page")) !== page)
@@ -96,7 +103,12 @@ export default function Collection(){
 
     useEffect(() => {
         setCanEdit(self && token && (self.user_id === collection.user_id || self.role === "admin"))
-    }, [token, self, id])
+    }, [token, self, collection, id])
+
+    const editCollection = async (data) => {
+        return API.editCollection(token, id, data)
+            .then(() => loadPage())
+    }
 
     if (error)
         return <ErrorPage code={error.code} msg={error.msg} retry={error.retry} />
@@ -105,25 +117,29 @@ export default function Collection(){
         <div className="d-flex flex-column w-100">
             <Container className="d-flex justify-content-between flex-column pt-3">
                 <Card id="collection-card" className="bg-body-tertiary p-3 mb-3">
-                    <div className="d-flex flex-row justify-content-between">
-                        <h1 className="h2 d-flex align-items-center">{collection.name}</h1>
-                        {canEdit ? 
-                        <Button id="edit-collection-btn" variant={colorMode}><Pencil size={22}/></Button>
-                        : ''}
-                    </div>
-                    <div>
-                        <span className="collection-user-name">
-                            By&nbsp;
-                            <Link to={"/profile/"+collection.user_id} className="collection-user">
-                                {collection.user_name}
-                            </Link>
-                        </span>
-                    </div>
+                    {loaded ? <>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h1 className="h2 d-flex align-items-center">{collection.name}</h1>
+                            {canEdit ? 
+                            <Button id="edit-collection-btn" variant={colorMode} onClick={handleShow}><Pencil size={22}/></Button>
+                            : ''}
+                        </div>
+                        <div>
+                            <span className="collection-user-name">
+                                By&nbsp;
+                                <Link to={"/profile/"+collection.user_id} className="collection-user">
+                                    {collection.user_name}
+                                </Link>
+                            </span>
+                        </div>
+                    </>
+                    : <CollectionPlaceholder />}
                 </Card>
                 <PaletteList palettes={collection.palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
                     page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
                     empty_msg="Looks like this collection doesn't have any palettes yet." />
             </Container>
         </div>
+        <EditCollection show={show} handleClose={handleClose} collection={collection} submit={editCollection} />
     </>
 }

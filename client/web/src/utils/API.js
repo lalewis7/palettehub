@@ -118,5 +118,19 @@ export default {
             method: "GET",
             ...getAuthHeaders(token)
         })
+    },
+    editCollection: function editCollectionFn(token, id, data){
+        return fetch(API_HOST+"/collections/"+id, {
+            method: "PUT",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
+    },
+    postCollection: function postCollectionFn(token, data){
+        return fetch(API_HOST+"/collections", {
+            method: "POST",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
     }
 }

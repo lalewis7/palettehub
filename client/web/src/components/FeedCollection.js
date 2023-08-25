@@ -2,8 +2,9 @@ import { Card, Dropdown, Ratio } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import profile_img from '../assets/user-avatar.png'
 import { useColorMode } from "context/ColorModeProvider";
-import { Folder, ThreeDotsVertical } from "react-bootstrap-icons";
+import { Folder, PaintBucket, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { ACTIONS } from './CollectionList'
 
 export default function FeedCollection(props){
     // @ts-ignore
@@ -11,7 +12,7 @@ export default function FeedCollection(props){
     const colorMode = useColorMode()
 
     const onDelete = () => {
-        console.log("delete")
+        props.dispatch({type: ACTIONS.REMOVE_COLLECTION, id: props.id})
     }
 
     return <>
@@ -38,12 +39,20 @@ export default function FeedCollection(props){
                 </div>
             </Card.Header>
             <Ratio aspectRatio={80}>
-                <Link to={"/collections/"+props.id} className="feed-collection-content">
-                    {props.palettes.map((pal, i) => <div key={i} className="feed-collection-palette">
-                        {pal.colors.map((color, j) => <div key={j} className="feed-collection-palette-color" style={{backgroundColor: "#"+color}}>
+                <Link to={"/collections/"+props.id} className="text-reset text-decoration-none">
+                    {props.palettes.length > 0 ? 
+                    <div className="feed-collection-content">
+                        {props.palettes.map((pal, i) => <div key={i} className="feed-collection-palette">
+                            {pal.colors.map((color, j) => <div key={j} className="feed-collection-palette-color" style={{backgroundColor: "#"+color}}>
 
+                            </div>)}
                         </div>)}
-                    </div>)}
+                    </div>
+                    : 
+                    <div className="d-flex justify-content-center align-items-center flex-column w-100 h-100 px-3">
+                        <PaintBucket size={32} />
+                        <h6 className="text-center">Looks like there are no palettes</h6>    
+                    </div>}
                 </Link>
             </Ratio>
             <Card.Footer className="feed-collection-footer">

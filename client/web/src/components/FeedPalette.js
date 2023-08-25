@@ -1,5 +1,5 @@
-import { Button, Card, Dropdown, Ratio } from "react-bootstrap"
-import { Heart, HeartFill, ThreeDotsVertical } from 'react-bootstrap-icons'
+import { Button, Card, Dropdown, Modal, Ratio } from "react-bootstrap"
+import { Heart, HeartFill, ThreeDotsVertical, Trash } from 'react-bootstrap-icons'
 import { ACTIONS } from "./PaletteList"
 import { useToken } from "../context/TokenProvider"
 import LikePopover from "./LikePopover"
@@ -10,6 +10,7 @@ import { useColorMode } from "context/ColorModeProvider"
 import profile_img from '../assets/user-avatar.png'
 import { useSelector } from 'react-redux'
 import API from '../utils/API'
+import { useState } from "react"
 
 export function FeedPalette(props){
     const token = useToken()
@@ -17,6 +18,11 @@ export function FeedPalette(props){
 
     // @ts-ignore
     const self = useSelector(state => state.user.value)
+
+    // delete confirmation modal
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const handleCloseDeleteDialog = () => setShowDeleteDialog(false);
+    const handleShowDeleteDialog = () => setShowDeleteDialog(true);
 
     const onLikeBtn = () => {
         if (token){
@@ -28,9 +34,12 @@ export function FeedPalette(props){
     }
 
     const onDelete = () => {
-        API.deletePalette(token, props.palette_id)
-            .then(() => {
-                // delete from palettelist
+        API.deletePalette(token, props.id)
+            .then(res => {
+                if (res.ok){
+                    handleCloseDeleteDialog()
+                    props.dispatch({type: ACTIONS.REMOVE, id: props.id})
+                }
             })
             .catch((e) => console.log(e))
     }
@@ -61,7 +70,7 @@ export function FeedPalette(props){
                                 <Dropdown.Item href="#/action-1">Add to collection</Dropdown.Item>
                                 : ''}
                                 {self && (self.user_id === props.user_id || self.role === "admin") ? 
-                                <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+                                <Dropdown.Item onClick={handleShowDeleteDialog}>Delete</Dropdown.Item>
                                 : ''}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -88,5 +97,19 @@ export function FeedPalette(props){
                 </Card.Body>
             </Card>
         </div>
+        <Modal show={showDeleteDialog} onHide={handleCloseDeleteDialog}>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete this palette?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to permanetly delete this palette? This action cannot be reversed.</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDeleteDialog}>
+                    Close
+                </Button>
+                <Button variant="danger" onClick={onDelete}>
+                    <span className="d-flex align-items-center"><Trash className="me-1" />Delete</span>
+                </Button>
+            </Modal.Footer>
+        </Modal>
     </>
 }
