@@ -58,29 +58,29 @@ export default function EditCollection(props){
     }
 
     return <Modal show={props.show} onHide={handleClose} fullscreen="sm-down" scrollable={true} animation={false}>
-    <Modal.Header closeButton>
-        <Modal.Title>Edit Collection</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-        <Form noValidate onSubmit={handleSubmit}>
-            <Form.Group>
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" name="collection-name" value={name} onChange={evt => {
-                    setNameInvalid(false)
-                    setName(evt.target.value)
-                }} 
-                    placeholder="Enter name here..." required isInvalid={nameInvalid}></Form.Control>
-                <Form.Control.Feedback type="invalid">Name must be between 1-64 characters.</Form.Control.Feedback>    
-            </Form.Group>
-        </Form>
-    </Modal.Body>
-    <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-            Close
-        </Button>
-        <Button variant="primary" onClick={handleSubmit} disabled={!edited} className="ms-2">
-            {loading ? "Loading..." : "Save Changes"}
-        </Button>
-    </Modal.Footer>
-</Modal>
+        <Modal.Header closeButton>
+            <Modal.Title>Edit Collection</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Form noValidate onSubmit={handleSubmit}>
+                <Form.Group>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text" name="collection-name" value={name} onChange={evt => {
+                        setNameInvalid(false)
+                        setName(evt.target.value)
+                    }} 
+                        placeholder="Enter name here..." required isInvalid={nameInvalid}></Form.Control>
+                    <Form.Control.Feedback type="invalid">Name must be between 1-64 characters.</Form.Control.Feedback>    
+                </Form.Group>
+            </Form>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+                Close
+            </Button>
+            <Button variant="primary" onClick={handleSubmit} disabled={!edited} className="ms-2">
+                {loading ? "Loading..." : "Save Changes"}
+            </Button>
+        </Modal.Footer>
+    </Modal>
 }

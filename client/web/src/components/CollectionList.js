@@ -26,7 +26,6 @@ export function reducer(collections, action){
             }
         case ACTIONS.REMOVE_COLLECTION:
             {
-                console.log(action)
                 let newCollections = [...collections]
                 for (let i = 0; i < newCollections.length; i++){
                     let collection = newCollections[i]

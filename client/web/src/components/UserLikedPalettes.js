@@ -49,6 +49,7 @@ export default function UserLikedPalettes(props){
     }
 
     const gotoPage = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         setPage(page)
         if (page !== 1)
             setSearchParams(params => {

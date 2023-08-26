@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import API from "../utils/API";
 import { useToken, useTokenUpdate } from "../context/TokenProvider";
 import { HeaderUserDropdown } from "./HeaderUserDropdown";
-import { EnvelopeAt, Fire, InfoCircle, Palette, Plus, Stars } from "react-bootstrap-icons";
+import { EnvelopeAt, Fire, FolderPlus, InfoCircle, Palette, Plus, Stars } from "react-bootstrap-icons";
 import ResizeObserver from 'rc-resize-observer';
 
 // import {ReactComponent as Logo} from '../assets/palette-8-svgrepo-com.svg';
@@ -119,6 +119,13 @@ export function Header() {
                                 <Link to="/palettes/new" id="create-palette-btn-link">
                                     <Button id="create-palette-btn" variant={colorMode}>
                                         <Plus size={32} />
+                                    </Button>
+                                </Link>
+                            </OverlayTrigger>
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip style={{position: 'fixed'}}>Create Collection</Tooltip>}>
+                                <Link to="/collections/new" id="create-collection-btn-link">
+                                    <Button id="create-collection-btn" variant={colorMode}>
+                                        <FolderPlus size={20} />
                                     </Button>
                                 </Link>
                             </OverlayTrigger>

@@ -1,5 +1,5 @@
 import { useToken } from "context/TokenProvider"
-import PaletteList from "../components/PaletteList"
+import PaletteList, {reducer as paletteReducer, ACTIONS as PALETTE_ACTIONS} from "../components/PaletteList"
 import { useEffect, useReducer, useRef, useState } from "react"
 import { Link, useParams, useSearchParams } from "react-router-dom"
 import API from '../utils/API'
@@ -7,7 +7,6 @@ import { convertColorsToArray } from "utils/PaletteUtil"
 import { Button, Card, Container } from "react-bootstrap"
 import ErrorPage from "components/ErrorPage"
 import { Pencil } from "react-bootstrap-icons"
-import profile_img from '../assets/user-avatar.png'
 import { useColorMode } from "context/ColorModeProvider"
 import { useSelector } from "react-redux"
 import EditCollection from "components/EditCollection"
@@ -47,6 +46,7 @@ export default function Collection(){
     const [error, setError] = useState(null)
     const [canEdit, setCanEdit] = useState(false)
     const [collection, dispatch] = useReducer(reducer, [])
+    const [palettes, dispatchPalettes] = useReducer(paletteReducer, [])
     const [page, setPage] = useState(1)
     const count = useRef(0)
     let { id } = useParams()
@@ -81,6 +81,8 @@ export default function Collection(){
                 count.current = res.count
                 // @ts-ignore
                 dispatch({type: ACTIONS.SET_COLLECTION, collection: res})
+                // @ts-ignore
+                dispatchPalettes({type: PALETTE_ACTIONS.SET_PALETTES, palettes: res.palettes})
             })
             .then(() => clearTimeout(timeout))
             .then(() => setLoaded(true))
@@ -88,6 +90,7 @@ export default function Collection(){
     }
 
     const gotoPage = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         setPage(page)
         if (page !== 1)
             setSearchParams(params => {
@@ -135,8 +138,9 @@ export default function Collection(){
                     </>
                     : <CollectionPlaceholder />}
                 </Card>
-                <PaletteList palettes={collection.palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
+                <PaletteList palettes={palettes} dispatch_palettes={dispatchPalettes} loaded={loaded} error={error} 
                     page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 
+                    collection_id={self && collection && self.user_id === collection.user_id ? id : null}
                     empty_msg="Looks like this collection doesn't have any palettes yet." />
             </Container>
         </div>

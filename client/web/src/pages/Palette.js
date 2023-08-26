@@ -5,7 +5,7 @@ import { useEffect, useReducer, useRef, useState } from "react"
 import API from "../utils/API";
 import { convertColorsToArray, getTimeElapsed } from "../utils/PaletteUtil";
 import { pickTextColor } from "../utils/TextColorUtil";
-import { Heart, HeartFill, Link45deg, ThreeDotsVertical } from "react-bootstrap-icons";
+import { Folder2Open, Heart, HeartFill, Link45deg, ThreeDotsVertical, Trash } from "react-bootstrap-icons";
 import LikePopover from "../components/LikePopover";
 import ErrorPage from "../components/ErrorPage";
 import PalettePlaceholder from "../components/PalettePlaceholder";
@@ -13,6 +13,9 @@ import React from "react";
 import { ColorCodeCopy } from "../components/ColorCodeCopy";
 import { useColorMode } from "context/ColorModeProvider";
 import profile_img from '../assets/user-avatar.png';
+import DeletePalette from "components/DeletePalette";
+import AddToCollection from "components/AddToCollection";
+import { useSelector } from "react-redux";
 
 const ACTIONS = {
     SET_PALETTE: 'set-palette',
@@ -66,6 +69,18 @@ export function Palette(){
     const [palette, dispatch] = useReducer(reducer, {})
     const [copyLink, setCopyLink] = useState(copyLinkBtnContent)
     let { id } = useParams()
+    // @ts-ignore
+    const self = useSelector(state => state.user.value)
+
+    // delete confirmation modal
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const handleCloseDeleteDialog = () => setShowDeleteDialog(false)
+    const handleShowDeleteDialog = () => setShowDeleteDialog(true)
+
+    // add to collection modal
+    const [showAddToCollection, setShowAddToCollection] = useState(false)
+    const handleCloseCollectionDialog = () => setShowAddToCollection(false)
+    const handleShowCollectionDialog = () => setShowAddToCollection(true)
 
     const getData = () => API.getPalette(token, id)
             .then(res => res.ok ? res : Promise.reject(res))
@@ -109,6 +124,16 @@ export function Palette(){
             <span className="palette-like-cnt">{palette.likes}</span>
         </Button>
 
+    const onDelete = () => {
+        return API.deletePalette(token, id)
+            .then(res => {
+                if (res.ok){
+                    handleCloseDeleteDialog()
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
     const onCopyLink = () =>{
         navigator.clipboard.writeText(window.location.href)
         setCopyLink(copyLinkBtnContentCopied)
@@ -117,7 +142,8 @@ export function Palette(){
         }, 750)
     }
 
-    return <Container className="pt-3">
+    return <>
+        <Container className="pt-3">
             <Row id="palette-bar-top">
                 <Col bsPrefix="col col" xs="auto" className="d-flex justify-content-between w-100">
                     <Link to={"/profile/"+palette.user_id} className="palette-user">
@@ -129,8 +155,19 @@ export function Palette(){
                             <ThreeDotsVertical size={18} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Add to collection</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Delete</Dropdown.Item>
+                        <Dropdown.Item onClick={() => navigator.clipboard.writeText(window.location.hostname+"/palettes/"+id)} className="d-flex align-items-center">
+                                    <Link45deg className="me-2"/>Copy link
+                                </Dropdown.Item>
+                                {self ? 
+                                <Dropdown.Item onClick={handleShowCollectionDialog} className="d-flex align-items-center">
+                                    <Folder2Open className="me-2"/>Add to collection
+                                </Dropdown.Item>
+                                : ''}
+                                {self && (self.user_id === palette.user_id || self.role === "admin") ? 
+                                <Dropdown.Item onClick={handleShowDeleteDialog} className="d-flex align-items-center">
+                                    <Trash className="me-2"/>Delete
+                                </Dropdown.Item>
+                                : ''}
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
@@ -162,5 +199,8 @@ export function Palette(){
                     <span className="text-secondary">{getTimeElapsed(palette.posted)}</span>
                 </Col>
             </Row>
-    </Container>
+        </Container>
+        <DeletePalette show={showDeleteDialog} handleClose={handleCloseDeleteDialog} handleOpen={handleShowDeleteDialog} onDelete={onDelete} />
+        <AddToCollection show={showAddToCollection} handleClose={handleCloseCollectionDialog} handleOpen={handleShowCollectionDialog} id={id} />
+    </>
 }

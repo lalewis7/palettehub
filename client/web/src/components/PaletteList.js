@@ -108,7 +108,7 @@ export default function PaletteList(props){
             <div id="feed-content">
             {props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
                 likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} 
-                user_id={palette.user_id} user_name={palette.user_name} user_img={palette.user_img} />)}
+                user_id={palette.user_id} user_name={palette.user_name} user_img={palette.user_img} collection_id={props.collection_id} />)}
             </div>
         </>
         : <EmptyPage msg={props.empty_msg} />

@@ -23,6 +23,7 @@ export default function UserPalettes(props){
     }, [])
 
     useEffect(() => {
+        console.log(page)
         loadPage()
     }, [token, props.id, page])
 
@@ -49,6 +50,7 @@ export default function UserPalettes(props){
     }
 
     const gotoPage = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         setPage(page)
         if (page !== 1)
             setSearchParams(params => {

@@ -1,18 +1,35 @@
 import { Card, Dropdown, Ratio } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import profile_img from '../assets/user-avatar.png'
-import { useColorMode } from "context/ColorModeProvider";
-import { Folder, PaintBucket, ThreeDotsVertical } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import { useColorMode } from "context/ColorModeProvider"
+import { Folder, Link45deg, PaintBucket, ThreeDotsVertical, Trash } from "react-bootstrap-icons"
+import { useSelector } from "react-redux"
 import { ACTIONS } from './CollectionList'
+import API from '../utils/API'
+import { useToken } from "context/TokenProvider";
+import { useState } from "react";
+import DeleteCollection from "./DeleteCollection";
 
 export default function FeedCollection(props){
+    const token = useToken()
     // @ts-ignore
     const self = useSelector(state => state.user.value)
     const colorMode = useColorMode()
 
+    // delete confirmation modal
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const handleCloseDeleteDialog = () => setShowDeleteDialog(false)
+    const handleShowDeleteDialog = () => setShowDeleteDialog(true)
+
     const onDelete = () => {
-        props.dispatch({type: ACTIONS.REMOVE_COLLECTION, id: props.id})
+        return API.deleteCollection(token, props.id)
+            .then(res => {
+                if (res.ok){
+                    handleCloseDeleteDialog()
+                    props.dispatch({type: ACTIONS.REMOVE_COLLECTION, id: props.id})
+                }
+            })
+            .catch((e) => console.log(e))
     }
 
     return <>
@@ -28,11 +45,13 @@ export default function FeedCollection(props){
                             <ThreeDotsVertical size={18} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="feed-collection-kebab-menu">
-                            <Dropdown.Item>
-                                Copy link
+                            <Dropdown.Item onClick={() => navigator.clipboard.writeText(window.location.hostname+"/collections/"+props.id)} className="d-flex align-items-center">
+                                <Link45deg className="me-2"/> Copy link
                             </Dropdown.Item>
                             {self && (self.user_id === props.user_id || self.role === "admin") ? 
-                            <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+                            <Dropdown.Item onClick={handleShowDeleteDialog} className="d-flex align-items-center">
+                                <Trash className="me-2"/>Delete
+                            </Dropdown.Item>
                             : ''}
                         </Dropdown.Menu>
                     </Dropdown>
@@ -62,5 +81,6 @@ export default function FeedCollection(props){
                 <span className="feed-collection-footer-name">{props.name}</span>
             </Card.Footer>
         </Card>
+        <DeleteCollection show={showDeleteDialog} handleClose={handleCloseDeleteDialog} handleOpen={handleShowDeleteDialog} onDelete={onDelete} />
     </>
 }

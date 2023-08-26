@@ -128,7 +128,7 @@ export default function EditProfile(props){
                     <Form.Control.Feedback type="invalid">Name must be between 1-64 characters.</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mt-3">
-                    <Form.Check type="checkbox" name="show_avatar" defaultChecked={show} onChange={e => setShow(e.target.checked)} 
+                    <Form.Check id="edit-profile-show-avatar" type="checkbox" name="show_avatar" defaultChecked={show} onChange={e => setShow(e.target.checked)} 
                         label="Show profile picture"></Form.Check>
                 </Form.Group>
             </Form>

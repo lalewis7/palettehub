@@ -1,9 +1,9 @@
-import { Button, Card, Dropdown, Modal, Ratio } from "react-bootstrap"
-import { Heart, HeartFill, ThreeDotsVertical, Trash } from 'react-bootstrap-icons'
+import { Button, Card, Dropdown, Modal, Ratio, Spinner } from "react-bootstrap"
+import { Folder2Open, FolderMinus, Heart, HeartFill, Link45deg, ThreeDotsVertical, Trash } from 'react-bootstrap-icons'
 import { ACTIONS } from "./PaletteList"
 import { useToken } from "../context/TokenProvider"
 import LikePopover from "./LikePopover"
-import { pickTextColorWhiteBlack } from "../utils/TextColorUtil"
+import { pickTextColorWhiteBlack, pickTextColorWhiteBlackAlpha } from "../utils/TextColorUtil"
 import { Link } from "react-router-dom"
 import { getTimeElapsed } from "../utils/PaletteUtil"
 import { useColorMode } from "context/ColorModeProvider"
@@ -11,6 +11,9 @@ import profile_img from '../assets/user-avatar.png'
 import { useSelector } from 'react-redux'
 import API from '../utils/API'
 import { useState } from "react"
+import DeletePalette from "./DeletePalette"
+import AddToCollection from "./AddToCollection"
+import RemoveFromCollection from "./RemoveFromCollection"
 
 export function FeedPalette(props){
     const token = useToken()
@@ -21,8 +24,18 @@ export function FeedPalette(props){
 
     // delete confirmation modal
     const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-    const handleCloseDeleteDialog = () => setShowDeleteDialog(false);
-    const handleShowDeleteDialog = () => setShowDeleteDialog(true);
+    const handleCloseDeleteDialog = () => setShowDeleteDialog(false)
+    const handleShowDeleteDialog = () => setShowDeleteDialog(true)
+
+    // add to collection modal
+    const [showAddToCollection, setShowAddToCollection] = useState(false)
+    const handleCloseCollectionDialog = () => setShowAddToCollection(false)
+    const handleShowCollectionDialog = () => setShowAddToCollection(true)
+
+    // remove from collection modal
+    const [showRemoveFromCollection, setRemoveFromCollection] = useState(false)
+    const handleCloseRemoveCollectionDialog = () => setRemoveFromCollection(false)
+    const handleShowRemoveCollectionDialog = () => setRemoveFromCollection(true)
 
     const onLikeBtn = () => {
         if (token){
@@ -34,10 +47,20 @@ export function FeedPalette(props){
     }
 
     const onDelete = () => {
-        API.deletePalette(token, props.id)
+        return API.deletePalette(token, props.id)
             .then(res => {
                 if (res.ok){
                     handleCloseDeleteDialog()
+                    props.dispatch({type: ACTIONS.REMOVE, id: props.id})
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    const onRemoveFromCollection = () => {
+        return API.removeFromCollection(token, props.collection_id, props.id)
+            .then(res => {
+                if (res.ok){
                     props.dispatch({type: ACTIONS.REMOVE, id: props.id})
                 }
             })
@@ -63,14 +86,23 @@ export function FeedPalette(props){
                                 <ThreeDotsVertical size={18} />
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="feed-palette-kebab-menu">
-                                <Dropdown.Item>
-                                    Copy link
+                                <Dropdown.Item onClick={() => navigator.clipboard.writeText(window.location.hostname+"/palettes/"+props.id)} className="d-flex align-items-center">
+                                    <Link45deg className="me-2"/>Copy link
                                 </Dropdown.Item>
                                 {self ? 
-                                <Dropdown.Item href="#/action-1">Add to collection</Dropdown.Item>
+                                <Dropdown.Item onClick={handleShowCollectionDialog} className="d-flex align-items-center">
+                                    <Folder2Open className="me-2"/>Add to collection
+                                </Dropdown.Item>
+                                : ''}
+                                {self && props.collection_id ? 
+                                <Dropdown.Item onClick={handleShowRemoveCollectionDialog} className="d-flex align-items-center">
+                                    <FolderMinus className="me-2"/>Remove
+                                </Dropdown.Item>
                                 : ''}
                                 {self && (self.user_id === props.user_id || self.role === "admin") ? 
-                                <Dropdown.Item onClick={handleShowDeleteDialog}>Delete</Dropdown.Item>
+                                <Dropdown.Item onClick={handleShowDeleteDialog} className="d-flex align-items-center">
+                                    <Trash className="me-2"/>Delete
+                                </Dropdown.Item>
                                 : ''}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -80,7 +112,8 @@ export function FeedPalette(props){
                     <div className="feed-palette-colors-grid">
                         {props.colors.map((color, i) => <Link key={i} className="feed-palette-color" 
                                 style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
-                            <span style={{color: pickTextColorWhiteBlack(color)}} className="feed-palette-code">{"#"+color}</span>
+                            <span style={{color: pickTextColorWhiteBlack(color),  backgroundColor: pickTextColorWhiteBlackAlpha(color, 0.05)}} 
+                                className="feed-palette-code">{"#"+color}</span>
                         </Link>)}
                     </div>
                 </Ratio>
@@ -97,19 +130,9 @@ export function FeedPalette(props){
                 </Card.Body>
             </Card>
         </div>
-        <Modal show={showDeleteDialog} onHide={handleCloseDeleteDialog}>
-            <Modal.Header closeButton>
-                <Modal.Title>Delete this palette?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Are you sure you want to permanetly delete this palette? This action cannot be reversed.</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseDeleteDialog}>
-                    Close
-                </Button>
-                <Button variant="danger" onClick={onDelete}>
-                    <span className="d-flex align-items-center"><Trash className="me-1" />Delete</span>
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <DeletePalette show={showDeleteDialog} handleClose={handleCloseDeleteDialog} handleOpen={handleShowDeleteDialog} onDelete={onDelete} />
+        <AddToCollection show={showAddToCollection} handleClose={handleCloseCollectionDialog} handleOpen={handleShowCollectionDialog} id={props.id} />
+        <RemoveFromCollection show={showRemoveFromCollection} handleClose={handleCloseRemoveCollectionDialog} handleOpen={handleShowRemoveCollectionDialog}
+            onRemove={onRemoveFromCollection} />
     </>
 }

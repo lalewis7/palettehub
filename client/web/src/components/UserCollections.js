@@ -14,16 +14,17 @@ export default function UserCollections(props){
     const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(null)
     const [collections, dispatch] = useReducer(reducer, [])
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(null)
     const count = useRef(0)
 
     useEffect(() => {
-        if (searchParams.has("page") && Number(searchParams.get("page")) !== page)
-            setPage(Number(searchParams.get("page")))
+        if (searchParams.has("page") && Number(searchParams.get("page")) !== page) setPage(Number(searchParams.get("page")))
+        else setPage(1)
     }, [])
 
     useEffect(() => {
-        loadPage()
+        if (page)
+            loadPage()
     }, [token, props.id, page])
 
     const loadPage = () => {
@@ -49,6 +50,7 @@ export default function UserCollections(props){
     }
 
     const gotoPage = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         setPage(page)
         if (page !== 1)
             setSearchParams(params => {

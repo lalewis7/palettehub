@@ -132,5 +132,23 @@ export default {
             ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
             body: JSON.stringify(data)
         })
+    },
+    addToCollection: function addToCollectionFn(token, collection_id, palette_id){
+        return fetch(API_HOST+"/collections/"+collection_id+"/palettes/"+palette_id, {
+            method: "POST",
+            ...getAuthHeaders(token)
+        })
+    },
+    removeFromCollection: function removeFromCollectionFn(token, collection_id, palette_id){
+        return fetch(API_HOST+"/collections/"+collection_id+"/palettes/"+palette_id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
+    },
+    deleteCollection: function deleteCollectionFn(token, id){
+        return fetch(API_HOST+"/collections/"+id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
     }
 }
