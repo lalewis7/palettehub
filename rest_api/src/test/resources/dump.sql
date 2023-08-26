@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `collections`;
 CREATE TABLE `collections` (
   `collection_id` char(32) NOT NULL,
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`collection_id`),
   KEY `user_id_fk_idx` (`user_id`),
   CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -458,7 +458,10 @@ BEGIN
     FROM collections c
     JOIN (SELECT user_id, name AS user_name, picture_url AS user_img, show_picture FROM users) u
     ON c.user_id = u.user_id
-    WHERE c.user_id = id;
+    WHERE c.user_id = id
+    ORDER BY name
+    LIMIT pageSize
+    OFFSET page_offset;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -490,7 +493,7 @@ BEGIN
 	# Get total count
     SELECT count(*) INTO count 
     FROM palettes as p
-    WHERE (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = userId) = true;
+    WHERE (SELECT COUNT(*) > 0 FROM likes WHERE palette_id = p.palette_id AND user_id = id) = true;
     
     # Get list of palettes
 	SELECT palette_id, p.user_id, color_1, color_2, color_3, color_4, color_5, posted_timestamp, 
@@ -823,4 +826,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-20 13:46:05
+-- Dump completed on 2023-08-25 22:42:06
