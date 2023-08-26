@@ -18,7 +18,7 @@ import jakarta.persistence.StoredProcedureQuery;
 @Repository
 public class PaletteRepositoryImpl implements PaletteRepository {
 
-    private static final int PAGE_SIZE = 50;
+    public static final int PAGE_SIZE = 50;
     
     @Autowired
     private EntityManager em;
@@ -127,6 +127,18 @@ public class PaletteRepositoryImpl implements PaletteRepository {
     @Override
     public boolean unlikePalette(String userId, String paletteId){
         return likeSproc(userId, paletteId, "unlike_palette");
+    }
+
+    @Override
+    public boolean deletePalette(String paletteId){
+        StoredProcedureQuery query = em.createStoredProcedureQuery("delete_palette", Palette.class);
+
+        query.registerStoredProcedureParameter("paletteId", String.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+        query.setParameter("paletteId", paletteId);
+
+        return ((Number) query.getOutputParameterValue("result")).intValue() > 0;
     }
 
 }

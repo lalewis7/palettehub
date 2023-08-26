@@ -16,13 +16,13 @@ export function useTokenUpdate(){
 }
 
 function getSavedToken(){
-    const savedToken = sessionStorage.getItem(KEY)
+    const savedToken = localStorage.getItem(KEY)
     if (savedToken) return savedToken
     return null
 }
 
 function deleteSavedToken(){
-    sessionStorage.removeItem(KEY);
+    localStorage.removeItem(KEY);
 }
 
 export function TokenProvider({ children }){
@@ -31,7 +31,7 @@ export function TokenProvider({ children }){
     });
 
     useEffect(() => {
-        if (token) sessionStorage.setItem(KEY, token)
+        if (token) localStorage.setItem(KEY, token)
     }, [token])
 
     function updateToken(new_token){

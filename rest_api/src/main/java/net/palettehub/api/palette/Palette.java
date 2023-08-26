@@ -1,6 +1,7 @@
 package net.palettehub.api.palette;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +26,18 @@ public class Palette {
     @Column(name = "user_id")
     @JsonProperty("user_id")
     private String userId;
+
+    @Column(name = "user_name")
+    @JsonProperty("user_name")
+    private String userName;
+
+    @Column(name = "user_img")
+    @JsonProperty("user_img")
+    private String userImg;
+
+    @Column(name = "show_picture")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private boolean userShowImg;
 
     @Valid
     @NotBlank
@@ -156,11 +169,39 @@ public class Palette {
         this.liked = liked;
     }
 
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserImg() {
+        return this.userShowImg ? this.userImg : "";
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
+
+    public boolean getUserShowImg() {
+        return this.userShowImg;
+    }
+
+    public void setUserShowImg(boolean userShowImg) {
+        this.userShowImg = userShowImg;
+    }
+
+
     @Override
     public String toString() {
         return "{" +
             " paletteId='" + getPaletteId() + "'" +
             ", userId='" + getUserId() + "'" +
+            ", userName='" + getUserName() + "'" +
+            ", userImg='" + getUserImg() + "'" +
+            ", userShowImg='" + getUserShowImg() + "'" +
             ", color1='" + getColor1() + "'" +
             ", color2='" + getColor2() + "'" +
             ", color3='" + getColor3() + "'" +
@@ -171,5 +212,6 @@ public class Palette {
             ", liked='" + isLiked() + "'" +
             "}";
     }
+    
 
 }

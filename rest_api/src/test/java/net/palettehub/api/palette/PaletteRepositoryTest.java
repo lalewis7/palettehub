@@ -3,7 +3,7 @@ package net.palettehub.api.palette;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -208,12 +208,28 @@ public class PaletteRepositoryTest extends MySQLContainerBaseTest {
 
         assertTrue(res.next());
         assertEquals(res.getString("user_id"), palette.getUserId());
-        assertEquals(res.getString("user_id"), palette.getUserId());
         assertEquals(res.getString("color_1"), palette.getColor1());
         assertEquals(res.getString("color_2"), palette.getColor2());
         assertEquals(res.getString("color_3"), palette.getColor3());
         assertEquals(res.getString("color_4"), palette.getColor4());
         assertEquals(res.getString("color_5"), palette.getColor5());
+    }
+
+    @Test
+    public void checkDeletePalette() throws SQLException {
+        User user = getSampleUsers(1)[0];
+        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+
+        Palette palette = getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
+        assertEquals(1, insertPalettePreparedStatement(dataSource.getConnection(), palette).executeUpdate());
+
+        paletteRepository.deletePalette(palette.getPaletteId());
+
+        PreparedStatement ps = dataSource.getConnection().prepareStatement("SELECT * FROM palettes WHERE palette_id = ?");
+        ps.setString(1, palette.getPaletteId());
+        ResultSet res = ps.executeQuery();
+        assertEquals(false, res.next());
     }
 
     @Test

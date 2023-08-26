@@ -75,5 +75,80 @@ export default {
             method: "GET",
             ...getAuthHeaders(token)
         })
+    },
+    getProfile: function getProfileFn(token, id){
+        return fetch(API_HOST+"/users/"+id, {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    getUserLikedPalettes: function getUserLikedPalettesFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/likes?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    getUserPalettes: function getUserPalettesFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/palettes?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    editUserProfile: function editUserProfileFn(token, id, data){
+        return fetch(API_HOST+"/users/"+id, {
+            method: "PUT",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
+    },
+    deletePalette: function deletePaletteFn(token, id){
+        return fetch(API_HOST+"/palettes/"+id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
+    },
+    getUserCollections: function getUserCollectionsFn(token, id, page){
+        return fetch(API_HOST+"/users/"+id+"/collections?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    getCollection: function getCollectionFn(token, id, page){
+        return fetch(API_HOST+"/collections/"+id+"?" + new URLSearchParams({page: page}), {
+            method: "GET",
+            ...getAuthHeaders(token)
+        })
+    },
+    editCollection: function editCollectionFn(token, id, data){
+        return fetch(API_HOST+"/collections/"+id, {
+            method: "PUT",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
+    },
+    postCollection: function postCollectionFn(token, data){
+        return fetch(API_HOST+"/collections", {
+            method: "POST",
+            ...getAuthHeaders(token, {'Content-Type': 'application/json'}),
+            body: JSON.stringify(data)
+        })
+    },
+    addToCollection: function addToCollectionFn(token, collection_id, palette_id){
+        return fetch(API_HOST+"/collections/"+collection_id+"/palettes/"+palette_id, {
+            method: "POST",
+            ...getAuthHeaders(token)
+        })
+    },
+    removeFromCollection: function removeFromCollectionFn(token, collection_id, palette_id){
+        return fetch(API_HOST+"/collections/"+collection_id+"/palettes/"+palette_id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
+    },
+    deleteCollection: function deleteCollectionFn(token, id){
+        return fetch(API_HOST+"/collections/"+id, {
+            method: "DELETE",
+            ...getAuthHeaders(token)
+        })
     }
 }

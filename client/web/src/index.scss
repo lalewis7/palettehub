@@ -65,6 +65,7 @@ code {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	font-family: 'Nunito';
 }
 
 // App.js styles
@@ -88,6 +89,8 @@ code {
 @import 'pages/styles/About.scss';
 @import 'pages/styles/Contact.scss';
 @import 'pages/styles/Profile.scss';
+@import 'pages/styles/Collection.scss';
+@import 'pages/styles/NewCollections.scss';
 
 // components
 @import 'components/styles/HeaderUserDropdown.scss';
@@ -101,3 +104,5 @@ code {
 @import 'components/styles/MobileHeaderOffcanvas.scss';
 @import 'components/styles/ColorModeButton.scss';
 @import 'components/styles/Footer.scss';
+@import 'components/styles/EditProfile.scss';
+@import 'components/styles/FeedCollection.scss';

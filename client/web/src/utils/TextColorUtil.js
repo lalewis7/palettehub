@@ -15,10 +15,14 @@ export function pickTextColor(bgColor, lightColor, darkColor) {
     return (L > 0.179) ? darkColor : lightColor;
 }
 
-const CODE_ALPHA = 0.7
+const CODE_ALPHA = 0.5
 
 export function pickTextColorWhiteBlack(bgColor){
-  return pickTextColor(bgColor, "rgba(255,255,255,"+CODE_ALPHA+")", "rgba(0,0,0,"+CODE_ALPHA+")")
+  return pickTextColorWhiteBlackAlpha(bgColor, CODE_ALPHA)
+}
+
+export function pickTextColorWhiteBlackAlpha(bgColor, alpha){
+  return pickTextColor(bgColor, "rgba(255,255,255,"+alpha+")", "rgba(0,0,0,"+alpha+")")
 }
 
 // https://stackoverflow.com/questions/21646738/convert-hex-to-rgba

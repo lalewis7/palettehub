@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import net.palettehub.api.collection.exception.Collection404Exception;
 import net.palettehub.api.palette.exception.PageValueInvalidException;
 import net.palettehub.api.palette.exception.Palette404Exception;
 import net.palettehub.api.palette.exception.PaletteLikeException;
 import net.palettehub.api.palette.exception.SortValueInvalidException;
 import net.palettehub.api.user.exception.GoogleAuthException;
-import net.palettehub.api.user.exception.RestrictedAccessException;
 import net.palettehub.api.user.exception.User404Exception;
+import net.palettehub.exception.RestrictedAccessException;
 
 /**
  * Handles the exceptions and returns a proper ResponseEntity for the controller.
@@ -55,6 +56,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RestrictedAccessException.class)
     protected ResponseEntity<String> restrictedAccess(RestrictedAccessException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Collection404Exception.class)
+    protected ResponseEntity<String> collection404Invalid(Collection404Exception ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     // https://www.baeldung.com/spring-boot-bean-validation

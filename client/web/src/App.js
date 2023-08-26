@@ -9,6 +9,8 @@ import { About } from 'pages/About';
 import { Contact } from 'pages/Contact';
 import Profile from 'pages/Profile';
 import LandingPage from 'pages/LandingPage';
+import Collection from 'pages/Collection';
+import NewCollection from 'pages/NewCollection';
 
 function App() {
   return <>
@@ -16,12 +18,14 @@ function App() {
     <div id="content">
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/profile">
-          <Route path="likes" element={<Profile />} />
-        </Route>
+        <Route path="/profile/:id/*" element={<Profile />} />
         <Route path="/palettes">
           <Route path=":id" element={<Palette />} />
           <Route path="new" element={<NewPalette />} />
+        </Route>
+        <Route path="/collections">
+          <Route path=":id" element={<Collection />} />
+          <Route path="new" element={<NewCollection />} />
         </Route>
         <Route path="/feed">
           <Route path="new" element={<Feed />} />

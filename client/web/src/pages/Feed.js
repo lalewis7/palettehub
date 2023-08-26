@@ -20,7 +20,7 @@ export function Feed(){
 
     const loadPage = () => {
         setError(null)
-        window.scrollTo(0, 0)
+        // window.scrollTo(0, 0)
         let apiPage = page
         let timeout = setTimeout(() => {
             setLoaded(false)
@@ -65,6 +65,7 @@ export function Feed(){
     }, [])
 
     const gotoPage = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
         setPage(page)
         if (page !== 1)
             setSearchParams(params => {

@@ -21,6 +21,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { TokenProvider } from './context/TokenProvider';
 import { ColorModeProvider } from 'context/ColorModeProvider';
 
+// redux
+import store from './redux/store'
+import { Provider } from 'react-redux'
+
 // bootstrap
 // import 'bootstrap/dist/css/bootstrap.css';
 
@@ -31,7 +35,9 @@ root.render(
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <TokenProvider>
           <ColorModeProvider>
-            <App />
+            <Provider store={store}>
+              <App />
+            </Provider>
           </ColorModeProvider>
         </TokenProvider>
       </GoogleOAuthProvider>

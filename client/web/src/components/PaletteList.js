@@ -9,7 +9,8 @@ import ErrorPage from "./ErrorPage";
 export const ACTIONS = {
     SET_PALETTES: 'set-palettes',
     LIKE: 'like-palette',
-    UNLIKE: 'unlike-palette'
+    UNLIKE: 'unlike-palette',
+    REMOVE: 'remove-palette'
 }
 
 export function reducer(palettes, action){
@@ -44,6 +45,15 @@ export function reducer(palettes, action){
                 }
             })
             return unlikePals
+        case ACTIONS.REMOVE:
+            let pals = [...palettes]
+            for (let i = 0; i < pals.length; i++){
+                if (pals[i].palette_id === action.id){
+                    pals.splice(i, 1)
+                    return pals
+                }
+            }
+            return pals
         default:
             return palettes
     }
@@ -85,6 +95,10 @@ export default function PaletteList(props){
 
     const pageItem = (num) => <Pagination.Item key={num} active={props.page === num} onClick={() => props.gotoPage(num)} >{num}</Pagination.Item>
 
+    const removePalette = (id) => {
+
+    }
+
     if (props.error)
         return <ErrorPage code={props.error.code} msg={props.error.msg} retry={props.error.retry} />
 
@@ -93,11 +107,12 @@ export default function PaletteList(props){
         props.count > 0 ? <>
             <div id="feed-content">
             {props.palettes.map(palette => <FeedPalette key={palette.palette_id} id={palette.palette_id} colors={palette.colors} 
-                likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} />)}
+                likes={palette.likes} liked={palette.liked} timestamp={palette.posted} dispatch={props.dispatch_palettes} 
+                user_id={palette.user_id} user_name={palette.user_name} user_img={palette.user_img} collection_id={props.collection_id} />)}
             </div>
         </>
         : <EmptyPage msg={props.empty_msg} />
-        : <div id="feed-content-placeholder">{[...Array(15)].map(() => <FeedPalettePlaceholder />)}</div>}
+        : <div id="feed-content-placeholder">{[...Array(15)].map((n, i) => <FeedPalettePlaceholder key={i} />)}</div>}
         {props.loaded && props.count > props.page_len ? 
         <Pagination id="feed-pagination">
             {pages()}

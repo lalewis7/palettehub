@@ -1,0 +1,29 @@
+.collection-avatar{
+    width: 26px;
+	height: 26px;
+	border-radius: 100%;
+	margin-right: 0.4rem;
+    margin-left: 0.4rem;
+}
+
+.collection-user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	//text-decoration: none;
+	color: inherit;
+	overflow: hidden;
+}
+
+.collection-user-name{
+    font-family: 'Nunito';
+	display: flex;
+    flex-direction: row;
+    //text-decoration: none;
+}
+
+#edit-collection-btn{
+    padding: 0.65rem;
+    border-radius: 100%;
+    line-height: 0;
+}

@@ -52,6 +52,12 @@ public class PaletteController {
         return new ResponseEntity<String>("Palette unliked.", HttpStatus.OK);
     }
 
+    @DeleteMapping("/palettes/{paletteId}")
+    public ResponseEntity<String> deletePalette(@PathVariable("paletteId") String paletteId){
+        paletteService.deletePalette(paletteId);
+        return new ResponseEntity<String>("Palette deleted.", HttpStatus.OK);
+    }
+
     private String getUserId(){
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

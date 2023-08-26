@@ -1,11 +1,16 @@
 package net.palettehub.api.jwt;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -31,15 +36,21 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtil {
 
 	/**
-	 * Lifespan of tokens in seconds. Currently 5 hours.
+	 * Name for the role claim in JWT payload.
 	 */
-    public static final long JWT_LIFESPAN = 5 * 60 * 60;
+	public static final String ROLE_CLAIM = "role";
     
 	/**
 	 * JWT secret.
 	 */
     @Value("${jwt.secret}")
 	private String secret;
+
+	/**
+	 * Lifespan of tokens in seconds.
+	 */
+	@Value("${jwt.lifespan}")
+	private long lifespan;
 
     /**
 	 * Retrieves the user id from the payload of a token.
@@ -57,6 +68,12 @@ public class JwtUtil {
 	 */
 	public Date getExpirationDateFromToken(String token) {
 		return getClaimFromToken(token, Claims::getExpiration);
+	}
+
+	public String getRoleFromToken(String token) {
+		return getClaimFromToken(token, claims -> {
+			return claims.get(ROLE_CLAIM).toString();
+		});
 	}
 
 	/**
@@ -101,11 +118,20 @@ public class JwtUtil {
 	 * @param subject subject of token (user id).
 	 * @return JWT token.
 	 */
+	public String generateToken(String subject, Map<String, Object> claims) {
+		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + lifespan * 1000))
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
+	}
+
+	/**
+	 * Generates a new token with just the subject and no other claims.
+	 * @param subject subject for payload.
+	 * @return JWT token.
+	 */
 	public String generateToken(String subject) {
 		Map<String, Object> claims = new HashMap<>();
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_LIFESPAN * 1000))
-				.signWith(SignatureAlgorithm.HS512, secret).compact();
+		return generateToken(subject, claims);
 	}
 
 	/**
@@ -129,6 +155,20 @@ public class JwtUtil {
 			System.out.println("Signature validation failed");
 		}
         return false;
+    }
+
+	public Map<String, Object> getClaims(String role){
+		Map<String, Object> claims = new HashMap<>();
+		claims.put(ROLE_CLAIM, role);
+		return claims;
+	}
+
+	public Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
+
+        return list;
     }
 
 }
