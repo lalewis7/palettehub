@@ -100,17 +100,20 @@ export default function Profile(){
                         </div>
                         <Nav variant="pills" className="px-4 pb-3">
                             <Nav.Item>
-                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/palettes"} className={location.pathname.split("/").slice(-1)[0] === "palettes" ? "active" : ""}>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/palettes"} 
+                                        className={["palettes", ""].includes(location.pathname.split("/").slice(-1)[0]) || location.pathname.split("/").length === 3 ? "active" : ""}>
                                     <Brush className="d-none d-sm-block" size={18} />Palettes
                                 </Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/likes"} className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/likes"} 
+                                        className={location.pathname.split("/").slice(-1)[0] === "likes" ? "active" : ""}>
                                     <Heart className="d-none d-sm-block" size={18} />Liked
                                 </Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/collections"} className={location.pathname.split("/").slice(-1)[0] === "collections" ? "active" : ""}>
+                                <Nav.Link bsPrefix="d-flex gap-2 align-items-center nav-link" as={Link} to={"/profile/"+id+"/collections"} 
+                                        className={location.pathname.split("/").slice(-1)[0] === "collections" ? "active" : ""}>
                                     <Folder className="d-none d-sm-block" size={18} />Collections
                                 </Nav.Link>
                             </Nav.Item>
@@ -133,7 +136,7 @@ export default function Profile(){
                 </Card>
             </Container>
             <Routes>
-                <Route path="" element={<Navigate to="palettes" />} />
+                <Route path="" element={<UserPalettes id={id} />} />
                 <Route path="palettes" element={<UserPalettes id={id} />} />
                 <Route path="likes" element={<UserLikedPalettes id={id} />} />
                 <Route path="collections" element={<UserCollections id={id} />} />
