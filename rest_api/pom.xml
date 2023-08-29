@@ -70,6 +70,8 @@
             <artifactId>junit-jupiter</artifactId>
         </exclusion>
         <!-- Having some issues with mockito. Not exactly sure what it is, so in the mean time I'm excluding it -->
+        <!-- Below Stackoverflow post fixed the issue, idk -->
+        <!-- https://stackoverflow.com/questions/74822398/exception-while-executing-unit-test-cases-could-not-self-attach-to-current-vm -->
         <exclusion>
           <groupId>org.mockito</groupId>
           <artifactId>mockito-core</artifactId>

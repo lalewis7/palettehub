@@ -120,23 +120,6 @@ public class UserService {
         }
     }
 
-    public PaletteList getLikedPalettes(String userId, String page){
-        // check page value
-        int pageValue;
-        if (page.equals("")){ // no page given set to 1
-            pageValue = 1;
-        }
-        else { // check passed page value
-            try {pageValue = Integer.parseInt(page);}
-            catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
-        }
-        // not uuid
-        if (userId.length() != 32)
-            throw new User404Exception("User not found.");
-        // return list
-        return userRepository.getLikedPalettes(userId, getUserId(), pageValue);
-    }
-
     // edit user
     public void editUser(String userId, User user){
         // not uuid
@@ -155,6 +138,27 @@ public class UserService {
             throw new RestrictedAccessException("You do not have access to edit this user.");
     }
 
+    // user liked palettes
+    public PaletteList getLikedPalettes(String userId, String page){
+        // check page value
+        int pageValue;
+        if (page.equals("")){ // no page given set to 1
+            pageValue = 1;
+        }
+        else { // check passed page value
+            try {pageValue = Integer.parseInt(page);}
+            catch (NumberFormatException e) {throw new PageValueInvalidException("Page value invalid.");}
+        }
+        // not uuid
+        if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // check user exists
+        if (userRepository.getUserById(userId) == null)
+            throw new User404Exception("User not found.");
+        // return list
+        return userRepository.getLikedPalettes(userId, getUserId(), pageValue);
+    }
+
     // user palettes
     public PaletteList getUserPalettes(String userId, String page){
         // check page value
@@ -168,6 +172,9 @@ public class UserService {
         }
         // not uuid
         if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // check user exists
+        if (userRepository.getUserById(userId) == null)
             throw new User404Exception("User not found.");
         // return list
         return userRepository.getPalettes(userId, getUserId(), pageValue);
@@ -186,6 +193,9 @@ public class UserService {
         }
         // not uuid
         if (userId.length() != 32)
+            throw new User404Exception("User not found.");
+        // check user exists
+        if (userRepository.getUserById(userId) == null)
             throw new User404Exception("User not found.");
         // return list
         return userRepository.getUserCollections(userId, getUserId(), pageValue);

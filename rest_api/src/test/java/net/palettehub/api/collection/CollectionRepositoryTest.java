@@ -22,11 +22,10 @@ import net.palettehub.api.MySQLContainerBaseTest;
 import net.palettehub.api.palette.Palette;
 import net.palettehub.api.palette.PaletteList;
 import net.palettehub.api.user.User;
+import net.palettehub.api.user.UserTest;
 
-import static net.palettehub.api.user.UserRepositoryTest.getSampleUsers;
-import static net.palettehub.api.user.UserRepositoryTest.insertUserPreparedStatement;
-import static net.palettehub.api.palette.PaletteRepositoryTest.getSamplePalettes;
-import static net.palettehub.api.palette.PaletteRepositoryTest.insertPalettePreparedStatement;
+import static net.palettehub.api.palette.PaletteTest.getSamplePalettes;
+import static net.palettehub.api.palette.PaletteTest.insertPalettePreparedStatement;
 
 /**
  * Test class for testing all palette sprocs using a CollectionRepository.
@@ -45,37 +44,6 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
     @Autowired
     private CollectionRepository collectionRepository;
 
-    /**
-     * Create a User object with dummy data for testing.
-     * @return User object with dummy data.
-     */
-    public static Collection[] getSampleColletions(int len){
-        Collection[] collections = new Collection[len];
-        for (int i = 0; i < collections.length; i++){
-            Collection collection = new Collection();
-            collection.setCollectionId(AppTest.generateRandomString(32, AppTest.LETTERS_NUMBERS));
-            collection.setName(AppTest.generateRandomString(16, AppTest.LETTERS));
-            collections[i] = collection;
-        }
-        return collections;
-    }
-
-    /**
-     * Prepares a PreparedStatement object to insert a new collection.
-     * @param conn SQL connection
-     * @param collection collection data to be inserted
-     * @return Insert PreparedStatement
-     * @throws SQLException
-     */
-    public static PreparedStatement insertCollectionPreparedStatement(Connection conn, Collection collection) throws SQLException{
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO collections " + 
-            "(collection_id, user_id, name) VALUES (?, ?, ?)");
-        ps.setString(1, collection.getCollectionId());
-        ps.setString(2, collection.getUserId());
-        ps.setString(3, collection.getName());
-        return ps;
-    }
-
     @After
     public void deleteRows() throws SQLException{
         AppTest.deleteAllData(dataSource.getConnection());
@@ -89,10 +57,10 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkCreateCollection() throws SQLException{
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
         String collection_id = collectionRepository.createCollection(collection);
 
@@ -107,38 +75,38 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkCollectionIdExists() throws SQLException{
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         assertNotEquals(null, collectionRepository.getCollection(collection.getCollectionId()));
     }
 
     @Test
     public void checkCollectionIdDoesNotExists() throws SQLException{
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         assertEquals(null, collectionRepository.getCollection(AppTest.generateRandomString(32, AppTest.LETTERS_NUMBERS, new String[]{user.getUserId()})));
     }
 
     @Test
     public void checkEditCollection() throws SQLException {
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
-        Collection changedCollection = getSampleColletions(1)[0];
+        Collection changedCollection = CollectionTest.getSampleColletions(1)[0];
         changedCollection.setCollectionId(collection.getCollectionId());
         changedCollection.setUserId(collection.getUserId());
         collectionRepository.editCollection(collection.getCollectionId(), changedCollection);
@@ -153,12 +121,12 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkDeleteCollection() throws SQLException {
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         collectionRepository.deleteCollection(collection.getCollectionId());
 
@@ -170,12 +138,12 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkAddPaletteToCollection() throws SQLException {
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         Palette palette = getSamplePalettes(1)[0];
         palette.setUserId(user.getUserId());
@@ -199,12 +167,12 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkRemovePaletteFromCollection() throws SQLException {
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         Palette palette = getSamplePalettes(1)[0];
         palette.setUserId(user.getUserId());
@@ -232,12 +200,12 @@ public class CollectionRepositoryTest extends MySQLContainerBaseTest{
 
     @Test
     public void checkCollectionPalettes() throws SQLException {
-        User user = getSampleUsers(1)[0];
-        assertEquals(1, insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        User user = UserTest.getSampleUsers(1)[0];
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
 
-        Collection collection = getSampleColletions(1)[0];
+        Collection collection = CollectionTest.getSampleColletions(1)[0];
         collection.setUserId(user.getUserId());
-        assertEquals(1, insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
+        assertEquals(1, CollectionTest.insertCollectionPreparedStatement(dataSource.getConnection(), collection).executeUpdate());
 
         Palette palette = getSamplePalettes(1)[0];
         palette.setUserId(user.getUserId());

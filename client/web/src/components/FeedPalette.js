@@ -112,7 +112,7 @@ export function FeedPalette(props){
                     <div className="feed-palette-colors-grid">
                         {props.colors.map((color, i) => <Link key={i} className="feed-palette-color" 
                                 style={{backgroundColor: "#"+color}} to={"/palettes/"+props.id}>
-                            <span style={{color: pickTextColorWhiteBlack(color),  backgroundColor: pickTextColorWhiteBlackAlpha(color, 0.05)}} 
+                            <span style={{color: pickTextColorWhiteBlack(color), backgroundColor: pickTextColorWhiteBlackAlpha(color, 0.05)}} 
                                 className="feed-palette-code">{"#"+color}</span>
                         </Link>)}
                     </div>
