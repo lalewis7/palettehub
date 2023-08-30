@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -201,8 +202,8 @@ public class UserService {
         return userRepository.getUserCollections(userId, getUserId(), pageValue);
     }
 
-    private boolean hasAuthority(Object authority){
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority);
+    private boolean hasAuthority(String authority){
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
 
     private String getUserId(){

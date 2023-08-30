@@ -1,6 +1,7 @@
 package net.palettehub.api.collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -103,8 +104,8 @@ public class CollectionService {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    private boolean hasAuthority(Object authority){
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority);
+    private boolean hasAuthority(String authority){
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
 
 }

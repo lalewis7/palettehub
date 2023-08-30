@@ -1,6 +1,7 @@
 package net.palettehub.api.palette;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -96,8 +97,8 @@ public class PaletteService {
             throw new RestrictedAccessException("You do not have access to delete this palette.");
     }
 
-    private boolean hasAuthority(Object authority){
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority);
+    private boolean hasAuthority(String authority){
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
 
     private String getUserId(){

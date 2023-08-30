@@ -61,7 +61,7 @@ public class UserTest {
      */
     public static void loginUser(User user, JwtUtil jwtUtil) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    user.getUserId(), null, jwtUtil.getAuthorities("user"));
+                    user.getUserId(), null, jwtUtil.getAuthorities(user.getRole()));
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
 
