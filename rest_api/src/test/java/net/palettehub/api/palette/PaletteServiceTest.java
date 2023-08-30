@@ -28,6 +28,7 @@ import net.palettehub.api.palette.exception.PaletteLikeException;
 import net.palettehub.api.palette.exception.SortValueInvalidException;
 import net.palettehub.api.user.User;
 import net.palettehub.api.user.UserTest;
+import net.palettehub.exception.RestrictedAccessException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PaletteServiceTest extends MySQLContainerBaseTest{
@@ -248,8 +249,63 @@ public class PaletteServiceTest extends MySQLContainerBaseTest{
         assertThrows(PaletteLikeException.class, () -> {paletteService.unlikePalette(user.getUserId(), palette.getPaletteId());});
     }
 
-    // public void checkDeletePalette() throws SQLException{
+    @Test
+    public void checkDeletePalette() throws SQLException{
+        User user = UserTest.getSampleUsers(1)[0];
+        Palette palette = PaletteTest.getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
 
-    // }
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        assertEquals(1, PaletteTest.insertPalettePreparedStatement(dataSource.getConnection(), palette).executeUpdate());
+
+        UserTest.loginUser(user, jwtUtil);
+
+        paletteService.deletePalette(palette.getPaletteId());
+
+        PreparedStatement ps = dataSource.getConnection().prepareStatement("SELECT * FROM palettes WHERE  palette_id = ?");
+        ps.setString(1, palette.getPaletteId());
+        ResultSet res = ps.executeQuery();
+
+        assertFalse(res.next());
+    }
+
+    @Test
+    public void checkDeletePaletteNotOwner() throws SQLException{
+        User[] users = UserTest.getSampleUsers(2);
+        User user = users[0];
+        User requester = users[1];
+        Palette palette = PaletteTest.getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
+
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        assertEquals(1, PaletteTest.insertPalettePreparedStatement(dataSource.getConnection(), palette).executeUpdate());
+
+        UserTest.loginUser(requester, jwtUtil);
+
+        assertThrows(RestrictedAccessException.class, () -> {paletteService.deletePalette(palette.getPaletteId());});
+    }
+
+    @Test
+    public void checkDeletePaletteAdmin() throws SQLException{
+        User[] users = UserTest.getSampleUsers(2);
+        User user = users[0];
+        User requester = users[1];
+        requester.setRole("admin");
+        Palette palette = PaletteTest.getSamplePalettes(1)[0];
+        palette.setUserId(user.getUserId());
+
+        assertEquals(1, UserTest.insertUserPreparedStatement(dataSource.getConnection(), user).executeUpdate());
+        assertEquals(1, PaletteTest.insertPalettePreparedStatement(dataSource.getConnection(), palette).executeUpdate());
+
+        UserTest.loginUser(requester, jwtUtil);
+
+        paletteService.deletePalette(palette.getPaletteId());
+
+        PreparedStatement ps = dataSource.getConnection().prepareStatement("SELECT * FROM palettes WHERE  palette_id = ?");
+        ps.setString(1, palette.getPaletteId());
+        ResultSet res = ps.executeQuery();
+
+        assertFalse(res.next());
+    }
 
 }
