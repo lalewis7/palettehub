@@ -117,6 +117,67 @@ Error Codes
 
 ---
 
+### **[PUT]** Edit User Profile
+
+`/users/:userId`
+
+Edit Palette Hub user profile by the user ID. Use "self" instead of the user ID to use the authentictaed requesters ID.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+- **banner_color_left** *(required)* - 6 digit hex code for banner left color.
+- **banner_color_right** *(required)* - 6 digit hex code for banner right color.
+- **name** *(required)* - new display name.
+- **picture_visible** *(required)* - true/false show picture.
+
+#### Response
+
+No response
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **403** - User requesting is not authorized to access user profile.
+- **404** - User does not exist with that ID.
+
+---
+
+### **[GET]** Get User Palettes
+
+`/users/:userId/palettes`
+
+Get list of palettes by user. Use "self" instead of the user ID to use the authentictaed requesters ID.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+- **page** *(optional)* - Used for pagination.
+
+#### Body
+
+No body
+
+#### Response
+
+Palette list model.
+
+Error Codes
+
+- **404** - User does not exist with that ID.
+
+---
+
 ### **[GET]** Get User Liked Palettes
 
 `/users/:userId/likes`
@@ -141,8 +202,34 @@ Palette list model.
 
 Error Codes
 
-- **401** - No JWT passed in header.
-- **403** - User requesting is not authorized to access user profile.
+- **404** - User does not exist with that ID.
+
+---
+
+### **[GET]** Get User Collections
+
+`/users/:userId/collections`
+
+Get list of liked palettes by user. Use "self" instead of the user ID to use the authentictaed requesters ID.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+- **page** *(optional)* - Used for pagination.
+
+#### Body
+
+No body
+
+#### Response
+
+Collection list model.
+
+Error Codes
+
 - **404** - User does not exist with that ID.
 
 ---
@@ -238,6 +325,35 @@ Error Codes
 
 ---
 
+### **[DELETE]** Delete Palette
+
+`/palettes/:paletteId`
+
+Delete palette.
+
+#### Authorization
+
+JWT - *optional*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+No body
+
+#### Response
+
+No response
+
+Error Codes
+
+- **404** - Palette does not exist.
+- **403** - User doesn't have permission to delete palette.
+
+---
+
 ### **[POST]** Like a Palette
 
 `/palettes/:paletteId/like`
@@ -295,6 +411,182 @@ Error Codes
 - **401** - No JWT passed in header.
 - **404** - Palette does not exist.
 - **400** - Palette not liked.
+
+---
+
+### **[POST]** Create a Collection
+
+`/collections`
+
+Create a new collection.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+- **name** *(required)* - name of collection.
+
+#### Response
+
+Collection ID
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **400** - Invalid body.
+
+---
+
+### **[GET]** Get Collection
+
+`/collections/:collectionId`
+
+Get details of collection.
+
+#### Authorization
+
+JWT - *optional*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+No body
+
+#### Response
+
+Collection Model
+
+Error Codes
+
+- **404** - Collection does not exist.
+
+---
+
+### **[PUT]** Edit Collection
+
+`/collections/:collectionId`
+
+Edit collection by the collection ID. 
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+- **name** *(required)* - name of collection
+
+#### Response
+
+No response
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **404** - User does not exist with that ID.
+
+---
+
+### **[DELETE]** Delete Collection
+
+`/collections/:collectionId`
+
+Delete collection.
+
+#### Authorization
+
+JWT - *optional*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+No body
+
+#### Response
+
+No response
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **403** - User doesn't have permission to delete collection.
+- **404** - Palette does not exist.
+
+---
+
+### **[POST]** Like a Palette
+
+`/collections/:collectionId/palettes/:paletteId`
+
+Add palette to collection.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+No body
+
+#### Response
+
+No response
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **403** - User does not have permission to add to collection.
+- **404** - Collection does not exist.
+
+---
+
+### **[DELETE]** Remove from Collection
+
+`/collections/:collectionId/palettes/:paletteId`
+
+Remove palette from collection.
+
+#### Authorization
+
+JWT - *required*
+
+#### Query Params
+
+No query params
+
+#### Body
+
+No body
+
+#### Response
+
+No response
+
+Error Codes
+
+- **401** - No JWT passed in header.
+- **403** - User does not have permission to add to collection.
+- **404** - Collection does not exist.
 
 ---
 
