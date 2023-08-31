@@ -4,6 +4,8 @@ import { Container } from "react-bootstrap";
 import API, { checkResponse } from "../utils/API";
 import { useLocation, useSearchParams } from "react-router-dom";
 import PaletteList, { ACTIONS, reducer } from "../components/PaletteList";
+import { Helmet } from "react-helmet";
+import HelmetTags from "components/HelmetTags";
 
 const PAGE_LENGTH = 50
 
@@ -79,7 +81,20 @@ export function Feed(){
             })
     }
 
+    const getHeadTags = () => {
+        let feed = location.pathname.split("/")[2];
+        feed = feed.substring(0, 1).toUpperCase() + feed.substring(1)
+        let desc = "Browse the newest color palettes from a community of web developers, artists, and color enthusiasts."
+        if (feed === "Popular")
+            desc = "Browse the most popular color palettes from a community of web developers, artists, and color enthusiasts."
+        return {
+            title: feed + " feed - Palette Hub",
+            desc: desc
+        }
+    }
+
     return <>
+        <HelmetTags title={getHeadTags().title} desc={getHeadTags().desc} />
         <Container id="feed-container" className="pt-3">
             <PaletteList palettes={palettes} dispatch_palettes={dispatch} loaded={loaded} error={error} 
                 page={page} page_len={PAGE_LENGTH} count={count.current} gotoPage={gotoPage} 

@@ -24,8 +24,9 @@ export default function NewUserHelperOverlay(props){
                 <Popover.Body>
                     <p className="mb-2">Sign in with your Google account to access these features:</p>
                     <ul className="m-0">
-                        <li>Create and share palettes</li>
-                        <li>Like your favorite palettes</li>
+                        <li>Create and like palettes</li>
+                        <li>Organize your palettes with collections</li>
+                        <li>Customize your profile</li>
                     </ul>
                 </Popover.Body>
             </Popover>

@@ -1,3 +1,4 @@
+import HelmetTags from "components/HelmetTags";
 import { Button } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
@@ -11,6 +12,7 @@ export default function PageNotFound(){
         width: "100%"
     }
     return <>
+        <HelmetTags title="404 Error - Palette Hub" />
         <div 
         // @ts-ignore
         style={containerStyle}>

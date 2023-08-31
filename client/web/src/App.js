@@ -11,9 +11,11 @@ import Profile from 'pages/Profile';
 import LandingPage from 'pages/LandingPage';
 import Collection from 'pages/Collection';
 import NewCollection from 'pages/NewCollection';
+import HelmetTags from 'components/HelmetTags';
 
 function App() {
   return <>
+    <HelmetTags />
     <Header />
     <div id="content">
       <Routes>

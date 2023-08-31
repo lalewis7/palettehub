@@ -13,6 +13,8 @@ import profile_img from '../assets/user-avatar.png';
 import ErrorPage from "components/ErrorPage";
 import UserCollections from "components/UserCollections";
 import ProfilePlaceholder from "components/ProfilePlaceholder";
+import { Helmet } from "react-helmet";
+import HelmetTags from "components/HelmetTags";
 
 export const ACTIONS = {
     SET_USER: 'set-user'
@@ -77,6 +79,8 @@ export default function Profile(){
         return <ErrorPage code={error.code} msg={error.msg} retry={error.retry} />
 
     return <>
+        {user.name && <HelmetTags title={user.name + " - Palette Hub"} desc={"See color palettes from " + user.name + " on Palette Hub. " + user.palettes + " palettes, "
+                + user.likes + " likes, " + user.liked + " palettes liked."} />}
         <div className="d-flex flex-column w-100">
             <Container className="mt-3">
                 <Card className="profile-header bg-body-tertiary">

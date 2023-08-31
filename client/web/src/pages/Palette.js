@@ -16,6 +16,7 @@ import profile_img from '../assets/user-avatar.png';
 import DeletePalette from "components/DeletePalette";
 import AddToCollection from "components/AddToCollection";
 import { useSelector } from "react-redux";
+import HelmetTags from "components/HelmetTags";
 
 const ACTIONS = {
     SET_PALETTE: 'set-palette',
@@ -143,6 +144,7 @@ export function Palette(){
     }
 
     return <>
+        {palette.colors && <HelmetTags title={"Color Palette:" + palette.colors.map(color => " #"+color) + " - Palette Hub"} />}
         <Container className="pt-3">
             <Row id="palette-bar-top">
                 <Col bsPrefix="col col" xs="auto" className="d-flex justify-content-between w-100">

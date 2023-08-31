@@ -11,6 +11,7 @@ import { useColorMode } from "context/ColorModeProvider"
 import { useSelector } from "react-redux"
 import EditCollection from "components/EditCollection"
 import CollectionPlaceholder from "components/CollectionPlaceholder"
+import HelmetTags from "components/HelmetTags"
 
 const PAGE_LENGTH = 50
 
@@ -117,6 +118,7 @@ export default function Collection(){
         return <ErrorPage code={error.code} msg={error.msg} retry={error.retry} />
 
     return <>
+        {collection.name && <HelmetTags title={collection.name + " - Palette Hub"} />}
         <div className="d-flex flex-column w-100">
             <Container className="d-flex justify-content-between flex-column pt-3">
                 <Card id="collection-card" className="bg-body-tertiary p-3 mb-3">
