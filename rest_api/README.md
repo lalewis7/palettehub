@@ -26,7 +26,7 @@ For registration, clients use a third party service: [Sign In with Google for We
 
 ## Testing
 
-> This project uses [Testcontainers](https://testcontainers.com/) to create a containerized mysql database for the testing environment. <u>**Docker needs to be running to perform tests.**</u>
+> This project uses [Testcontainers](https://testcontainers.com/) to create a containerized mysql database for the testing environment. <ins>**Docker needs to be running to perform tests.**</ins>
 
 **Tests are written using JUnit 4.**
 
