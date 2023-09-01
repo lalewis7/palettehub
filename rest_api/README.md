@@ -1,14 +1,22 @@
-# **Palettehub REST API**
+# **Palette Hub REST API**
 
-Palette Hub's Java Spring Boot REST API.
+### Table of Contents
+
+- [Structure (Controller Service Repository)](#Controller-Service-Repository)
+- [Authentication](#Authentication)
+- [Testing](#Testing)
+    - [Unit Tests](#Unit-Tests)
+    - [Postman](#postman)
+- [API Endpoints](#API-Endpoints)
+- [Models](#Models)
 
 ## Controller-Service-Repository
 
 This project follows the controller-service-repository architecture. Here's a good [medium article](https://tom-collings.medium.com/controller-service-repository-16e29a4684e5) to read more about the design.
 
-1. Controller: Management of the REST interface to the business logic.
+1. Controller: Management of the REST API endpoints to the business logic.
 2. Service: Business Logic implementations.
-3. Repository: Storage of the entity beans in the system.
+3. Repository: Storage of the entity beans in the system (calls MySQL Stored Procedures).
 
 > This project uses the [Spring Boot recommended code structure](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code).
 
@@ -18,15 +26,9 @@ For registration, clients use a third party service: [Sign In with Google for We
 
 ## Testing
 
-> This project uses [Testcontainers](https://testcontainers.com/) to create containerized mysql databases.
+> This project uses [Testcontainers](https://testcontainers.com/) to create a containerized mysql database for the testing environment. <u>**Docker needs to be running to perform tests.**</u>
 
-To the run the unit test scripts you can use the following commands:
-
-Build the target folder
-
-```
-mvn clean install -DskipTests
-```
+**Tests are written using JUnit 4.**
 
 Run the test scripts:
 
@@ -34,11 +36,26 @@ Run the test scripts:
 mvn clean test
 ```
 
+For anyone using the VSCode testing tab you first need to build the `/target` folder:
+
+```
+mvn clean install -DskipTests
+```
+
+### Unit Tests
+
+> Unit test classes extend `MySQLContainerBaseTest` to have access to the [Testcontainers](https://testcontainers.com/) database. 
+
+- Repostiory -> Testing the sprocs.
+- Service -> Testing the business logic.
+
+### Postman
+
 The REST API has a Postman workspace for testing the different endpoints. Check out the workspace with the link below: (**Note: This workspace is not up to date. Instead use the unit tests.**)
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/10733824-9261f960-1a63-4ca8-821e-55fafb61e8b9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D10733824-9261f960-1a63-4ca8-821e-55fafb61e8b9%26entityType%3Dcollection%26workspaceId%3D08ab66a1-4aa5-4b47-9949-90ef7a55049c)
 
-## API Endpoints Table
+## API Endpoints
 
 | Method     | URL                                              |
 | ------     | ---                                              |
@@ -588,11 +605,10 @@ Error Codes
 - **403** - User does not have permission to add to collection.
 - **404** - Collection does not exist.
 
----
 
 ## Models
 
-### Collection Model
+### Collection
 
 ```json
 {
@@ -606,7 +622,7 @@ Error Codes
 }
 ```
 
-### Palette Model
+### Palette
 
 ```json
 {
@@ -625,7 +641,7 @@ Error Codes
 }
 ```
 
-### Palette List Model
+### Palette List
 ```json
 {
     "palettes": [ /* array of palette models */ ],
@@ -633,13 +649,14 @@ Error Codes
 }
 ```
 
-### User Model
+### User
 ```json
 {
     "user_id": "a1b72978143d11eebe560242ac120002",
     "google_id": "3141592653589793238",
     "name": "Elisa Beckett",
     "picture_url": "https://lh3.googleusercontent.com/a-/e2718281828459045235360uler",
+    "picture_visible": true,
     "email": "elisa.g.beckett@gmail.com",
     "banner_color_left": "213719",
     "banner_color_right": "93d01d",

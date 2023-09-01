@@ -13,8 +13,8 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import net.palettehub.api.AppTest;
@@ -32,7 +32,18 @@ import net.palettehub.exception.RestrictedAccessException;
 
 import static net.palettehub.api.AppTest.deleteAllData;
 
+/**
+ * Test class for testing all users business logic using a UserService.
+ * <p>
+ * DirtiesContext needed to fix 
+ * <a href="https://stackoverflow.com/questions/59372048/testcontainers-hikari-and-failed-to-validate-connection-org-postgresql-jdbc-pgc?answertab=trending#tab-top">
+ * testcontainers bug</a>.
+ * 
+ * @author Arthur Lewis
+ * @see UserService
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext(classMode=DirtiesContext.ClassMode.BEFORE_CLASS)
 public class UserServiceTest extends MySQLContainerBaseTest{
     
     @Autowired

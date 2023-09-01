@@ -15,24 +15,33 @@ The purpose of Palette Hub is to showcase a full stack website including Databas
 
 ### REST API
 
+> Checkout `/rest_api` for more info
+
 - Java Spring Boot
 - JWT Authentication
 - Sign In with Google for Web
 - Apache Maven
 - Testcontainers
+- JUnit
 
 ### MySQL Database
+
+> Checkout `/mysql` for more info
 
 - Schema design
 - Stored procedures
 
 ### Nginx Web Server
 
+> Checkout `/client` for more info
+
 - Reverse Proxy to REST API
 - Serve react app build
 - Let's Encrypt (SSL Certificate) with certbot
 
 ### React App
+
+> Checkout `/client/web` for more info
 
 - Create react app
 - Bootstrap
@@ -62,16 +71,16 @@ scripts/start_dev.sh
 
 Production it setup on an Azure VM.
 
-Shutdown the running containers:
-
-```sh
-sudo docker compose -f docker-compose.yaml -f docker-compose.prod.yaml down
-```
-
 Pull the changes to the server:
 
 ```sh
 git pull
+```
+
+Shutdown the running containers:
+
+```sh
+sudo docker compose -f docker-compose.yaml -f docker-compose.prod.yaml down
 ```
 
 Delete any images that changes were made to:
@@ -116,6 +125,10 @@ These are the files that should be included:
 - jwt_secret.txt
 - db_root_pass.txt
 
+## REST API
+
+The REST API uses the [Java Spring Boot Framework](https://spring.io/projects/spring-boot) using [Maven](https://maven.apache.org/) for dependency management. Unit tests are setup with [Testcontainers](https://testcontainers.com/) and JUnit 4. Detailed **endpoint documentation** and more information can be found at  `/rest_api`.
+
 ## Client
 
 The client directory contains all the client code. Currently this project only has a website. In later versions an admin website will be introduced as well as a mobile app.
@@ -127,10 +140,6 @@ All traffic goes through the Nginx web server. HTTP traffic is redirected to HTT
 ### React app
 
 The website was made using [Create-react-app](https://create-react-app.dev/) along with [React Bootstrap](https://react-bootstrap.netlify.app/) using [Bootstrap 5](https://getbootstrap.com/) for UI design. For more information checkout `/client/web`.
-
-## REST API
-
-The REST API uses the [Java Spring Boot Framework](https://spring.io/projects/spring-boot) using [Maven](https://maven.apache.org/) for dependency management. Unit tests are setup with [Testcontainers](https://testcontainers.com/). For more information checkout  `/rest_api`.
 
 ## MySQL
 

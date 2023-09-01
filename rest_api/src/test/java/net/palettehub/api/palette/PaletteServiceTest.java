@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import net.palettehub.api.AppTest;
@@ -30,7 +31,18 @@ import net.palettehub.api.user.User;
 import net.palettehub.api.user.UserTest;
 import net.palettehub.exception.RestrictedAccessException;
 
+/**
+ * Test class for testing all palette business logic using a PaletteService.
+ * <p>
+ * DirtiesContext needed to fix 
+ * <a href="https://stackoverflow.com/questions/59372048/testcontainers-hikari-and-failed-to-validate-connection-org-postgresql-jdbc-pgc?answertab=trending#tab-top">
+ * testcontainers bug</a>.
+ * 
+ * @author Arthur Lewis
+ * @see PaletteService
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext(classMode=DirtiesContext.ClassMode.BEFORE_CLASS)
 public class PaletteServiceTest extends MySQLContainerBaseTest{
     
     @Autowired
