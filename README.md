@@ -1,8 +1,15 @@
-# <img src="./client/web/src/assets/logo.svg" width="26"/> Palette Hub
+<h1 align="center">
+    Palette Hub<br/>
+    <a href="https://palettehub.net">website</a>
+</h1> 
 
-Palette Hub is a social media site for sharing palettes of hex code colors. Users can create, browse, and share palettes, as well as engage with them through “likes”. Palette Hub does not store user credentials on the site but instead uses Google’s third-party authentication service “Sign In with Google for Web.” Becoming a user — which unlocks all of the site’s available features — is simple and only requires a Google account to sign up.
+<img src="./client/web/public/og.png" alt="Palette Hub Image" />
 
-The purpose of Palette Hub is to showcase a full stack website including Database Management, Backend REST API, Frontend Website, and Container Orchestration. I diversified the stack to exhibit a wide range of skills. The stack includes a MySQL Database, Spring Boot REST API, Create-react-app website, Nginx web server, and Docker Compose container orchestration.
+## Introduction
+
+Palette Hub is a social media site for sharing palettes of hex code colors. Users can create, browse, and share palettes, as well as engage with them through “likes”. 
+
+The purpose of Palette Hub is to showcase a full stack website including Database Management, Backend REST API, Frontend Website, and Container Orchestration. I diversified the stack to exhibit a wide range of skills. The stack includes a MySQL Database, Spring Boot REST API, React website, Nginx web server, and Docker Compose container orchestration.
 
 ## The Stack
 
@@ -43,7 +50,7 @@ The purpose of Palette Hub is to showcase a full stack website including Databas
 
 > Checkout `/client/web` for more info
 
-- Create react app
+- React.js
 - Bootstrap
 - Bootstrap icons
 - SASS
