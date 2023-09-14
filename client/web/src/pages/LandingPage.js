@@ -2,37 +2,34 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { ArrowRight, ArrowRightShort, Fire } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import google_logo from '../assets/google-logo.png';
-import HelmetTags from "components/HelmetTags";
 
 export default function LandingPage(){
     return <>
         <div className="d-flex flex-column w-100">
-            <div id="landingpage-cont-1">
-                <Container className="py-5 landingpage-mw">
-                    <Row>
-                        <Col className="text-center">
-                            <h1 className="display-2 text-white landing-page-header-1 mb-5">Color palettes for designers, artists, and color enthusiasts</h1>
-                            <h5 className="text-white landingpage-h landingpage-h1-text mb-4">Are you a web developer styling a website? An artist 
-                            in need of inspiration for your next project? Or just a color enthusiast looking for fun? </h5>
-                            <h5 className="text-white landingpage-h landingpage-h1-text mb-4">Palette Hub allows you to inspire your creativity 
-                            and put it to use by browsing, curating, and sharing color palettes of any and all aesthetics.</h5>
-                            <Link to="/feed/popular" className="text-reset text-decoration-none my-3 m-auto d-inline-flex">
-                                <Button variant="outline-light" className="d-flex align-items-center" size="lg">
-                                    <Fire className="me-2" />Popular Palettes{' '}<ArrowRightShort size={26} />
-                                </Button>
-                            </Link>
-                            {/* <h2 className="display-4 text-white landing-page-header-1 mt-4 mb-4">Join the color community</h2>
-                            <h5 className="text-white landingpage-h mb-4">Contribute to the growing group of artists and web developers 
-                            sharing handpicked color palettes.</h5>
-                            <Link to="/feed/new">
-                                <Button variant="outline-light" className="my-3" size="lg">
-                                    See what's new{' '}<ArrowRightShort size={26} />
-                                </Button>
-                            </Link> */}
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
+            <Container className="py-5 landingpage-mw">
+                <Row>
+                    <Col className="text-center">
+                        <h1 className="landing-page-h1 display-2 mb-5">Color palettes for designers, artists, and color enthusiasts</h1>
+                        <h5 className="landingpage-h landingpage-h1-text mb-4 text-secondary">Are you a web developer styling a website? An artist 
+                        in need of inspiration for your next project? Or just a color enthusiast looking for fun? </h5>
+                        <h5 className="landingpage-h landingpage-h1-text mb-4 text-secondary">Palette Hub allows you to inspire your creativity 
+                        and put it to use by browsing, curating, and sharing color palettes of any and all aesthetics.</h5>
+                        <Link to="/feed/popular" className="text-reset text-decoration-none my-3 m-auto d-inline-flex">
+                            <Button variant="" className="d-flex align-items-center btn-outline-gradient" size="lg">
+                                <Fire className="me-2" />Popular Palettes{' '}<ArrowRightShort size={26} />
+                            </Button>
+                        </Link>
+                        {/* <h2 className="display-4 text-white landing-page-header-1 mt-4 mb-4">Join the color community</h2>
+                        <h5 className="text-white landingpage-h mb-4">Contribute to the growing group of artists and web developers 
+                        sharing handpicked color palettes.</h5>
+                        <Link to="/feed/new">
+                            <Button variant="outline-light" className="my-3" size="lg">
+                                See what's new{' '}<ArrowRightShort size={26} />
+                            </Button>
+                        </Link> */}
+                    </Col>
+                </Row>
+            </Container>
             <div>
                 <Container className="py-5 landingpage-mw">
                     <Row>

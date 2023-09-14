@@ -55,10 +55,3 @@ $body-tertiary-bg-dark: #1c1e27;
 .display-1{
     font-weight: bold;
 }
-
-$test-color: #1f9df7;
-
-.btn-outline-gradient{
-    @include button-variant(transparent, $test-color, $test-color, $test-color, $test-color, white, $test-color, $test-color, white, $test-color, $test-color, white);
-    // background: var(--bs-btn-bg);
-}
