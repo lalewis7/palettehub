@@ -8,7 +8,7 @@ WORKDIR /usr/app
 COPY web/package.json web/package-lock.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Add environment variables from arguments
 ARG REACT_APP_GOOGLE_CLIENT_ID
