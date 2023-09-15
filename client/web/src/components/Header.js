@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import API from "../utils/API";
 import { useToken, useTokenUpdate } from "../context/TokenProvider";
 import { HeaderUserDropdown } from "./HeaderUserDropdown";
-import { EnvelopeAt, Fire, FolderPlus, InfoCircle, Palette, Plus, Stars } from "react-bootstrap-icons";
+import { EnvelopeAt, Fire, FolderPlus, InfoCircle, List, Palette, Plus, Stars } from "react-bootstrap-icons";
 import ResizeObserver from 'rc-resize-observer';
 
 // import {ReactComponent as Logo} from '../assets/palette-8-svgrepo-com.svg';
@@ -69,7 +69,9 @@ export function Header() {
                 <span className="lh-1">Palette Hub</span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="headerOffcanvasContent" data-bs-target="#headerOffcanvasContent" 
-                data-bs-toggle="offcanvas" ref={c => c && !mobileGoogleLoginWrapperRef && setMobileGoogleLoginWrapperRef(c)}/>
+                data-bs-toggle="offcanvas" ref={c => c && !mobileGoogleLoginWrapperRef && setMobileGoogleLoginWrapperRef(c)} className="border-0">
+                    <List color="#249cf3" width="1.6em" height="1.5em" />
+                </Navbar.Toggle>
             {location.pathname.startsWith("/feed") || location.pathname.startsWith("/palettes") ? 
             <NewUserHelperOverlay show={token === null} target={mobileGoogleLoginWrapperRef} /> : ''}
             <Navbar.Collapse className={"d-none d-"+expandBreakpoint+"-block"}>

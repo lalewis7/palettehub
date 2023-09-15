@@ -16,7 +16,7 @@ export default function MobileHeaderOffcanvas(props){
     }
 
     return <>
-        <Offcanvas.Header className="mobile-header bg-body-secondary" closeButton >
+        <Offcanvas.Header className="mobile-header bg-body-secondary align-items-start" closeButton >
             {token ? <>
                 {props.self ? <>
                     <Nav.Link as={Link} eventKey={8} to={"/profile/"+props.self.user_id} className="text-reset text-decoration-none">

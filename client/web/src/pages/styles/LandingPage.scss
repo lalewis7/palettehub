@@ -17,8 +17,34 @@
 
 .landing-page-h1{
 	// font-family: 'LobsterTwo';
-	background: linear-gradient(45deg, #63beff, #950ce5);
+	background: linear-gradient(45deg, #37a9fb, #950ce5);
 	font-weight:700;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+#landingpage-jumbo{
+	// height: calc(100vh - 56px);
+}
+
+ol.landingpage-ol {
+	list-style: none;
+	counter-reset: steps;
+}
+ol.landingpage-ol li {
+	counter-increment: steps;
+}
+ol.landingpage-ol li::before {
+	content: "0" counter(steps);
+	margin-right: 0.5rem;
+	border: 1px solid orange;
+	background-color: rgba(orange, 0.3);
+	color: white;
+	width: 2em;
+	height: 2em;
+	font-size: 1.75rem;
+	border-radius: 50%;
+	display: inline-grid;
+	place-items: center;
+	line-height: 1.2em;
 }

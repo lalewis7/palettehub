@@ -58,7 +58,30 @@ $body-tertiary-bg-dark: #1c1e27;
 
 $test-color: #1f9df7;
 
-.btn-outline-gradient{
+.btn-gradient{
     @include button-variant(transparent, $test-color, $test-color, $test-color, $test-color, white, $test-color, $test-color, white, $test-color, $test-color, white);
     // background: var(--bs-btn-bg);
+    background: linear-gradient(45deg, #37a9fb, #950ce5);
+    color: white;
+    border: none;
+    border-radius: 3rem;
+    &:hover{
+        background: linear-gradient(45deg, tint-color(#37a9fb, 10%), tint-color(#950ce5, 10%));
+    }
+}
+
+.btn-gradient-rev{
+    @include button-variant(transparent, $test-color, $test-color, $test-color, $test-color, white, $test-color, $test-color, white, $test-color, $test-color, white);
+    // background: var(--bs-btn-bg);
+    background: linear-gradient(45deg, #950ce5, #37a9fb);
+    color: white;
+    border: none;
+    border-radius: 3rem;
+    &:hover{
+        background: linear-gradient(45deg, tint-color(#950ce5, 10%), tint-color(#37a9fb, 10%));
+    }
+}
+
+.navbar-toggler:focus{
+    box-shadow: none;
 }
