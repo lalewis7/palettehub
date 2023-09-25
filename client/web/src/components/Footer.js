@@ -8,7 +8,7 @@ export function Footer(){
     const colorMode = useColorMode()
     
     return <>
-        <Container id="ph-footer" as="footer" className="pt-3 bg-body-tertiary" fluid={true}>
+        <Container id="ph-footer" as="footer" className="py-3 bg-body-tertiary" fluid={true}>
             <Row>
                 <Nav as="ul" className="justify-content-center">
                     <Nav.Item as="li">
@@ -20,7 +20,7 @@ export function Footer(){
                 </Nav>
             </Row>
             <Row>
-                <Nav as="ul" className="justify-content-center mb-2">
+                <Nav as="ul" className="justify-content-center mb-1">
                     <Nav.Item as="li">
                         <Nav.Link as={Link} to="/feed/new" className="text-reset">New</Nav.Link>
                     </Nav.Item>
@@ -34,6 +34,11 @@ export function Footer(){
                         <Nav.Link as={Link} to="/contact" className="text-reset">Contact</Nav.Link>
                     </Nav.Item>
                 </Nav>
+            </Row>
+            <Row>
+                <Col className="d-flex justify-content-center align-items-center gap-1">
+                    &copy; <span>{new Date().getFullYear()} <a href="https://arthurlewis.net">Arthur Lewis</a></span>
+                </Col>
             </Row>
             
         </Container>

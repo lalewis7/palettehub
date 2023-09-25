@@ -9,16 +9,26 @@ export function Contact(){
             <Row>
                 <Col>
                     <h1 className="display-5 mb-3">Contact Me</h1>
-                    <p>Hi! My name is Arthur Lewis, and I am a recent graduate of Lehigh University looking for an entry 
-                        level software engineer role. I’m interested in exploring how full stack websites work from the 
-                        frontend user interface and experience to the backend business logic, database design, and 
-                        infrastructure. I built this website to showcase my skills in those respects while learning new 
+                    <p>Hi there! My name is <a href="https://arthurlewis.net">Arthur Lewis</a>, and I am a creative, dynamic, and meticulous full-stack 
+                        software engineer with a passion for facilitating positive change through my work. I hold 
+                        an integrated degree in computer science and business with a minor in data science from 
+                        Lehigh University — however, my expertise and enthusiasm for technology extends far past 
+                        my undergraduate education. I’ve been creating programs that entertain, educate, and, maybe, 
+                        make life a little easier since I was 14 years old. My interest and expertise is in building 
+                        full stack websites, from the frontend user interface and experience to the backend business logic, database design, and infrastructure.
+                        I built this website to showcase my skills in those respects while learning new 
                         technologies. If you’re interested in chatting about Palette Hub or software engineering, connect 
                         with me on LinkedIn.</p>
-                    <Button as="a" href={process.env.REACT_APP_LINKEDIN_LINK} target="_blank" rel="noopener noreferrer" 
-                        className="d-flex align-items-center contact-fit-content mb-3">
-                            View LinkedIn<BoxArrowUpRight className="ms-2"/>
-                    </Button>
+                    <div className="d-flex gap-3">
+                        <Button as="a" href={process.env.REACT_APP_LINKEDIN_LINK} target="_blank" rel="noopener noreferrer" 
+                            className="d-flex align-items-center contact-fit-content mb-3">
+                                View LinkedIn<BoxArrowUpRight className="ms-2"/>
+                        </Button>
+                        <Button as="a" href={"https://arthurlewis.net"} target="_blank" rel="noopener noreferrer" 
+                            className="d-flex align-items-center contact-fit-content mb-3">
+                                Portfolio Website<BoxArrowUpRight className="ms-2"/>
+                        </Button>
+                    </div>
                 </Col>
             </Row>
         </Container>
