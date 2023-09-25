@@ -1,0 +1,7 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# bash scripts should always be in lf
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+*.sh text eol=lf
+mvnw text eol=lf
