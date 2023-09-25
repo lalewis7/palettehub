@@ -23,7 +23,7 @@ jobs:
         working-directory: ./rest_api
         run: ./mvnw verify
   deploy:
-    name: Deploy
+    name: deploy
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
