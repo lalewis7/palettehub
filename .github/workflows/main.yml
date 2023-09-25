@@ -9,7 +9,7 @@ on:
       - main
 jobs:
   build:
-    name: Maven Build
+    name: maven build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,3 +22,15 @@ jobs:
       - name: Build with Maven
         working-directory: ./rest_api
         run: ./mvnw verify
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+                    bash /home/palettehub/palettehub/scripts/update_prod.sh
