@@ -105,14 +105,6 @@ export default function LandingPage(){
                                 Palette Hub allows you to inspire your creativity and put it to use by browsing, curating, and sharing color palettes 
                                 of any and all aesthetics.
                             </h5>
-                            {/* <h2 className="display-4 text-white landing-page-header-1 mt-4 mb-4">Join the color community</h2>
-                            <h5 className="text-white landingpage-h mb-4">Contribute to the growing group of artists and web developers 
-                            sharing handpicked color palettes.</h5>
-                            <Link to="/feed/new">
-                                <Button variant="outline-light" className="my-3" size="lg">
-                                    See what's new{' '}<ArrowRightShort size={26} />
-                                </Button>
-                            </Link> */}
                         </Col>
                         <Col lg={4} className="d-none d-lg-flex flex-column justify-content-center align-items-center">
                             <SamplePalette colors={[colors[c1][0], colors[c2][1], colors[c3][2], colors[c4][3], colors[c5][4]]} width="19rem" />
