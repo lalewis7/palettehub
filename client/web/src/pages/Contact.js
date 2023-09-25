@@ -9,7 +9,7 @@ export function Contact(){
             <Row>
                 <Col>
                     <h1 className="display-5 mb-3">Contact Me</h1>
-                    <p>Hi there! My name is <a href="https://arthurlewis.net">Arthur Lewis</a>, and I am a creative, dynamic, and meticulous full-stack 
+                    <p>Hi there! My name is Arthur Lewis, and I am a creative, dynamic, and meticulous full-stack 
                         software engineer with a passion for facilitating positive change through my work. I hold 
                         an integrated degree in computer science and business with a minor in data science from 
                         Lehigh University — however, my expertise and enthusiasm for technology extends far past 
