@@ -4,7 +4,7 @@
 cd /home/palettehub
 
 # remove all dangling images
-docker image prune
+docker image prune -f
 
 # pull changes from github
 git pull
