@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # move into palettehub dir
-cd /home/palettehub
+cd /home/palettehub/palettehub
 
 # remove all dangling images
 docker image prune -f
